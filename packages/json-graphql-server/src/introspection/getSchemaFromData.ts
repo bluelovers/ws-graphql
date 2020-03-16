@@ -19,7 +19,7 @@ import { getRelatedType } from '../nameConverter';
 
 /**
  * Get a GraphQL schema from data
- * 
+ *
  * @example
  * const data = {
  *    "posts": [
@@ -164,14 +164,14 @@ export default data => {
 
     /**
      * extend schema to add relationship fields
-     * 
+     *
      * @example
      * If the `post` key contains a 'user_id' field, then
      * add one-to-many and many-to-one type extensions:
      *     extend type Post { User: User }
      *     extend type User { Posts: [Post] }
      */
-    const schemaExtension = Object.values(typesByName).reduce((ext, type) => {
+    const schemaExtension = Object.values(typesByName).reduce((ext: string, type: any) => {
         Object.keys(type.getFields())
             .filter(isRelationshipField)
             .map(fieldName => {

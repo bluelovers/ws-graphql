@@ -2,13 +2,13 @@ import { graphql } from 'graphql';
 import schemaBuilder from './schemaBuilder';
 
 /**
- * Starts a GraphQL Server in your browser: intercepts every call to http://localhost:3000/graphql 
+ * Starts a GraphQL Server in your browser: intercepts every call to http://localhost:3000/graphql
  * and returns a response from the supplied data.
- * 
+ *
  * @export A sinon.js FakeServer (http://sinonjs.org/releases/v2.3.6/fake-xhr-and-server/#fake-server)
- * @param {any} data 
+ * @param {any} data
  * @param {any} url Specifies the endpoint to intercept (Default is 'http://localhost:3000/graphql').
- * 
+ *
  * @example
  * const data = {
  *    "posts": [
@@ -36,13 +36,13 @@ import schemaBuilder from './schemaBuilder';
  *        }
  *    ],
  * };
- * 
+ *
  * GraphQLClientServer(data);
  * GraphQLClientServer(data, 'http://localhost:8080/api/graphql');
  */
 export default function(data) {
     const schema = schemaBuilder(data);
-    return (url, opts = {}) => {
+    return (url, opts: any = {}) => {
         let body = opts.body;
 
         if (url.requestBody) {

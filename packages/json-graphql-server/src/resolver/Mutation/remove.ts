@@ -1,4 +1,4 @@
-export default (entityData = []) => (_, { id }) => {
+export default (entityData = []) => (_, { id }: { id? }) => {
     let removedEntity = undefined;
     if (id != null) {
         const stringId = id.toString();

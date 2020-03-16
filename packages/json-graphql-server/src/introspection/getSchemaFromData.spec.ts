@@ -106,10 +106,12 @@ const QueryType = new GraphQLObjectType({
 test('creates one type per data type', () => {
     const typeMap = getSchemaFromData(data).getTypeMap();
     expect(typeMap['Post'].name).toEqual(PostType.name);
+    // @ts-ignore
     expect(Object.keys(typeMap['Post'].getFields())).toEqual(
         Object.keys(PostType.getFields())
     );
     expect(typeMap['User'].name).toEqual(UserType.name);
+    // @ts-ignore
     expect(Object.keys(typeMap['User'].getFields())).toEqual(
         Object.keys(UserType.getFields())
     );
@@ -117,16 +119,19 @@ test('creates one type per data type', () => {
 
 test('creates one field per relationship', () => {
     const typeMap = getSchemaFromData(data).getTypeMap();
+    // @ts-ignore
     expect(Object.keys(typeMap['Post'].getFields())).toContain('User');
 });
 
 test('creates one field per reverse relationship', () => {
     const typeMap = getSchemaFromData(data).getTypeMap();
+    // @ts-ignore
     expect(Object.keys(typeMap['User'].getFields())).toContain('Posts');
 });
 
 test('creates three query fields per data type', () => {
     const queries = getSchemaFromData(data).getQueryType().getFields();
+    // @ts-ignore
     expect(queries['Post'].type.name).toEqual(PostType.name);
     expect(queries['Post'].args).toEqual([
         {
@@ -149,6 +154,7 @@ test('creates three query fields per data type', () => {
     expect(queries['allPosts'].args[4].type.toString()).toEqual('PostFilter');
     expect(queries['_allPostsMeta'].type.toString()).toEqual('ListMetadata');
 
+    // @ts-ignore
     expect(queries['User'].type.name).toEqual(UserType.name);
     expect(queries['User'].args).toEqual([
         {
@@ -174,6 +180,7 @@ test('creates three query fields per data type', () => {
 
 test('creates three mutation fields per data type', () => {
     const mutations = getSchemaFromData(data).getMutationType().getFields();
+    // @ts-ignore
     expect(mutations['createPost'].type.name).toEqual(PostType.name);
     expect(mutations['createPost'].args).toEqual([
         {
@@ -201,6 +208,7 @@ test('creates three mutation fields per data type', () => {
             description: null,
         },
     ]);
+    // @ts-ignore
     expect(mutations['updatePost'].type.name).toEqual(PostType.name);
     expect(mutations['updatePost'].args).toEqual([
         {
@@ -228,6 +236,7 @@ test('creates three mutation fields per data type', () => {
             description: null,
         },
     ]);
+    // @ts-ignore
     expect(mutations['removePost'].type.name).toEqual(GraphQLBoolean.name);
     expect(mutations['removePost'].args).toEqual([
         {
@@ -237,6 +246,7 @@ test('creates three mutation fields per data type', () => {
             description: null,
         },
     ]);
+    // @ts-ignore
     expect(mutations['createUser'].type.name).toEqual(UserType.name);
     expect(mutations['createUser'].args).toEqual([
         {
@@ -252,6 +262,7 @@ test('creates three mutation fields per data type', () => {
             description: null,
         },
     ]);
+    // @ts-ignore
     expect(mutations['updateUser'].type.name).toEqual(UserType.name);
     expect(mutations['updateUser'].args).toEqual([
         {
@@ -267,6 +278,7 @@ test('creates three mutation fields per data type', () => {
             description: null,
         },
     ]);
+    // @ts-ignore
     expect(mutations['removeUser'].type.name).toEqual(GraphQLBoolean.name);
     expect(mutations['removeUser'].args).toEqual([
         {

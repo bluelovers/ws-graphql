@@ -7,6 +7,7 @@ export default data => {
     const mockNetworkInterface = mockNetworkInterfaceWithSchema({ schema });
 
     const client = new ApolloClient({
+        // @ts-ignore
         networkInterface: mockNetworkInterface,
     });
 

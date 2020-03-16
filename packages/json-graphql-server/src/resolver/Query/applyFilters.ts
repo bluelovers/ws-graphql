@@ -1,4 +1,4 @@
-export default (entityData = [], filter = {}) => {
+export default (entityData = [], filter: { ids?, q? } = {}) => {
     let items = [...entityData];
 
     if (filter.ids) {

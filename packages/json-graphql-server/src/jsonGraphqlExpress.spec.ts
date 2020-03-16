@@ -39,7 +39,7 @@ beforeAll(() => {
     agent = request(app);
 });
 
-const gqlAgent = (query, variables) =>
+const gqlAgent = (query, variables?) =>
     agent.post('/').send({
         query,
         variables,

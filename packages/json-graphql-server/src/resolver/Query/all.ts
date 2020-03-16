@@ -2,7 +2,7 @@ import applyFilters from './applyFilters';
 
 export default (entityData = []) => (
     _,
-    { sortField, sortOrder = 'asc', page, perPage = 25, filter = {} }
+    { sortField, sortOrder = 'asc', page, perPage = 25, filter = {} }: { sortField?, sortOrder?, page?, perPage?, filter? }
 ) => {
     let items = [...entityData];
 

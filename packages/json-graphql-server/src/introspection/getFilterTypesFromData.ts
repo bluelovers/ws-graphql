@@ -35,7 +35,7 @@ const getRangeFiltersFromEntities = entities => {
 
 /**
  * Get a list of GraphQLObjectType for filtering data
- * 
+ *
  * @example
  * const data = {
  *    "posts": [
@@ -107,5 +107,5 @@ export default data =>
                     ),
                 }),
             }),
-        {}
+        {} as any
     );
