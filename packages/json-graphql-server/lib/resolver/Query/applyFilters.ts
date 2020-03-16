@@ -1,4 +1,6 @@
-export default (entityData = [], filter: { ids?, q? } = {}) => {
+import { IFilter } from '../../types';
+
+export default (entityData = [], filter: IFilter = {}) => {
     let items = [...entityData];
 
     if (filter.ids) {
