@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/bluelovers/json-graphql-server.git
+	branch = master
+	commit = cf82a2c46bb01e63cba784b9dfad8d90d1a7112a
+	parent = cfa001d8fc6146231badb442ec9f07a600aaa3a0
+	method = merge
+	cmdver = 0.4.1
