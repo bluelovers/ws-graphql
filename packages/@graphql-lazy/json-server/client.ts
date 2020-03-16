@@ -1,5 +1,5 @@
-import JsonGraphqlServer from './graphQLClientServer';
-import jsonSchemaBuilder from './schemaBuilder';
+import JsonGraphqlServer from './lib/graphQLClientServer';
+import jsonSchemaBuilder from 'json-graphql-server/lib/schemaBuilder';
 
 declare global
 {

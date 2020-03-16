@@ -8,7 +8,7 @@ import create from './Mutation/create';
 import update from './Mutation/update';
 import remove from './Mutation/remove';
 import entityResolver from './Entity';
-import { getTypeFromKey } from '../nameConverter';
+import { getTypeFromKey } from '../utils/nameConverter';
 import DateType from '../introspection/DateType';
 import hasType from '../introspection/hasType';
 

@@ -11,7 +11,7 @@ import {
 import getFieldsFromEntities from './getFieldsFromEntities';
 import getValuesFromEntities from './getValuesFromEntities';
 import getTypeFromValues from './getTypeFromValues';
-import { getTypeFromKey } from '../nameConverter';
+import { getTypeFromKey } from '../utils/nameConverter';
 import { ISourceDataRowBase } from '../types';
 
 export function getRangeFiltersFromEntities<T = ISourceDataRowBase>(entities: T[])

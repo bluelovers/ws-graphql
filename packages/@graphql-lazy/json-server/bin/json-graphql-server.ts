@@ -2,8 +2,7 @@
 import path from 'path';
 import express from 'express';
 import cors from 'cors';
-// @ts-ignore
-import JsonGraphqlServer from '../lib/json-graphql-server.node.min';
+import JsonGraphqlServer from '../node';
 
 let dataFilePath = process.argv.length > 2 ? process.argv[2] : './data.json';
 let data = require(path.join(process.cwd(), dataFilePath));

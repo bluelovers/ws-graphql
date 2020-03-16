@@ -1,5 +1,5 @@
 import { graphql } from 'graphql';
-import schemaBuilder from './schemaBuilder';
+import schemaBuilder from 'json-graphql-server/lib/schemaBuilder';
 
 /**
  * Starts a GraphQL Server in your browser: intercepts every call to http://localhost:3000/graphql

@@ -1,22 +1,10 @@
-import {
-	GraphQLBoolean,
-	GraphQLID,
-	GraphQLInt,
-	GraphQLList,
-	GraphQLNonNull,
-	GraphQLObjectType,
-	GraphQLSchema,
-	GraphQLString,
-	parse,
-	extendSchema,
-} from 'graphql';
-import { pluralize, camelize } from 'inflection';
+import { GraphQLSchema, parse, extendSchema } from 'graphql';
 
 import getTypesFromData from './getTypesFromData';
-import getFilterTypesFromData from './getFilterTypesFromData';
-import { isRelationshipField } from '../relationships';
-import { getRelatedType } from '../nameConverter';
 import { ISourceDataRoot } from '../types';
+import createSchemaQueryType from './getSchemaFromData/createSchemaQueryType';
+import createMutationType from './getSchemaFromData/createMutationType';
+import createSchemaExtension from './getSchemaFromData/createSchemaExtension';
 
 /**
  * Get a GraphQL schema from data
@@ -86,81 +74,15 @@ function getSchemaFromData(data: ISourceDataRoot)
 		return types;
 	}, {});
 
-	const filterTypesByName = getFilterTypesFromData(data);
-
-	const listMetadataType = new GraphQLObjectType({
-		name: 'ListMetadata',
-		fields: {
-			count: { type: GraphQLInt },
-		},
+	const queryType = createSchemaQueryType({
+		data,
+		types,
+		typesByName,
 	});
 
-	const queryType = new GraphQLObjectType({
-		name: 'Query',
-		fields: types.reduce((fields, type) =>
-		{
-			fields[type.name] = {
-				type: typesByName[type.name],
-				args: {
-					id: { type: new GraphQLNonNull(GraphQLID) },
-				},
-			};
-			fields[`all${camelize(pluralize(type.name))}`] = {
-				type: new GraphQLList(typesByName[type.name]),
-				args: {
-					page: { type: GraphQLInt },
-					perPage: { type: GraphQLInt },
-					sortField: { type: GraphQLString },
-					sortOrder: { type: GraphQLString },
-					filter: { type: filterTypesByName[type.name] },
-				},
-			};
-			fields[`_all${camelize(pluralize(type.name))}Meta`] = {
-				type: listMetadataType,
-				args: {
-					page: { type: GraphQLInt },
-					perPage: { type: GraphQLInt },
-					filter: { type: filterTypesByName[type.name] },
-				},
-			};
-			return fields;
-		}, {}),
-	});
-
-	const mutationType = new GraphQLObjectType({
-		name: 'Mutation',
-		fields: types.reduce((fields, type) =>
-		{
-			const typeFields = typesByName[type.name].getFields();
-			const nullableTypeFields = Object.keys(
-				typeFields,
-			).reduce((f, fieldName) =>
-			{
-				f[fieldName] = Object.assign({}, typeFields[fieldName], {
-					type:
-						fieldName !== 'id' &&
-						typeFields[fieldName].type instanceof GraphQLNonNull
-							? typeFields[fieldName].type.ofType
-							: typeFields[fieldName].type,
-				});
-				return f;
-			}, {});
-			fields[`create${type.name}`] = {
-				type: typesByName[type.name],
-				args: typeFields,
-			};
-			fields[`update${type.name}`] = {
-				type: typesByName[type.name],
-				args: nullableTypeFields,
-			};
-			fields[`remove${type.name}`] = {
-				type: GraphQLBoolean,
-				args: {
-					id: { type: new GraphQLNonNull(GraphQLID) },
-				},
-			};
-			return fields;
-		}, {}),
+	const mutationType = createMutationType({
+		types,
+		typesByName,
 	});
 
 	const schema = new GraphQLSchema({
@@ -168,29 +90,9 @@ function getSchemaFromData(data: ISourceDataRoot)
 		mutation: mutationType,
 	});
 
-	/**
-	 * extend schema to add relationship fields
-	 *
-	 * @example
-	 * If the `post` key contains a 'user_id' field, then
-	 * add one-to-many and many-to-one type extensions:
-	 *     extend type Post { User: User }
-	 *     extend type User { Posts: [Post] }
-	 */
-	const schemaExtension = Object.values(typesByName).reduce((ext: string, type: any) =>
-	{
-		Object.keys(type.getFields())
-			.filter(isRelationshipField)
-			.map(fieldName =>
-			{
-				const relType = getRelatedType(fieldName);
-				const rel = pluralize(type.toString());
-				ext += `
-extend type ${type} { ${relType}: ${relType} }
-extend type ${relType} { ${rel}: [${type}] }`;
-			});
-		return ext;
-	}, '');
+	const schemaExtension = createSchemaExtension({
+		typesByName,
+	});
 
 	return schemaExtension
 		? extendSchema(schema, parse(schemaExtension))

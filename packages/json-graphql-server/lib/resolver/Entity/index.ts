@@ -1,6 +1,6 @@
 import getFieldsFromEntities from '../../introspection/getFieldsFromEntities';
-import { getRelatedKey, getRelatedType, getRelationshipFromKey, getReverseRelatedField } from '../../nameConverter';
-import { isRelationshipField } from '../../relationships';
+import { getRelatedKey, getRelatedType, getRelationshipFromKey, getReverseRelatedField } from '../../utils/nameConverter';
+import { isRelationshipField } from '../../utils/relationships';
 
 /**
  * Add resolvers for relationship fields

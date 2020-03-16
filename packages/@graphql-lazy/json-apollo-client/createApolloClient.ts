@@ -1,6 +1,6 @@
 import { ApolloClient } from 'apollo-client';
 import { mockNetworkInterfaceWithSchema } from 'apollo-test-utils';
-import getSchemaFromData from './introspection/getSchemaFromData';
+import getSchemaFromData from 'json-graphql-server/lib/introspection/getSchemaFromData';
 
 export default data =>
 {

@@ -1,4 +1,4 @@
-import jsonGraphqlExpress, { jsonSchemaBuilder } from './lib/node';
+import jsonSchemaBuilder from './lib/schemaBuilder';
 
 export { jsonSchemaBuilder };
-export default jsonGraphqlExpress;
+export default jsonSchemaBuilder;

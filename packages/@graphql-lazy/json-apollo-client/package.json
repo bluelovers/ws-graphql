@@ -1,0 +1,38 @@
+{
+  "name": "@graphql-lazy/json-apollo-client",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/bluelovers/ws-graphql/tree/master/packages/@graphql-lazy/json-apollo-client#readme",
+  "bugs": {
+    "url": "https://github.com/bluelovers/ws-graphql/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluelovers/ws-graphql.git"
+  },
+  "license": "ISC",
+  "author": "bluelovers",
+  "main": "createApolloClient.js",
+  "scripts": {
+    "coverage": "npx nyc yarn run test",
+    "lint": "npx eslint **/*.ts",
+    "ncu": "npx yarn-tool ncu -u",
+    "npm:publish": "npm publish",
+    "postpublish_": "git commit -m \"chore(release): publish\" .",
+    "prepublish:lockfile": "npx sync-lockfile .",
+    "prepublishOnly_": "yarn run ncu && yarn run sort-package-json && yarn run test",
+    "sort-package-json": "npx yarn-tool sort",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:mocha": "npx mocha --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
+    "tsc:default": "tsc -p tsconfig.json",
+    "tsc:esm": "tsc -p tsconfig.esm.json"
+  },
+  "dependencies": {
+    "apollo-client": "^2.6.8",
+    "apollo-test-utils": "^0.3.2"
+  },
+  "devDependencies": {
+    "@bluelovers/tsconfig": "^1.0.18",
+    "@types/node": "^13.9.1"
+  }
+}

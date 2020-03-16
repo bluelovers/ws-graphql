@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const path_1 = __importDefault(require("path"));
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const node_1 = __importDefault(require("../node"));
+let dataFilePath = process.argv.length > 2 ? process.argv[2] : './data.json';
+let data = require(path_1.default.join(process.cwd(), dataFilePath));
+let PORT = process.env.NODE_PORT || 3000;
+let app = express_1.default();
+process.argv.forEach((arg, index) => {
+    // allow a custom port via CLI
+    if (arg === '--p' && process.argv.length > index + 1) {
+        PORT = process.argv[index + 1];
+    }
+});
+app.use(cors_1.default());
+app.use('/', node_1.default(data));
+app.listen(PORT);
+let msg = `GraphQL server running with your data at http://localhost:${PORT}/`;
+console.log(msg); // eslint-disable-line no-console
+process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoianNvbi1ncmFwaHFsLXNlcnZlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbImpzb24tZ3JhcGhxbC1zZXJ2ZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQ0EsZ0RBQXdCO0FBQ3hCLHNEQUE4QjtBQUM5QixnREFBd0I7QUFDeEIsbURBQXdDO0FBRXhDLElBQUksWUFBWSxHQUFHLE9BQU8sQ0FBQyxJQUFJLENBQUMsTUFBTSxHQUFHLENBQUMsQ0FBQyxDQUFDLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUMsYUFBYSxDQUFDO0FBQzdFLElBQUksSUFBSSxHQUFHLE9BQU8sQ0FBQyxjQUFJLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxHQUFHLEVBQUUsRUFBRSxZQUFZLENBQUMsQ0FBQyxDQUFDO0FBQzNELElBQUksSUFBSSxHQUFHLE9BQU8sQ0FBQyxHQUFHLENBQUMsU0FBUyxJQUFJLElBQUksQ0FBQztBQUN6QyxJQUFJLEdBQUcsR0FBRyxpQkFBTyxFQUFFLENBQUM7QUFFcEIsT0FBTyxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUMsQ0FBQyxHQUFHLEVBQUUsS0FBSyxFQUFFLEVBQUU7SUFFbkMsOEJBQThCO0lBQzlCLElBQUksR0FBRyxLQUFLLEtBQUssSUFBSSxPQUFPLENBQUMsSUFBSSxDQUFDLE1BQU0sR0FBRyxLQUFLLEdBQUcsQ0FBQyxFQUNwRDtRQUNDLElBQUksR0FBRyxPQUFPLENBQUMsSUFBSSxDQUFDLEtBQUssR0FBRyxDQUFDLENBQUMsQ0FBQztLQUMvQjtBQUNGLENBQUMsQ0FBQyxDQUFDO0FBRUgsR0FBRyxDQUFDLEdBQUcsQ0FBQyxjQUFJLEVBQUUsQ0FBQyxDQUFDO0FBQ2hCLEdBQUcsQ0FBQyxHQUFHLENBQUMsR0FBRyxFQUFFLGNBQWlCLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQztBQUN0QyxHQUFHLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxDQUFDO0FBQ2pCLElBQUksR0FBRyxHQUFHLDZEQUE2RCxJQUFJLEdBQUcsQ0FBQztBQUMvRSxPQUFPLENBQUMsR0FBRyxDQUFDLEdBQUcsQ0FBQyxDQUFDLENBQUMsaUNBQWlDO0FBRW5ELE9BQU8sQ0FBQyxFQUFFLENBQUMsb0JBQW9CLEVBQUUsQ0FBQyxNQUFNLEVBQUUsQ0FBQyxFQUFFLEVBQUU7SUFFOUMsT0FBTyxDQUFDLEdBQUcsQ0FBQyxpQ0FBaUMsRUFBRSxDQUFDLEVBQUUsU0FBUyxFQUFFLE1BQU0sQ0FBQyxDQUFDO0FBQ3RFLENBQUMsQ0FBQyxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiIyEvdXNyL2Jpbi9lbnYgbm9kZVxuaW1wb3J0IHBhdGggZnJvbSAncGF0aCc7XG5pbXBvcnQgZXhwcmVzcyBmcm9tICdleHByZXNzJztcbmltcG9ydCBjb3JzIGZyb20gJ2NvcnMnO1xuaW1wb3J0IEpzb25HcmFwaHFsU2VydmVyIGZyb20gJy4uL25vZGUnO1xuXG5sZXQgZGF0YUZpbGVQYXRoID0gcHJvY2Vzcy5hcmd2Lmxlbmd0aCA+IDIgPyBwcm9jZXNzLmFyZ3ZbMl0gOiAnLi9kYXRhLmpzb24nO1xubGV0IGRhdGEgPSByZXF1aXJlKHBhdGguam9pbihwcm9jZXNzLmN3ZCgpLCBkYXRhRmlsZVBhdGgpKTtcbmxldCBQT1JUID0gcHJvY2Vzcy5lbnYuTk9ERV9QT1JUIHx8IDMwMDA7XG5sZXQgYXBwID0gZXhwcmVzcygpO1xuXG5wcm9jZXNzLmFyZ3YuZm9yRWFjaCgoYXJnLCBpbmRleCkgPT5cbntcblx0Ly8gYWxsb3cgYSBjdXN0b20gcG9ydCB2aWEgQ0xJXG5cdGlmIChhcmcgPT09ICctLXAnICYmIHByb2Nlc3MuYXJndi5sZW5ndGggPiBpbmRleCArIDEpXG5cdHtcblx0XHRQT1JUID0gcHJvY2Vzcy5hcmd2W2luZGV4ICsgMV07XG5cdH1cbn0pO1xuXG5hcHAudXNlKGNvcnMoKSk7XG5hcHAudXNlKCcvJywgSnNvbkdyYXBocWxTZXJ2ZXIoZGF0YSkpO1xuYXBwLmxpc3RlbihQT1JUKTtcbmxldCBtc2cgPSBgR3JhcGhRTCBzZXJ2ZXIgcnVubmluZyB3aXRoIHlvdXIgZGF0YSBhdCBodHRwOi8vbG9jYWxob3N0OiR7UE9SVH0vYDtcbmNvbnNvbGUubG9nKG1zZyk7IC8vIGVzbGludC1kaXNhYmxlLWxpbmUgbm8tY29uc29sZVxuXG5wcm9jZXNzLm9uKCd1bmhhbmRsZWRSZWplY3Rpb24nLCAocmVhc29uLCBwKSA9Plxue1xuXHRjb25zb2xlLmxvZygnVW5oYW5kbGVkIFJlamVjdGlvbiBhdDogUHJvbWlzZScsIHAsICdyZWFzb246JywgcmVhc29uKTtcbn0pO1xuIl19
