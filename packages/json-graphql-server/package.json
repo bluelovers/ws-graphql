@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "author": "bluelovers",
-  "main": "lib/node.js",
+  "main": "index.js",
   "browser": "lib/client.js",
   "bin": {
     "json-graphql-server": "bin/json-graphql-server.js"

@@ -1,16 +1,17 @@
-import GraphQLClientServer from './graphQLClientServer';
-import schemaBuilder from './schemaBuilder';
+import JsonGraphqlServer from './graphQLClientServer';
+import jsonSchemaBuilder from './schemaBuilder';
 
 declare global {
     interface Window {
-        JsonGraphqlServer: typeof GraphQLClientServer;
-        jsonSchemaBuilder: typeof schemaBuilder
+        JsonGraphqlServer: typeof JsonGraphqlServer;
+        jsonSchemaBuilder: typeof jsonSchemaBuilder
     }
 }
 
 if (typeof window !== 'undefined') {
-    window.JsonGraphqlServer = GraphQLClientServer;
-    window.jsonSchemaBuilder = schemaBuilder;
+    window.JsonGraphqlServer = JsonGraphqlServer;
+    window.jsonSchemaBuilder = jsonSchemaBuilder;
 }
 
-export default GraphQLClientServer;
+export { jsonSchemaBuilder };
+export default JsonGraphqlServer;
