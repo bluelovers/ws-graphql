@@ -1,7 +1,7 @@
 {
   "name": "@graphql-lazy/json-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "<description>",
   "homepage": "https://github.com/bluelovers/ws-graphql/tree/master/packages/@graphql-lazy/json-server#readme",
   "bugs": {
     "url": "https://github.com/bluelovers/ws-graphql/issues"
@@ -14,6 +14,13 @@
   "author": "bluelovers",
   "main": "node.js",
   "browser": "client.js",
+  "bin": {
+    "json-server": "bin/json-graphql-server.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "example": "example"
+  },
   "scripts": {
     "coverage": "npx nyc yarn run test",
     "lint": "npx eslint **/*.ts",
@@ -29,21 +36,25 @@
     "tsc:esm": "tsc -p tsconfig.esm.json"
   },
   "dependencies": {
-    "graphql": "^14.6.0",
-    "xhr-mock": "^2.5.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-graphql": "^0.9.0"
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.6.0",
+    "lazy-json-graphql": "^2.1.3",
+    "xhr-mock": "^2.5.1"
+  },
+  "devDependencies": {
+    "@bluelovers/tsconfig": "^1.0.18",
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.3",
+    "@types/node": "^13.9.1",
+    "@types/supertest": "^2.0.8",
+    "supertest": "~4.0.2"
   },
   "peerDependencies": {
     "graphql": "^14.6.0"
   },
-  "devDependencies": {
-    "@types/express": "^4.17.3",
-    "supertest": "~4.0.2",
-    "@types/supertest": "^2.0.8",
-    "@types/cors": "^2.8.6",
-    "@bluelovers/tsconfig": "^1.0.18",
-    "@types/node": "^13.9.1"
+  "publishConfig": {
+    "access": "public"
   }
 }
