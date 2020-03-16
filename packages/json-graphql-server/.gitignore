@@ -94,3 +94,7 @@ node_modules
 .reify-cache
 coverage
 yarn-error.log
+/.eslintrc
+/babel.config.js
+/Makefile
+/webpack.config.js
