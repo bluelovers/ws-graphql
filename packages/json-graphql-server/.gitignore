@@ -98,3 +98,4 @@ yarn-error.log
 /babel.config.js
 /Makefile
 /webpack.config.js
+/.travis.yml
