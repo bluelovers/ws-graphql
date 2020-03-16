@@ -40,34 +40,37 @@ import schemaBuilder from './schemaBuilder';
  * GraphQLClientServer(data);
  * GraphQLClientServer(data, 'http://localhost:8080/api/graphql');
  */
-export default function(data) {
-    const schema = schemaBuilder(data);
-    return (url, opts: any = {}) => {
-        let body = opts.body;
+export default function (data)
+{
+	const schema = schemaBuilder(data);
+	return (url, opts: any = {}) =>
+	{
+		let body = opts.body;
 
-        if (url.requestBody) {
-            body = url.requestBody;
-        }
+		if (url.requestBody)
+		{
+			body = url.requestBody;
+		}
 
-        const query = JSON.parse(body);
+		const query = JSON.parse(body);
 
-        return graphql(
-            schema,
-            query.query,
-            undefined,
-            undefined,
-            query.variables
-        ).then(
-            result => ({
-                status: 200,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(result),
-            }),
-            error => ({
-                status: 500,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(error),
-            })
-        );
-    };
+		return graphql(
+			schema,
+			query.query,
+			undefined,
+			undefined,
+			query.variables,
+		).then(
+			result => ({
+				status: 200,
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(result),
+			}),
+			error => ({
+				status: 500,
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(error),
+			}),
+		);
+	};
 }

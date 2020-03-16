@@ -3,7 +3,7 @@ import getValuesFromEntities from './getValuesFromEntities';
 
 /**
  * Get a list of GraphQL fields from a list of entities
- * 
+ *
  * @example
  * const entities = [
  *     {
@@ -26,19 +26,21 @@ import getValuesFromEntities from './getValuesFromEntities';
  * //    user_id: { type: new GraphQLNonNull(GraphQLString) },
  * // };
  */
-export default (entities, checkRequired = true) => {
-    const fieldValues = getValuesFromEntities(entities);
-    const nbValues = entities.length;
-    return Object.keys(fieldValues).reduce((fields, fieldName) => {
-        fields[fieldName] = {
-            type: getTypeFromValues(
-                fieldName,
-                fieldValues[fieldName],
-                checkRequired
-                    ? fieldValues[fieldName].length === nbValues
-                    : false
-            ),
-        };
-        return fields;
-    }, {});
+export default (entities, checkRequired = true) =>
+{
+	const fieldValues = getValuesFromEntities(entities);
+	const nbValues = entities.length;
+	return Object.keys(fieldValues).reduce((fields, fieldName) =>
+	{
+		fields[fieldName] = {
+			type: getTypeFromValues(
+				fieldName,
+				fieldValues[fieldName],
+				checkRequired
+					? fieldValues[fieldName].length === nbValues
+					: false,
+			),
+		};
+		return fields;
+	}, {});
 };

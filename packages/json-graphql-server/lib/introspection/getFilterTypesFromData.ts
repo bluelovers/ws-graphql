@@ -1,36 +1,32 @@
-import {
-    GraphQLInputObjectType,
-    GraphQLString,
-    GraphQLInt,
-    GraphQLFloat,
-    GraphQLList,
-    GraphQLID,
-} from 'graphql';
+import { GraphQLInputObjectType, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLList, GraphQLID } from 'graphql';
 import getFieldsFromEntities from './getFieldsFromEntities';
 import getValuesFromEntities from './getValuesFromEntities';
 import getTypeFromValues from './getTypeFromValues';
 import { getTypeFromKey } from '../nameConverter';
 
-const getRangeFiltersFromEntities = entities => {
-    const fieldValues = getValuesFromEntities(entities);
-    return Object.keys(fieldValues).reduce((fields, fieldName) => {
-        const fieldType = getTypeFromValues(
-            fieldName,
-            fieldValues[fieldName],
-            false
-        );
-        if (
-            fieldType == GraphQLInt ||
-            fieldType == GraphQLFloat ||
-            fieldType.name == 'Date'
-        ) {
-            fields[`${fieldName}_lt`] = { type: fieldType };
-            fields[`${fieldName}_lte`] = { type: fieldType };
-            fields[`${fieldName}_gt`] = { type: fieldType };
-            fields[`${fieldName}_gte`] = { type: fieldType };
-        }
-        return fields;
-    }, {});
+const getRangeFiltersFromEntities = entities =>
+{
+	const fieldValues = getValuesFromEntities(entities);
+	return Object.keys(fieldValues).reduce((fields, fieldName) =>
+	{
+		const fieldType = getTypeFromValues(
+			fieldName,
+			fieldValues[fieldName],
+			false,
+		);
+		if (
+			fieldType == GraphQLInt ||
+			fieldType == GraphQLFloat ||
+			fieldType.name == 'Date'
+		)
+		{
+			fields[`${fieldName}_lt`] = { type: fieldType };
+			fields[`${fieldName}_lte`] = { type: fieldType };
+			fields[`${fieldName}_gt`] = { type: fieldType };
+			fields[`${fieldName}_gte`] = { type: fieldType };
+		}
+		return fields;
+	}, {});
 };
 
 /**
@@ -90,22 +86,22 @@ const getRangeFiltersFromEntities = entities => {
  * // }
  */
 export default data =>
-    Object.keys(data).reduce(
-        (types, key) =>
-            Object.assign({}, types, {
-                [getTypeFromKey(key)]: new GraphQLInputObjectType({
-                    name: `${getTypeFromKey(key)}Filter`,
-                    fields: Object.assign(
-                        {
-                            q: { type: GraphQLString },
-                        },
-                        {
-                            ids: { type: new GraphQLList(GraphQLID) },
-                        },
-                        getFieldsFromEntities(data[key], false),
-                        getRangeFiltersFromEntities(data[key])
-                    ),
-                }),
-            }),
-        {} as any
-    );
+	Object.keys(data).reduce(
+		(types, key) =>
+			Object.assign({}, types, {
+				[getTypeFromKey(key)]: new GraphQLInputObjectType({
+					name: `${getTypeFromKey(key)}Filter`,
+					fields: Object.assign(
+						{
+							q: { type: GraphQLString },
+						},
+						{
+							ids: { type: new GraphQLList(GraphQLID) },
+						},
+						getFieldsFromEntities(data[key], false),
+						getRangeFiltersFromEntities(data[key]),
+					),
+				}),
+			}),
+		{} as any,
+	);
