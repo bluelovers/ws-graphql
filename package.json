@@ -6,9 +6,10 @@
     "packages/*"
   ],
   "scripts": {
-    "lerna:publish": "npx lerna publish",
-    "lerna:publish:yes": "npx lerna publish --yes --cd-version patch",
-    "prepublish:lockfile": "npx sync-lockfile .",
+    "lerna:publish": "yarn run lerna:prepublish && npx lerna publish",
+    "lerna:publish:yes": "yarn run lerna:prepublish && npx lerna publish --yes --cd-version patch",
+    "lerna:prepublish": "yarn run prebuild:lockfile",
+    "prepublish:lockfile": "ynpx sync-lockfile -- .",
     "ncu": "npx yarn-tool ncu -u",
     "sort-package-json": "npx yarn-tool sort",
     "test": "echo \"Error: no test specified\" && exit 1"
