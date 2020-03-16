@@ -1,0 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const inflection_1 = require("inflection");
+function camelizePluralize(name) {
+    return inflection_1.camelize(inflection_1.pluralize(name));
+}
+exports.default = camelizePluralize;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2FtZWxpemVQbHVyYWxpemUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJjYW1lbGl6ZVBsdXJhbGl6ZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDJDQUFpRDtBQUVqRCxTQUF3QixpQkFBaUIsQ0FBQyxJQUFZO0lBRXJELE9BQU8scUJBQVEsQ0FBQyxzQkFBUyxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUE7QUFDakMsQ0FBQztBQUhELG9DQUdDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgY2FtZWxpemUsIHBsdXJhbGl6ZSB9IGZyb20gJ2luZmxlY3Rpb24nO1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBjYW1lbGl6ZVBsdXJhbGl6ZShuYW1lOiBzdHJpbmcpXG57XG5cdHJldHVybiBjYW1lbGl6ZShwbHVyYWxpemUobmFtZSkpXG59XG4iXX0=

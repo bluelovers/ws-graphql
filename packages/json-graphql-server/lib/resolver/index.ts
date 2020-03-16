@@ -11,20 +11,27 @@ import entityResolver from './Entity';
 import { getTypeFromKey } from '../utils/nameConverter';
 import DateType from '../introspection/DateType';
 import hasType from '../introspection/hasType';
+import { ISourceDataRoot } from '../types';
 
-const getQueryResolvers = (entityName, data) => ({
-	[`all${pluralize(entityName)}`]: all(data),
-	[`_all${pluralize(entityName)}Meta`]: meta(data),
-	[entityName]: single(data),
-});
+export function getQueryResolvers(entityName: string, data)
+{
+	return ({
+		[`all${pluralize(entityName)}`]: all(data),
+		[`_all${pluralize(entityName)}Meta`]: meta(data),
+		[entityName]: single(data),
+	})
+}
 
-const getMutationResolvers = (entityName, data) => ({
-	[`create${entityName}`]: create(data),
-	[`update${entityName}`]: update(data),
-	[`remove${entityName}`]: remove(data),
-});
+export function getMutationResolvers(entityName: string, data)
+{
+	return ({
+		[`create${entityName}`]: create(data),
+		[`update${entityName}`]: update(data),
+		[`remove${entityName}`]: remove(data),
+	});
+}
 
-export default data =>
+export default function resolver(data: ISourceDataRoot)
 {
 	return Object.assign(
 		{},

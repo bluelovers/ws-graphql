@@ -1,0 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isRelationshipField = void 0;
+function isRelationshipField(fieldName) {
+    return fieldName.endsWith('_id');
+}
+exports.isRelationshipField = isRelationshipField;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVsYXRpb25zaGlwcy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbInJlbGF0aW9uc2hpcHMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEsU0FBZ0IsbUJBQW1CLENBQUMsU0FBaUI7SUFFcEQsT0FBTyxTQUFTLENBQUMsUUFBUSxDQUFDLEtBQUssQ0FBQyxDQUFDO0FBQ2xDLENBQUM7QUFIRCxrREFHQyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBmdW5jdGlvbiBpc1JlbGF0aW9uc2hpcEZpZWxkKGZpZWxkTmFtZTogc3RyaW5nKVxue1xuXHRyZXR1cm4gZmllbGROYW1lLmVuZHNXaXRoKCdfaWQnKTtcbn1cbiJdfQ==

@@ -1,0 +1,46 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getMutationResolvers = exports.getQueryResolvers = void 0;
+const inflection_1 = require("inflection");
+const graphql_type_json_1 = __importDefault(require("graphql-type-json"));
+const all_1 = __importDefault(require("./Query/all"));
+const meta_1 = __importDefault(require("./Query/meta"));
+const single_1 = __importDefault(require("./Query/single"));
+const create_1 = __importDefault(require("./Mutation/create"));
+const update_1 = __importDefault(require("./Mutation/update"));
+const remove_1 = __importDefault(require("./Mutation/remove"));
+const Entity_1 = __importDefault(require("./Entity"));
+const nameConverter_1 = require("../utils/nameConverter");
+const DateType_1 = __importDefault(require("../introspection/DateType"));
+const hasType_1 = __importDefault(require("../introspection/hasType"));
+function getQueryResolvers(entityName, data) {
+    return ({
+        [`all${inflection_1.pluralize(entityName)}`]: all_1.default(data),
+        [`_all${inflection_1.pluralize(entityName)}Meta`]: meta_1.default(data),
+        [entityName]: single_1.default(data),
+    });
+}
+exports.getQueryResolvers = getQueryResolvers;
+function getMutationResolvers(entityName, data) {
+    return ({
+        [`create${entityName}`]: create_1.default(data),
+        [`update${entityName}`]: update_1.default(data),
+        [`remove${entityName}`]: remove_1.default(data),
+    });
+}
+exports.getMutationResolvers = getMutationResolvers;
+function resolver(data) {
+    return Object.assign({}, {
+        Query: Object.keys(data).reduce((resolvers, key) => Object.assign({}, resolvers, getQueryResolvers(nameConverter_1.getTypeFromKey(key), data[key])), {}),
+        Mutation: Object.keys(data).reduce((resolvers, key) => Object.assign({}, resolvers, getMutationResolvers(nameConverter_1.getTypeFromKey(key), data[key])), {}),
+    }, Object.keys(data).reduce((resolvers, key) => Object.assign({}, resolvers, {
+        [nameConverter_1.getTypeFromKey(key)]: Entity_1.default(key, data),
+    }), {}), hasType_1.default('Date', data) ? { Date: DateType_1.default } : {}, // required because makeExecutableSchema strips resolvers from typeDefs
+    hasType_1.default('JSON', data) ? { JSON: graphql_type_json_1.default } : {});
+}
+exports.default = resolver;
+;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJpbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7QUFBQSwyQ0FBdUM7QUFDdkMsMEVBQTRDO0FBRTVDLHNEQUE4QjtBQUM5Qix3REFBZ0M7QUFDaEMsNERBQW9DO0FBQ3BDLCtEQUF1QztBQUN2QywrREFBdUM7QUFDdkMsK0RBQXVDO0FBQ3ZDLHNEQUFzQztBQUN0QywwREFBd0Q7QUFDeEQseUVBQWlEO0FBQ2pELHVFQUErQztBQUcvQyxTQUFnQixpQkFBaUIsQ0FBQyxVQUFrQixFQUFFLElBQUk7SUFFekQsT0FBTyxDQUFDO1FBQ1AsQ0FBQyxNQUFNLHNCQUFTLENBQUMsVUFBVSxDQUFDLEVBQUUsQ0FBQyxFQUFFLGFBQUcsQ0FBQyxJQUFJLENBQUM7UUFDMUMsQ0FBQyxPQUFPLHNCQUFTLENBQUMsVUFBVSxDQUFDLE1BQU0sQ0FBQyxFQUFFLGNBQUksQ0FBQyxJQUFJLENBQUM7UUFDaEQsQ0FBQyxVQUFVLENBQUMsRUFBRSxnQkFBTSxDQUFDLElBQUksQ0FBQztLQUMxQixDQUFDLENBQUE7QUFDSCxDQUFDO0FBUEQsOENBT0M7QUFFRCxTQUFnQixvQkFBb0IsQ0FBQyxVQUFrQixFQUFFLElBQUk7SUFFNUQsT0FBTyxDQUFDO1FBQ1AsQ0FBQyxTQUFTLFVBQVUsRUFBRSxDQUFDLEVBQUUsZ0JBQU0sQ0FBQyxJQUFJLENBQUM7UUFDckMsQ0FBQyxTQUFTLFVBQVUsRUFBRSxDQUFDLEVBQUUsZ0JBQU0sQ0FBQyxJQUFJLENBQUM7UUFDckMsQ0FBQyxTQUFTLFVBQVUsRUFBRSxDQUFDLEVBQUUsZ0JBQU0sQ0FBQyxJQUFJLENBQUM7S0FDckMsQ0FBQyxDQUFDO0FBQ0osQ0FBQztBQVBELG9EQU9DO0FBRUQsU0FBd0IsUUFBUSxDQUFDLElBQXFCO0lBRXJELE9BQU8sTUFBTSxDQUFDLE1BQU0sQ0FDbkIsRUFBRSxFQUNGO1FBQ0MsS0FBSyxFQUFFLE1BQU0sQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLENBQUMsTUFBTSxDQUM5QixDQUFDLFNBQVMsRUFBRSxHQUFHLEVBQUUsRUFBRSxDQUNsQixNQUFNLENBQUMsTUFBTSxDQUNaLEVBQUUsRUFDRixTQUFTLEVBQ1QsaUJBQWlCLENBQUMsOEJBQWMsQ0FBQyxHQUFHLENBQUMsRUFBRSxJQUFJLENBQUMsR0FBRyxDQUFDLENBQUMsQ0FDakQsRUFDRixFQUFFLENBQ0Y7UUFDRCxRQUFRLEVBQUUsTUFBTSxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUMsQ0FBQyxNQUFNLENBQ2pDLENBQUMsU0FBUyxFQUFFLEdBQUcsRUFBRSxFQUFFLENBQ2xCLE1BQU0sQ0FBQyxNQUFNLENBQ1osRUFBRSxFQUNGLFNBQVMsRUFDVCxvQkFBb0IsQ0FBQyw4QkFBYyxDQUFDLEdBQUcsQ0FBQyxFQUFFLElBQUksQ0FBQyxHQUFHLENBQUMsQ0FBQyxDQUNwRCxFQUNGLEVBQUUsQ0FDRjtLQUNELEVBQ0QsTUFBTSxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUMsQ0FBQyxNQUFNLENBQ3ZCLENBQUMsU0FBUyxFQUFFLEdBQUcsRUFBRSxFQUFFLENBQ2xCLE1BQU0sQ0FBQyxNQUFNLENBQUMsRUFBRSxFQUFFLFNBQVMsRUFBRTtRQUM1QixDQUFDLDhCQUFjLENBQUMsR0FBRyxDQUFDLENBQUMsRUFBRSxnQkFBYyxDQUFDLEdBQUcsRUFBRSxJQUFJLENBQUM7S0FDaEQsQ0FBQyxFQUNILEVBQUUsQ0FDRixFQUNELGlCQUFPLENBQUMsTUFBTSxFQUFFLElBQUksQ0FBQyxDQUFDLENBQUMsQ0FBQyxFQUFFLElBQUksRUFBRSxrQkFBUSxFQUFFLENBQUMsQ0FBQyxDQUFDLEVBQUUsRUFBRSx1RUFBdUU7SUFDeEgsaUJBQU8sQ0FBQyxNQUFNLEVBQUUsSUFBSSxDQUFDLENBQUMsQ0FBQyxDQUFDLEVBQUUsSUFBSSxFQUFFLDJCQUFXLEVBQUUsQ0FBQyxDQUFDLENBQUMsRUFBRSxDQUNsRCxDQUFDO0FBQ0gsQ0FBQztBQWxDRCwyQkFrQ0M7QUFBQSxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgcGx1cmFsaXplIH0gZnJvbSAnaW5mbGVjdGlvbic7XG5pbXBvcnQgR3JhcGhRTEpTT04gZnJvbSAnZ3JhcGhxbC10eXBlLWpzb24nO1xuXG5pbXBvcnQgYWxsIGZyb20gJy4vUXVlcnkvYWxsJztcbmltcG9ydCBtZXRhIGZyb20gJy4vUXVlcnkvbWV0YSc7XG5pbXBvcnQgc2luZ2xlIGZyb20gJy4vUXVlcnkvc2luZ2xlJztcbmltcG9ydCBjcmVhdGUgZnJvbSAnLi9NdXRhdGlvbi9jcmVhdGUnO1xuaW1wb3J0IHVwZGF0ZSBmcm9tICcuL011dGF0aW9uL3VwZGF0ZSc7XG5pbXBvcnQgcmVtb3ZlIGZyb20gJy4vTXV0YXRpb24vcmVtb3ZlJztcbmltcG9ydCBlbnRpdHlSZXNvbHZlciBmcm9tICcuL0VudGl0eSc7XG5pbXBvcnQgeyBnZXRUeXBlRnJvbUtleSB9IGZyb20gJy4uL3V0aWxzL25hbWVDb252ZXJ0ZXInO1xuaW1wb3J0IERhdGVUeXBlIGZyb20gJy4uL2ludHJvc3BlY3Rpb24vRGF0ZVR5cGUnO1xuaW1wb3J0IGhhc1R5cGUgZnJvbSAnLi4vaW50cm9zcGVjdGlvbi9oYXNUeXBlJztcbmltcG9ydCB7IElTb3VyY2VEYXRhUm9vdCB9IGZyb20gJy4uL3R5cGVzJztcblxuZXhwb3J0IGZ1bmN0aW9uIGdldFF1ZXJ5UmVzb2x2ZXJzKGVudGl0eU5hbWU6IHN0cmluZywgZGF0YSlcbntcblx0cmV0dXJuICh7XG5cdFx0W2BhbGwke3BsdXJhbGl6ZShlbnRpdHlOYW1lKX1gXTogYWxsKGRhdGEpLFxuXHRcdFtgX2FsbCR7cGx1cmFsaXplKGVudGl0eU5hbWUpfU1ldGFgXTogbWV0YShkYXRhKSxcblx0XHRbZW50aXR5TmFtZV06IHNpbmdsZShkYXRhKSxcblx0fSlcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGdldE11dGF0aW9uUmVzb2x2ZXJzKGVudGl0eU5hbWU6IHN0cmluZywgZGF0YSlcbntcblx0cmV0dXJuICh7XG5cdFx0W2BjcmVhdGUke2VudGl0eU5hbWV9YF06IGNyZWF0ZShkYXRhKSxcblx0XHRbYHVwZGF0ZSR7ZW50aXR5TmFtZX1gXTogdXBkYXRlKGRhdGEpLFxuXHRcdFtgcmVtb3ZlJHtlbnRpdHlOYW1lfWBdOiByZW1vdmUoZGF0YSksXG5cdH0pO1xufVxuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiByZXNvbHZlcihkYXRhOiBJU291cmNlRGF0YVJvb3QpXG57XG5cdHJldHVybiBPYmplY3QuYXNzaWduKFxuXHRcdHt9LFxuXHRcdHtcblx0XHRcdFF1ZXJ5OiBPYmplY3Qua2V5cyhkYXRhKS5yZWR1Y2UoXG5cdFx0XHRcdChyZXNvbHZlcnMsIGtleSkgPT5cblx0XHRcdFx0XHRPYmplY3QuYXNzaWduKFxuXHRcdFx0XHRcdFx0e30sXG5cdFx0XHRcdFx0XHRyZXNvbHZlcnMsXG5cdFx0XHRcdFx0XHRnZXRRdWVyeVJlc29sdmVycyhnZXRUeXBlRnJvbUtleShrZXkpLCBkYXRhW2tleV0pLFxuXHRcdFx0XHRcdCksXG5cdFx0XHRcdHt9LFxuXHRcdFx0KSxcblx0XHRcdE11dGF0aW9uOiBPYmplY3Qua2V5cyhkYXRhKS5yZWR1Y2UoXG5cdFx0XHRcdChyZXNvbHZlcnMsIGtleSkgPT5cblx0XHRcdFx0XHRPYmplY3QuYXNzaWduKFxuXHRcdFx0XHRcdFx0e30sXG5cdFx0XHRcdFx0XHRyZXNvbHZlcnMsXG5cdFx0XHRcdFx0XHRnZXRNdXRhdGlvblJlc29sdmVycyhnZXRUeXBlRnJvbUtleShrZXkpLCBkYXRhW2tleV0pLFxuXHRcdFx0XHRcdCksXG5cdFx0XHRcdHt9LFxuXHRcdFx0KSxcblx0XHR9LFxuXHRcdE9iamVjdC5rZXlzKGRhdGEpLnJlZHVjZShcblx0XHRcdChyZXNvbHZlcnMsIGtleSkgPT5cblx0XHRcdFx0T2JqZWN0LmFzc2lnbih7fSwgcmVzb2x2ZXJzLCB7XG5cdFx0XHRcdFx0W2dldFR5cGVGcm9tS2V5KGtleSldOiBlbnRpdHlSZXNvbHZlcihrZXksIGRhdGEpLFxuXHRcdFx0XHR9KSxcblx0XHRcdHt9LFxuXHRcdCksXG5cdFx0aGFzVHlwZSgnRGF0ZScsIGRhdGEpID8geyBEYXRlOiBEYXRlVHlwZSB9IDoge30sIC8vIHJlcXVpcmVkIGJlY2F1c2UgbWFrZUV4ZWN1dGFibGVTY2hlbWEgc3RyaXBzIHJlc29sdmVycyBmcm9tIHR5cGVEZWZzXG5cdFx0aGFzVHlwZSgnSlNPTicsIGRhdGEpID8geyBKU09OOiBHcmFwaFFMSlNPTiB9IDoge30sIC8vIHJlcXVpcmVkIGJlY2F1c2UgbWFrZUV4ZWN1dGFibGVTY2hlbWEgc3RyaXBzIHJlc29sdmVycyBmcm9tIHR5cGVEZWZzXG5cdCk7XG59O1xuIl19

@@ -23,7 +23,7 @@ import { printSchema, GraphQLSchema, GraphQLObjectType } from 'graphql';
  * //   foo: Main
  * // }
  */
-export const printSchemaForFields = fields =>
+export function printSchemaForFields(fields)
 {
 	const mainType = new GraphQLObjectType({
 		name: 'Main',
@@ -39,9 +39,9 @@ export const printSchemaForFields = fields =>
 
 	const schema = new GraphQLSchema({ query: queryType });
 	return printSchema(schema);
-};
+}
 
-export const printSchemaForTypes = types =>
+export function printSchemaForTypes(types)
 {
 	const typesSchema = types.reduce((schema, type) =>
 	{
@@ -59,4 +59,4 @@ export const printSchemaForTypes = types =>
 
 	const schema = new GraphQLSchema({ ...typesSchema, query: queryType });
 	return printSchema(schema);
-};
+}
