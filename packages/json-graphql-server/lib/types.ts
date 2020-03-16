@@ -12,7 +12,4 @@ export interface IFilterBase
 
 export type ISourceDataRowBase = Record<string, any>
 
-export interface ISourceDataRoot<T = ISourceDataRowBase>
-{
-	[k: string]: T[]
-}
+export type ISourceDataRoot<T = ISourceDataRowBase> = Record<string, T>

@@ -1,7 +1,8 @@
 import { makeExecutableSchema } from 'graphql-tools';
-import { printSchema } from 'graphql';
+import { printSchema, GraphQLSchema } from 'graphql';
 import getSchemaFromData from './introspection/getSchemaFromData';
 import resolver from './resolver';
+import { ISourceDataRoot } from './types';
 
 /**
  * Generates a GraphQL Schema object for your data
@@ -47,9 +48,11 @@ import resolver from './resolver';
  * });
  *
  */
-export default data =>
-	makeExecutableSchema({
+export default function schemaBuilder(data: ISourceDataRoot)
+{
+	return makeExecutableSchema({
 		typeDefs: printSchema(getSchemaFromData(data)),
 		resolvers: resolver(data),
 		logger: { log: e => console.log(e) }, // eslint-disable-line no-console
-	});
+	})
+}

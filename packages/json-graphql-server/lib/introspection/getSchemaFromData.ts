@@ -195,6 +195,6 @@ extend type ${relType} { ${rel}: [${type}] }`;
 	return schemaExtension
 		? extendSchema(schema, parse(schemaExtension))
 		: schema;
-};
+}
 
 export default getSchemaFromData;
