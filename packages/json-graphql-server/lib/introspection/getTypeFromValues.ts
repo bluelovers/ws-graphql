@@ -1,35 +1,27 @@
 import {
-    GraphQLBoolean,
-    GraphQLFloat,
-    GraphQLID,
-    GraphQLInt,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLString,
+	GraphQLBoolean,
+	GraphQLFloat,
+	GraphQLID,
+	GraphQLInt,
+	GraphQLList,
+	GraphQLString,
+	GraphQLScalarType,
+	GraphQLType,
 } from 'graphql';
 import GraphQLJSON from 'graphql-type-json';
 import DateType from './DateType';
+import {
+	requiredTypeOrNormal,
+	valuesAreObject,
+	valuesAreDate,
+	valuesAreArray,
+	valuesAreString,
+	valuesAreBoolean,
+	valuesAreInteger,
+	valuesAreNumeric,
+} from './util';
 
-const isNumeric = value => !isNaN(parseFloat(value)) && isFinite(value);
-const valuesAreNumeric = values => values.every(isNumeric);
-const isInteger = value => Number.isInteger(value);
-const valuesAreInteger = values => values.every(isInteger);
-const isBoolean = value => typeof value === 'boolean';
-const valuesAreBoolean = values => values.every(isBoolean);
-const isString = value => typeof value === 'string';
-const valuesAreString = values => values.every(isString);
-const isArray = value => Array.isArray(value);
-const valuesAreArray = values => values.every(isArray);
-const isDate = value => value instanceof Date;
-const valuesAreDate = values => values.every(isDate);
-const isObject = value =>
-	Object.prototype.toString.call(value) === '[object Object]';
-const valuesAreObject = values => values.every(isObject);
-
-const requiredTypeOrNormal = (type, isRequired) =>
-	isRequired ? new GraphQLNonNull(type) : type;
-
-export default (name, values = [], isRequired = false) =>
+export default function getTypeFromValues(name: string, values = [], isRequired = false)
 {
 	if (name === 'id' || name.substr(name.length - 3) === '_id')
 	{

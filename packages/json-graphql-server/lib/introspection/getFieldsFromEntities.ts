@@ -1,5 +1,6 @@
 import getTypeFromValues from './getTypeFromValues';
 import getValuesFromEntities from './getValuesFromEntities';
+import { ISourceDataRowBase } from '../types';
 
 /**
  * Get a list of GraphQL fields from a list of entities
@@ -26,7 +27,7 @@ import getValuesFromEntities from './getValuesFromEntities';
  * //    user_id: { type: new GraphQLNonNull(GraphQLString) },
  * // };
  */
-export default (entities, checkRequired = true) =>
+export default function getFieldsFromEntities<T = ISourceDataRowBase>(entities: T[], checkRequired = true)
 {
 	const fieldValues = getValuesFromEntities(entities);
 	const nbValues = entities.length;

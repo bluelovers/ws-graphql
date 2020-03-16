@@ -99,3 +99,6 @@ yarn-error.log
 /Makefile
 /webpack.config.js
 /.travis.yml
+*.spec.d.ts
+*.spec.js
+

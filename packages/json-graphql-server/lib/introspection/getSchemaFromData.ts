@@ -1,14 +1,14 @@
 import {
-    GraphQLBoolean,
-    GraphQLID,
-    GraphQLInt,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLObjectType,
-    GraphQLSchema,
-    GraphQLString,
-    parse,
-    extendSchema,
+	GraphQLBoolean,
+	GraphQLID,
+	GraphQLInt,
+	GraphQLList,
+	GraphQLNonNull,
+	GraphQLObjectType,
+	GraphQLSchema,
+	GraphQLString,
+	parse,
+	extendSchema,
 } from 'graphql';
 import { pluralize, camelize } from 'inflection';
 
@@ -16,6 +16,7 @@ import getTypesFromData from './getTypesFromData';
 import getFilterTypesFromData from './getFilterTypesFromData';
 import { isRelationshipField } from '../relationships';
 import { getRelatedType } from '../nameConverter';
+import { ISourceDataRoot } from '../types';
 
 /**
  * Get a GraphQL schema from data
@@ -76,7 +77,7 @@ import { getRelatedType } from '../nameConverter';
  * //     removeUser(id: ID!): Boolean
  * // }
  */
-export default data =>
+function getSchemaFromData(data: ISourceDataRoot)
 {
 	const types = getTypesFromData(data);
 	const typesByName = types.reduce((types, type) =>
@@ -195,3 +196,5 @@ extend type ${relType} { ${rel}: [${type}] }`;
 		? extendSchema(schema, parse(schemaExtension))
 		: schema;
 };
+
+export default getSchemaFromData;

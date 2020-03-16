@@ -9,3 +9,10 @@ export interface IFilterBase
 	ids?: (number)[],
 	q?: string,
 }
+
+export type ISourceDataRowBase = Record<string, any>
+
+export interface ISourceDataRoot<T = ISourceDataRowBase>
+{
+	[k: string]: T[]
+}

@@ -1,10 +1,20 @@
-import { GraphQLInputObjectType, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLList, GraphQLID } from 'graphql';
+import {
+	GraphQLInputObjectType,
+	GraphQLString,
+	GraphQLInt,
+	GraphQLFloat,
+	GraphQLList,
+	GraphQLID,
+	GraphQLType,
+	GraphQLScalarType,
+} from 'graphql';
 import getFieldsFromEntities from './getFieldsFromEntities';
 import getValuesFromEntities from './getValuesFromEntities';
 import getTypeFromValues from './getTypeFromValues';
 import { getTypeFromKey } from '../nameConverter';
+import { ISourceDataRowBase } from '../types';
 
-const getRangeFiltersFromEntities = entities =>
+export function getRangeFiltersFromEntities<T = ISourceDataRowBase>(entities: T[])
 {
 	const fieldValues = getValuesFromEntities(entities);
 	return Object.keys(fieldValues).reduce((fields, fieldName) =>
@@ -17,6 +27,7 @@ const getRangeFiltersFromEntities = entities =>
 		if (
 			fieldType == GraphQLInt ||
 			fieldType == GraphQLFloat ||
+			// @ts-ignore
 			fieldType.name == 'Date'
 		)
 		{
@@ -26,8 +37,8 @@ const getRangeFiltersFromEntities = entities =>
 			fields[`${fieldName}_gte`] = { type: fieldType };
 		}
 		return fields;
-	}, {});
-};
+	}, {} as Record<string, { type: ReturnType<typeof getTypeFromValues> }>);
+}
 
 /**
  * Get a list of GraphQLObjectType for filtering data
@@ -85,23 +96,29 @@ const getRangeFiltersFromEntities = entities =>
  * //     }),
  * // }
  */
-export default data =>
-	Object.keys(data).reduce(
+export default function getFilterTypesFromData(data)
+{
+	return Object.keys(data).reduce(
 		(types, key) =>
-			Object.assign({}, types, {
-				[getTypeFromKey(key)]: new GraphQLInputObjectType({
-					name: `${getTypeFromKey(key)}Filter`,
-					fields: Object.assign(
-						{
-							q: { type: GraphQLString },
-						},
-						{
-							ids: { type: new GraphQLList(GraphQLID) },
-						},
-						getFieldsFromEntities(data[key], false),
-						getRangeFiltersFromEntities(data[key]),
-					),
-				}),
-			}),
-		{} as any,
+		{
+			const typeKey = getTypeFromKey(key);
+
+			types[typeKey] = new GraphQLInputObjectType({
+				name: `${typeKey}Filter`,
+				fields: Object.assign(
+					{
+						q: { type: GraphQLString },
+					},
+					{
+						ids: { type: new GraphQLList(GraphQLID) },
+					},
+					getFieldsFromEntities(data[key], false),
+					getRangeFiltersFromEntities(data[key]),
+				),
+			})
+
+			return types
+		},
+		{} as Record<string, GraphQLInputObjectType>,
 	);
+}

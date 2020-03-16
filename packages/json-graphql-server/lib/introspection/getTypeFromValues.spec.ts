@@ -1,11 +1,11 @@
 import {
-    GraphQLBoolean,
-    GraphQLFloat,
-    GraphQLID,
-    GraphQLInt,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLString,
+	GraphQLBoolean,
+	GraphQLFloat,
+	GraphQLID,
+	GraphQLInt,
+	GraphQLList,
+	GraphQLNonNull,
+	GraphQLString,
 } from 'graphql';
 import GraphQLJSON from 'graphql-type-json';
 import DateType from './DateType';

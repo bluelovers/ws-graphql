@@ -45,7 +45,7 @@ test('Integration test', () =>
 			name: { type: new GraphQLNonNull(GraphQLString) },
 		},
 	});
-	const types = getTypesFromData(data);
+	const types = getTypesFromData(data as any);
 	expect(types.map(t => t.toString())).toEqual(['Post', 'User']);
 	expect(types.map(t => t.getFields())).toEqual([
 		PostType.getFields(),

@@ -24,8 +24,11 @@
  * //    user_id: [123, 456],
  * // }
  */
-export default entities =>
-	entities.reduce((values, entity) =>
+import { ISourceDataRowBase } from '../types';
+
+export default function getValuesFromEntities<T = ISourceDataRowBase>(entities: T[])
+{
+	return entities.reduce((values, entity) =>
 	{
 		Object.keys(entity).forEach(fieldName =>
 		{
@@ -39,4 +42,5 @@ export default entities =>
 			}
 		});
 		return values;
-	}, {});
+	}, {} as Record<string, any[]>);
+}

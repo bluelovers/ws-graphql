@@ -68,3 +68,4 @@ jest.config.*
 /report.*.json
 now.json
 /Makefile
+*.spec.*
