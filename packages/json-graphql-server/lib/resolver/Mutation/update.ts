@@ -1,5 +1,5 @@
 import { ISourceDataRowBase, ISourceDataRowBaseCore, ISourceDataRowBaseCore2 } from '../../types';
-import { findEntityIndex } from '../utils';
+import findEntityIndex from '../../utils/findEntityIndex';
 
 export default function <T extends ISourceDataRowBaseCore = ISourceDataRowBaseCore>(entityData: T[] = [])
 {

@@ -62,7 +62,8 @@ export default function getEntityResolver(entityName: string, data: ISourceDataR
 		.reduce((resolvers, fieldName) =>
 				Object.assign(resolvers, {
 					[getRelatedType(fieldName)]: entity =>
-						data[getRelatedKey(fieldName)].find(
+						data[getRelatedKey(fieldName)]
+							.find(
 							relatedRecord => relatedRecord.id == entity[fieldName],
 						),
 				}),
@@ -79,7 +80,8 @@ export default function getEntityResolver(entityName: string, data: ISourceDataR
 		.reduce((resolvers, entityName) =>
 				Object.assign(resolvers, {
 					[getRelationshipFromKey(entityName)]: entity =>
-						data[entityName].filter(
+						data[entityName]
+							.filter(
 							record => record[relatedField] == entity.id,
 						),
 				}),
