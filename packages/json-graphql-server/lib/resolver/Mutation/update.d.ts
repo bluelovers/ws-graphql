@@ -1,2 +1,2 @@
-import { ISourceDataRowBase } from '../../types';
-export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData?: T[]): (_: any, params: T) => T;
+import { ISourceDataRowBaseCore } from '../../types';
+export default function <T extends ISourceDataRowBaseCore = ISourceDataRowBaseCore>(entityData?: T[]): (_: any, params: T) => T;
