@@ -1,5 +1,5 @@
 import JsonGraphqlServer from './lib/graphQLClientServer';
-import jsonSchemaBuilder from 'json-graphql-server/lib/schemaBuilder';
+import jsonSchemaBuilder from 'lazy-json-graphql';
 declare global {
     interface Window {
         JsonGraphqlServer: typeof JsonGraphqlServer;

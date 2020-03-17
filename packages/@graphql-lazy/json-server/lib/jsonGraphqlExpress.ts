@@ -1,5 +1,5 @@
 import graphqlHTTP from 'express-graphql';
-import schemaBuilder from 'json-graphql-server/lib/schemaBuilder';
+import schemaBuilder from 'lazy-json-graphql';
 
 /**
  * An express middleware for a GraphQL endpoint serving data from the supplied json.

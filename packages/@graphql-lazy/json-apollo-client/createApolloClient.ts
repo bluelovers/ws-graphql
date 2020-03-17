@@ -1,8 +1,9 @@
 import { ApolloClient } from 'apollo-client';
 import { mockNetworkInterfaceWithSchema } from 'apollo-test-utils';
-import getSchemaFromData from 'json-graphql-server/lib/introspection/getSchemaFromData';
+import getSchemaFromData from 'lazy-json-graphql/lib/introspection/getSchemaFromData';
+import { ISourceDataRoot } from 'lazy-json-graphql/lib/types';
 
-export default data =>
+export function createApolloClient(data: ISourceDataRoot)
 {
 	const schema = getSchemaFromData(data);
 	const mockNetworkInterface = mockNetworkInterfaceWithSchema({ schema });
@@ -13,4 +14,6 @@ export default data =>
 	});
 
 	return client;
-};
+}
+
+export default createApolloClient
