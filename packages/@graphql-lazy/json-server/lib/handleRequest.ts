@@ -1,5 +1,6 @@
 import { graphql } from 'graphql';
 import schemaBuilder from 'lazy-json-graphql';
+import { ISourceDataRoot } from 'lazy-json-graphql/lib/types';
 
 /**
  * Starts a GraphQL Server in your browser: intercepts every call to http://localhost:3000/graphql
@@ -40,10 +41,14 @@ import schemaBuilder from 'lazy-json-graphql';
  * GraphQLClientServer(data);
  * GraphQLClientServer(data, 'http://localhost:8080/api/graphql');
  */
-export default function (data)
+export default function handleRequestFactory(data: ISourceDataRoot)
 {
 	const schema = schemaBuilder(data);
-	return (url, opts: any = {}) =>
+	return (url: {
+		requestBody?,
+	}, opts: {
+		body?,
+	} = {}) =>
 	{
 		let body = opts.body;
 

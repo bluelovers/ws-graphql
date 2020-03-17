@@ -1,3 +1,4 @@
+import { ISourceDataRoot } from 'lazy-json-graphql/lib/types';
 /**
  * Starts a GraphQL Server in your browser: intercepts every call to http://localhost:3000/graphql
  * and returns a response from the supplied data.
@@ -37,7 +38,11 @@
  * GraphQLClientServer(data);
  * GraphQLClientServer(data, 'http://localhost:8080/api/graphql');
  */
-export default function (data: any): (url: any, opts?: any) => Promise<{
+export default function handleRequestFactory(data: ISourceDataRoot): (url: {
+    requestBody?: any;
+}, opts?: {
+    body?: any;
+}) => Promise<{
     status: number;
     headers: {
         'Content-Type': string;

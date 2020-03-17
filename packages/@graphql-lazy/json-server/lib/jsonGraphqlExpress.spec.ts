@@ -1,5 +1,5 @@
 import express from 'express';
-import request from 'supertest';
+import request, { SuperTest, Test } from 'supertest';
 import jsonGraphqlExpress from './jsonGraphqlExpress';
 
 const data = {
@@ -31,7 +31,7 @@ const data = {
 	],
 };
 
-let agent;
+let agent: SuperTest<Test>;
 
 beforeAll(() =>
 {

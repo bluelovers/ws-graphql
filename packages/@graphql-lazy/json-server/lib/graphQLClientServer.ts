@@ -1,5 +1,6 @@
 import mock, { proxy } from 'xhr-mock';
 import handleRequestFactory from './handleRequest';
+import { ISourceDataRoot } from 'lazy-json-graphql/lib/types';
 
 /**
  * Starts a GraphQL Server in your browser: intercepts every call to http://localhost:3000/graphql
@@ -40,7 +41,13 @@ import handleRequestFactory from './handleRequest';
  * GraphQLClientServer(data);
  * GraphQLClientServer(data, 'http://localhost:8080/api/graphql');
  */
-export default function ({ data, url })
+export default function graphQLClientServer({
+	data,
+	url,
+}: {
+	data: ISourceDataRoot,
+	url,
+})
 {
 	const handleRequest = handleRequestFactory(data);
 
@@ -54,18 +61,21 @@ export default function ({ data, url })
 			mock.post(
 				url,
 				(req, res) =>
-					new Promise(resolve =>
+					new Promise((resolve, reject) =>
 					{
 						handleRequest(url, {
 							body: req.body(),
-						}).then(response =>
-						{
-							res.status(response.status);
-							res.headers(response.headers);
-							res.body(response.body);
+						})
+							.then(response =>
+							{
+								res.status(response.status);
+								res.headers(response.headers);
+								res.body(response.body);
 
-							resolve(res);
-						});
+								resolve(res);
+							})
+							.catch(reject)
+						;
 					}),
 			);
 

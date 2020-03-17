@@ -1,16 +1,16 @@
 import graphqlHTTP from 'express-graphql';
 import schemaBuilder from 'lazy-json-graphql';
+import { ISourceDataRoot } from 'lazy-json-graphql/lib/types';
 
 /**
  * An express middleware for a GraphQL endpoint serving data from the supplied json.
  *
- * @param {any} data
- * @returns An array of middlewares
+ * @param {ISourceDataRoot} data
+ * @returns {graphqlHTTP.Middleware} An array of middlewares
  *
  * @example
  * import express from 'express';
- * import jsonGraphqlExpress from 'json-graphql-server';
- *
+ * import jsonGraphqlExpress from '@graphql-lazy/json-server';
  * const data = {
  *    "posts": [
  *        {
@@ -37,16 +37,15 @@ import schemaBuilder from 'lazy-json-graphql';
  *        }
  *    ],
  * };
- *
  * const PORT = 3000;
  * var app = express();
- *
  * app.use('/graphql', jsonGraphqlExpress(data));
- *
  * app.listen(PORT);
  */
-export default data =>
-	graphqlHTTP({
+export default function jsonGraphqlExpress(data: ISourceDataRoot)
+{
+	return graphqlHTTP({
 		schema: schemaBuilder(data),
 		graphiql: true,
 	});
+}
