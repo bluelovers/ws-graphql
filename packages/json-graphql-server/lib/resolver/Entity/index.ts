@@ -1,7 +1,13 @@
 import getFieldsFromEntities from '../../introspection/getFieldsFromEntities';
-import { getRelatedKey, getRelatedType, getRelationshipFromKey, getReverseRelatedField } from '../../utils/nameConverter';
+import {
+	getRelatedKey,
+	getRelatedType,
+	getRelationshipFromKey,
+	getReverseRelatedField,
+} from '../../utils/nameConverter';
 import { isRelationshipField } from '../../utils/relationships';
 import { ISourceDataRoot } from '../../types';
+import { IResolvers } from 'graphql-tools';
 
 /**
  * Add resolvers for relationship fields
@@ -47,33 +53,38 @@ import { ISourceDataRoot } from '../../types';
  *         },
  *     }
  */
-export default function Entity(entityName: string, data: ISourceDataRoot)
+export default function getEntityResolver(entityName: string, data: ISourceDataRoot)
 {
 	const entityFields = Object.keys(getFieldsFromEntities(data[entityName]));
-	const manyToOneResolvers = entityFields.filter(isRelationshipField).reduce(
-		(resolvers, fieldName) =>
-			Object.assign({}, resolvers, {
-				[getRelatedType(fieldName)]: entity =>
-					data[getRelatedKey(fieldName)].find(
-						relatedRecord => relatedRecord.id == entity[fieldName],
-					),
-			}),
-		{},
-	);
+
+	const manyToOneResolvers = entityFields
+		.filter(isRelationshipField)
+		.reduce((resolvers, fieldName) =>
+				Object.assign(resolvers, {
+					[getRelatedType(fieldName)]: entity =>
+						data[getRelatedKey(fieldName)].find(
+							relatedRecord => relatedRecord.id == entity[fieldName],
+						),
+				}),
+			{} as IResolvers,
+		);
+
 	const relatedField = getReverseRelatedField(entityName); // 'posts' => 'post_id'
 	const hasReverseRelationship = entityName =>
 		getFieldsFromEntities(data[entityName]).hasOwnProperty(relatedField);
 	const entities = Object.keys(data);
-	const oneToManyResolvers = entities.filter(hasReverseRelationship).reduce(
-		(resolvers, entityName) =>
-			Object.assign({}, resolvers, {
-				[getRelationshipFromKey(entityName)]: entity =>
-					data[entityName].filter(
-						record => record[relatedField] == entity.id,
-					),
-			}),
-		{},
-	);
 
-	return Object.assign({} as any, manyToOneResolvers, oneToManyResolvers);
+	const oneToManyResolvers = entities
+		.filter(hasReverseRelationship)
+		.reduce((resolvers, entityName) =>
+				Object.assign(resolvers, {
+					[getRelationshipFromKey(entityName)]: entity =>
+						data[entityName].filter(
+							record => record[relatedField] == entity.id,
+						),
+				}),
+			{} as IResolvers,
+		);
+
+	return Object.assign({} as IResolvers, manyToOneResolvers, oneToManyResolvers);
 };

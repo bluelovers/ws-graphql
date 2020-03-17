@@ -1,4 +1,5 @@
 import { ISourceDataRoot } from '../../types';
+import { IResolvers } from 'graphql-tools';
 /**
  * Add resolvers for relationship fields
  *
@@ -43,4 +44,4 @@ import { ISourceDataRoot } from '../../types';
  *         },
  *     }
  */
-export default function Entity(entityName: string, data: ISourceDataRoot): any;
+export default function getEntityResolver(entityName: string, data: ISourceDataRoot): IResolvers<any, any>;

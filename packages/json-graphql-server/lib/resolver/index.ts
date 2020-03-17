@@ -25,7 +25,9 @@ export function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceData
 	})
 }
 
-export function getMutationResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, data: T[])
+export function getMutationResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string,
+	data: T[],
+)
 {
 	return ({
 		[`create${entityName}`]: create(data),
@@ -34,38 +36,51 @@ export function getMutationResolvers<T extends ISourceDataRowBaseCore = ISourceD
 	});
 }
 
+export function createResolversFromData<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>,
+	cb: (key: string, data: ISourceDataRoot<T>) => any,
+)
+{
+	return Object.keys(data)
+		.reduce((resolvers, key) =>
+				Object.assign(
+					//{},
+					resolvers,
+					cb(key, data),
+				),
+			{} as IResolvers,
+		)
+}
+
 export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>): IResolvers
 {
-	return Object.assign(
+	const resolvers = Object.assign(
 		{} as IResolvers,
+
 		{
-			Query: Object.keys(data).reduce(
-				(resolvers, key) =>
-					Object.assign(
-						{},
-						resolvers,
-						getQueryResolvers(getTypeFromKey(key), data[key]),
-					),
-				{} as IResolvers,
-			),
-			Mutation: Object.keys(data).reduce(
-				(resolvers, key) =>
-					Object.assign(
-						{},
-						resolvers,
-						getMutationResolvers(getTypeFromKey(key), data[key]),
-					),
-				{} as IResolvers,
-			),
+
+			Query: createResolversFromData(data, (key, data) => getQueryResolvers(getTypeFromKey(key), data[key])),
+
+			Mutation: createResolversFromData(data, (key, data) => getMutationResolvers(getTypeFromKey(key), data[key])),
+
 		},
-		Object.keys(data).reduce(
-			(resolvers, key) =>
-				Object.assign({}, resolvers, {
-					[getTypeFromKey(key)]: entityResolver(key, data),
-				}),
-			{} as IResolvers,
-		),
-		hasType('Date', data) ? { Date: DateType } : {} as IResolvers, // required because makeExecutableSchema strips resolvers from typeDefs
-		hasType('JSON', data) ? { JSON: GraphQLJSON } : {} as IResolvers, // required because makeExecutableSchema strips resolvers from typeDefs
+
+		createResolversFromData(data, (key, data) =>
+		{
+			return {
+				[getTypeFromKey(key)]: entityResolver(key, data),
+			}
+		}),
+
+		/**
+		 * required because makeExecutableSchema strips resolvers from typeDefs
+		 */
+		hasType('Date', data) ? { Date: DateType } : {} as IResolvers,
+
+		/**
+		 * required because makeExecutableSchema strips resolvers from typeDefs
+		 */
+		hasType('JSON', data) ? { JSON: GraphQLJSON } : {} as IResolvers,
 	);
-};
+
+	return resolvers
+}
