@@ -49,7 +49,7 @@ export default function createSchemaQueryType({
 		return fields;
 	}, {});
 
-	console.dir(fields)
+	//console.dir(fields)
 
 	const queryType = new GraphQLObjectType({
 		name: 'Query',
