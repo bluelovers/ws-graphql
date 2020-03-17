@@ -1,19 +1,18 @@
 import getFilterTypesFromData from './getFilterTypesFromData';
+import { ISourceDataRoot } from '../types';
 
-export default function hasType(name: string, data): boolean
+export default function hasType(name: string, data: ISourceDataRoot): boolean
 {
-	return Object.values(getFilterTypesFromData(data))
-		.reduce((hasJSON, type: any) =>
+	return Object
+		.values(getFilterTypesFromData(data))
+		.some((type) =>
 		{
-			if (hasJSON) return true;
-
 			return Object.values(type.getFields())
-				.reduce((hasJSONField, field) =>
+				.some((field) =>
 				{
-					if (hasJSONField) return true;
 					// @ts-ignore
-					return field.type.name == name;
-				}, false) as any;
+					return (field.type.name == name);
+				});
 
-		}, false) as any
+		})
 };
