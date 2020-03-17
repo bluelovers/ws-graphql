@@ -1,11 +1,11 @@
-import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../../types';
+import { ISourceDataRowBase, ISourceDataRowBaseCore, ISourceDataRowBaseCore2 } from '../../types';
 import { findEntityIndex } from '../utils';
 
 export default function <T extends ISourceDataRowBaseCore = ISourceDataRowBaseCore>(entityData: T[] = [])
 {
-	return function (_, params: T)
+	return function <R extends Partial<T> | ISourceDataRowBaseCore2>(_, params: R)
 	{
-		let updatedEntity: T = undefined;
+		let updatedEntity: T & R = undefined;
 		if (params.id != null)
 		{
 			const indexOfEntity = findEntityIndex(params.id, entityData);
@@ -17,6 +17,7 @@ export default function <T extends ISourceDataRowBaseCore = ISourceDataRowBaseCo
 					entityData[indexOfEntity],
 					params,
 				);
+				// @ts-ignore
 				updatedEntity = entityData[indexOfEntity];
 			}
 		}

@@ -1,2 +1,2 @@
-import { ISourceDataRoot } from '../types';
-export default function (data: ISourceDataRoot): string;
+import { ISourceDataRoot, IOptions } from '../types';
+export default function (data: ISourceDataRoot, options?: IOptions): string;

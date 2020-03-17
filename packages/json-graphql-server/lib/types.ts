@@ -26,7 +26,21 @@ export interface ISourceDataRowBaseCore
 	id
 }
 
-export type ISourceDataRowBase = Record<string, any> & ISourceDataRowBaseCore
+export interface ISourceDataRowBaseCore2 extends Record<string, any>
+{
 
-export type ISourceDataRoot<T extends ISourceDataRowBase = ISourceDataRowBase> = Record<string, T[]>
+}
 
+export interface ISourceDataRowBase extends ISourceDataRowBaseCore2, ISourceDataRowBaseCore
+{
+
+}
+
+export type ISourceDataRoot2<T extends ISourceDataRowBase = ISourceDataRowBase> = Record<string, T[]>
+
+export type ISourceDataRoot<T extends ISourceDataRowBase = ISourceDataRowBase> = Record<string, ISourceDataRowBase[]>
+
+export interface IOptions
+{
+
+}

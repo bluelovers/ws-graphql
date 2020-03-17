@@ -60,7 +60,7 @@ export default function getTypesFromData<T extends ISourceDataRowBase = ISourceD
 	return Object.keys(data)
 		.map(typeName => ({
 			name: camelize(singularize(typeName)),
-			fields: getFieldsFromEntities(data[typeName] as any),
+			fields: getFieldsFromEntities(data[typeName]),
 		}))
 		.map(typeObject => new GraphQLObjectType(typeObject));
 }

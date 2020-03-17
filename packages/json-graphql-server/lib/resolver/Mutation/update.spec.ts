@@ -46,7 +46,7 @@ test("doesn't confuse undefined id with the id 'undefined'", () =>
 {
 	const data = [{ value: 'foo' }];
 	expect(
-		update(data)(null, { id: 'undefined', value: 'bar', bar: 'baz' }),
+		update(data as any)(null, { id: 'undefined', value: 'bar', bar: 'baz' }),
 	).toBeUndefined();
 	expect(data).toEqual([{ value: 'foo' }]);
 });

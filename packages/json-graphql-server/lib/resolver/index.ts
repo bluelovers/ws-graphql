@@ -11,7 +11,7 @@ import entityResolver from './Entity/index';
 import { getTypeFromKey } from '../utils/nameConverter';
 import DateType from '../introspection/DateType';
 import hasType from '../introspection/hasType';
-import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
+import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore, IOptions } from '../types';
 import { IResolvers } from 'graphql-tools';
 
 export function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, data: T[])
@@ -51,7 +51,7 @@ export function createResolversFromData<T extends ISourceDataRowBaseCore = ISour
 		)
 }
 
-export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>): IResolvers
+export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>, options: IOptions = {}): IResolvers
 {
 	const resolvers = Object.assign(
 		{} as IResolvers,

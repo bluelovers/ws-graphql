@@ -1,15 +1,15 @@
 import { GraphQLSchema } from 'graphql';
-import { ISourceDataRoot } from './types';
+import { ISourceDataRoot, IOptions } from './types';
 /**
  * Generates a GraphQL Schema object for your data
  *
- * @param {any} data
- * @returns A GraphQL Schema
+ * @param {ISourceDataRoot} data
+ * @param {IOptions} options
+ * @returns {GraphQLSchema}
  *
  * @example
  * import {graphql} from 'graphql';
- * import {jsonSchemaBuilder} from 'json-graphql-server';
- *
+ * import jsonSchemaBuilder from 'lazy-json-graphql';
  * const data = {
  *    "posts": [
  *        {
@@ -36,7 +36,6 @@ import { ISourceDataRoot } from './types';
  *        }
  *    ],
  * };
- *
  * const schema = jsonSchemaBuilder(data);
  * const query = `[...]`
  * graphql(schema, query).then(result => {
@@ -44,4 +43,5 @@ import { ISourceDataRoot } from './types';
  * });
  *
  */
-export default function schemaBuilder(data: ISourceDataRoot): GraphQLSchema;
+export declare function schemaBuilder(data: ISourceDataRoot, options?: IOptions): GraphQLSchema;
+export default schemaBuilder;

@@ -1,7 +1,7 @@
 import { GraphQLSchema, parse, extendSchema, GraphQLObjectType } from 'graphql';
 
 import getTypesFromData from './getTypesFromData';
-import { ISourceDataRoot, ISourceDataRowBase } from '../types';
+import { ISourceDataRoot, ISourceDataRowBase, IOptions } from '../types';
 import createSchemaQueryType from './getSchemaFromData/createSchemaQueryType';
 import createMutationType from './getSchemaFromData/createMutationType';
 import createSchemaExtension from './getSchemaFromData/createSchemaExtension';
@@ -72,7 +72,7 @@ export interface IRuntime<T extends ISourceDataRowBase = ISourceDataRowBase>
  * //     removeUser(id: ID!): Boolean
  * // }
  */
-function getSchemaFromData(data: ISourceDataRoot)
+function getSchemaFromData(data: ISourceDataRoot, options: IOptions = {})
 {
 	const types = getTypesFromData(data);
 	const typesByName = types.reduce((types, type) =>

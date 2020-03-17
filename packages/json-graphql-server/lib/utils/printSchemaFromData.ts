@@ -1,8 +1,8 @@
 import { printSchema } from 'graphql';
 import getSchemaFromData from '../introspection/getSchemaFromData';
-import { ISourceDataRoot } from '../types';
+import { ISourceDataRoot, IOptions } from '../types';
 
-export default function (data: ISourceDataRoot)
+export default function (data: ISourceDataRoot, options: IOptions = {})
 {
-	return printSchema(getSchemaFromData(data))
+	return printSchema(getSchemaFromData(data, options))
 }

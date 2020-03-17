@@ -1,5 +1,6 @@
 import applyFilters from './applyFilters';
 import { ISourceDataRowBase, IQueryBase, ISortOrder } from '../../types';
+import sortOrderDirection from '../../utils/sortOrderDirection';
 
 export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [])
 {
@@ -18,7 +19,8 @@ export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(enti
 
 		if (sortField)
 		{
-			const direction = sortOrder.toLowerCase() as ISortOrder == 'asc' ? 1 : -1;
+			const direction = sortOrderDirection(sortOrder);
+
 			items = items.sort((a, b) =>
 			{
 				if (a[sortField] > b[sortField])

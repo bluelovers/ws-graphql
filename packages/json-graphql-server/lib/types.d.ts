@@ -17,5 +17,11 @@ export interface IFilterBase {
 export interface ISourceDataRowBaseCore {
     id: any;
 }
-export declare type ISourceDataRowBase = Record<string, any> & ISourceDataRowBaseCore;
-export declare type ISourceDataRoot<T extends ISourceDataRowBase = ISourceDataRowBase> = Record<string, T[]>;
+export interface ISourceDataRowBaseCore2 extends Record<string, any> {
+}
+export interface ISourceDataRowBase extends ISourceDataRowBaseCore2, ISourceDataRowBaseCore {
+}
+export declare type ISourceDataRoot2<T extends ISourceDataRowBase = ISourceDataRowBase> = Record<string, T[]>;
+export declare type ISourceDataRoot<T extends ISourceDataRowBase = ISourceDataRowBase> = Record<string, ISourceDataRowBase[]>;
+export interface IOptions {
+}
