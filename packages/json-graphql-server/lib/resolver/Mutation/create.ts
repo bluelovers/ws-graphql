@@ -1,12 +1,12 @@
-import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../../types';
+import { ISourceDataRowBase, ISourceDataRowBaseCore, ISourceDataRowBaseCore2 } from '../../types';
+import createNewID from '../../utils/createNewID';
 
 export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [])
 {
-	return function (_, entity: T): T
+	return function <R extends Partial<T> | ISourceDataRowBaseCore2>(_, entity: R)
 	{
-		const newId =
-			entityData.length > 0 ? entityData[entityData.length - 1].id + 1 : 0;
-		const newEntity = Object.assign({ id: newId } as ISourceDataRowBaseCore, entity);
+		const id = createNewID(_, entity, entityData);
+		const newEntity = Object.assign({} as T, entity, { id } as ISourceDataRowBaseCore) as T & R;
 
 		entityData.push(newEntity);
 		return newEntity;
