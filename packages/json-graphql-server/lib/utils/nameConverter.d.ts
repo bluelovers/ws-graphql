@@ -1,3 +1,4 @@
+import { GraphQLObjectType } from 'graphql';
 /**
  * A bit of vocabulary
  *
@@ -49,3 +50,4 @@ export declare function getReverseRelatedField(key: string): string;
  * @return {String} 'User'
  */
 export declare function getRelatedType(fieldName: string): string;
+export declare function getRelatedKeyFromType(type: GraphQLObjectType): string;

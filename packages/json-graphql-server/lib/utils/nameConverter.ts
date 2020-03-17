@@ -1,4 +1,5 @@
 import { camelize, pluralize, singularize } from 'inflection';
+import { GraphQLObjectType } from 'graphql';
 
 /**
  * A bit of vocabulary
@@ -74,4 +75,9 @@ export function getReverseRelatedField(key: string)
 export function getRelatedType(fieldName: string)
 {
 	return getTypeFromKey(fieldName.substr(0, fieldName.length - 3));
+}
+
+export function getRelatedKeyFromType(type: GraphQLObjectType)
+{
+	return pluralize(type.toString())
 }

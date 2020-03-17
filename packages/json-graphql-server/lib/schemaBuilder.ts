@@ -3,6 +3,7 @@ import { printSchema, GraphQLSchema } from 'graphql';
 import getSchemaFromData from './introspection/getSchemaFromData';
 import resolver from './resolver/index';
 import { ISourceDataRoot, ISourceDataRowBase } from './types';
+import printSchemaFromData from './utils/printSchemaFromData';
 
 /**
  * Generates a GraphQL Schema object for your data
@@ -50,8 +51,10 @@ import { ISourceDataRoot, ISourceDataRowBase } from './types';
  */
 export default function schemaBuilder(data: ISourceDataRoot)
 {
+	let typeDefs = printSchemaFromData(data);
+
 	return makeExecutableSchema({
-		typeDefs: printSchema(getSchemaFromData(data)),
+		typeDefs,
 		resolvers: resolver(data),
 		logger: { log: e => console.log(e) }, // eslint-disable-line no-console
 	})

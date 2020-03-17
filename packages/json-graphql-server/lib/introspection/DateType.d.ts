@@ -1,3 +1,3 @@
 import { GraphQLScalarType } from 'graphql';
-declare const _default: GraphQLScalarType;
-export default _default;
+export declare const DateType: GraphQLScalarType;
+export default DateType;

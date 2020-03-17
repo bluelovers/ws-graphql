@@ -24,9 +24,9 @@
  * //    user_id: [123, 456],
  * // }
  */
-import { ISourceDataRowBase } from '../types';
+import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
 
-export default function getValuesFromEntities<T = ISourceDataRowBase>(entities: T[])
+export default function getValuesFromEntities<T extends ISourceDataRowBase = ISourceDataRowBase>(entities: T[])
 {
 	return entities.reduce((values, entity) =>
 	{

@@ -25,4 +25,4 @@
  * // }
  */
 import { ISourceDataRowBase } from '../types';
-export default function getValuesFromEntities<T = ISourceDataRowBase>(entities: T[]): Record<string, any[]>;
+export default function getValuesFromEntities<T extends ISourceDataRowBase = ISourceDataRowBase>(entities: T[]): Record<string, any[]>;

@@ -12,9 +12,10 @@ import getFieldsFromEntities from './getFieldsFromEntities';
 import getValuesFromEntities from './getValuesFromEntities';
 import getTypeFromValues from './getTypeFromValues';
 import { getTypeFromKey } from '../utils/nameConverter';
-import { ISourceDataRowBase } from '../types';
+import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
+import DateType from './DateType';
 
-export function getRangeFiltersFromEntities<T = ISourceDataRowBase>(entities: T[])
+export function getRangeFiltersFromEntities<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entities: T[])
 {
 	const fieldValues = getValuesFromEntities(entities);
 	return Object.keys(fieldValues).reduce((fields, fieldName) =>
@@ -23,10 +24,11 @@ export function getRangeFiltersFromEntities<T = ISourceDataRowBase>(entities: T[
 			fieldName,
 			fieldValues[fieldName],
 			false,
-		);
+		) as GraphQLScalarType;
 		if (
 			fieldType == GraphQLInt ||
 			fieldType == GraphQLFloat ||
+			fieldType == DateType ||
 			// @ts-ignore
 			fieldType.name == 'Date'
 		)
