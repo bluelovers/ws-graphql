@@ -1,10 +1,14 @@
 import { isRelationshipField } from '../../utils/relationships';
 import { getRelatedType } from '../../utils/nameConverter';
 import { pluralize } from 'inflection';
+import { ISourceDataRowBase } from '../../types';
+import { IRuntime } from '../getSchemaFromData';
 
-export default function createSchemaExtension({
+export default function createSchemaExtension<T = ISourceDataRowBase>({
+	data,
+	types,
 	typesByName,
-})
+}: IRuntime<T>)
 {
 	/**
 	 * extend schema to add relationship fields

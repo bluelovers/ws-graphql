@@ -1,10 +1,17 @@
-import { GraphQLSchema, parse, extendSchema } from 'graphql';
+import { GraphQLSchema, parse, extendSchema, GraphQLObjectType } from 'graphql';
 
 import getTypesFromData from './getTypesFromData';
-import { ISourceDataRoot } from '../types';
+import { ISourceDataRoot, ISourceDataRowBase } from '../types';
 import createSchemaQueryType from './getSchemaFromData/createSchemaQueryType';
 import createMutationType from './getSchemaFromData/createMutationType';
 import createSchemaExtension from './getSchemaFromData/createSchemaExtension';
+
+export interface IRuntime<T = ISourceDataRowBase>
+{
+	data: ISourceDataRoot<T>,
+	types: GraphQLObjectType[],
+	typesByName: Record<string, GraphQLObjectType>,
+}
 
 /**
  * Get a GraphQL schema from data
@@ -65,34 +72,31 @@ import createSchemaExtension from './getSchemaFromData/createSchemaExtension';
  * //     removeUser(id: ID!): Boolean
  * // }
  */
-function getSchemaFromData(data: ISourceDataRoot)
+function getSchemaFromData<T = ISourceDataRowBase>(data: ISourceDataRoot<T>)
 {
 	const types = getTypesFromData(data);
 	const typesByName = types.reduce((types, type) =>
 	{
 		types[type.name] = type;
 		return types;
-	}, {});
+	}, {} as IRuntime<T>["typesByName"]);
 
-	const queryType = createSchemaQueryType({
+	const runtime: IRuntime<T> = {
 		data,
 		types,
 		typesByName,
-	});
+	};
 
-	const mutationType = createMutationType({
-		types,
-		typesByName,
-	});
+	const queryType = createSchemaQueryType(runtime);
+
+	const mutationType = createMutationType(runtime);
 
 	const schema = new GraphQLSchema({
 		query: queryType,
 		mutation: mutationType,
 	});
 
-	const schemaExtension = createSchemaExtension({
-		typesByName,
-	});
+	const schemaExtension = createSchemaExtension(runtime);
 
 	return schemaExtension
 		? extendSchema(schema, parse(schemaExtension))

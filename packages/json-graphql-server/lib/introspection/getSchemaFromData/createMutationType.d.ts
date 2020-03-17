@@ -1,7 +1,6 @@
 import { GraphQLObjectType } from 'graphql';
-export default function createMutationType({ types, typesByName, }: {
-    types: any;
-    typesByName: any;
-}): GraphQLObjectType<any, any, {
+import { ISourceDataRowBase } from '../../types';
+import { IRuntime } from '../getSchemaFromData';
+export default function createMutationType<T = ISourceDataRowBase>({ data, types, typesByName, }: IRuntime<T>): GraphQLObjectType<any, any, {
     [key: string]: any;
 }>;
