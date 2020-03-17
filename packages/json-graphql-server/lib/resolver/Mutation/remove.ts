@@ -1,17 +1,20 @@
-export default (entityData = []) => (_, { id }: { id? }) =>
-{
-	let removedEntity = undefined;
-	if (id != null)
-	{
-		const stringId = id.toString();
-		const indexOfEntity = entityData.findIndex(
-			e => e.id != null && e.id.toString() === stringId,
-		);
+import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../../types';
+import { findEntityIndex } from '../utils';
 
-		if (indexOfEntity !== -1)
+export default function <T extends Partial<ISourceDataRowBaseCore> = Partial<ISourceDataRowBaseCore>>(entityData: T[] = [])
+{
+	return function (_, { id }: Partial<ISourceDataRowBaseCore>)
+	{
+		let removedEntity: T = undefined;
+		if (id != null)
 		{
-			removedEntity = entityData.splice(indexOfEntity, 1)[0];
+			const indexOfEntity = findEntityIndex(id, entityData as any);
+
+			if (indexOfEntity !== -1)
+			{
+				removedEntity = entityData.splice(indexOfEntity, 1)[0];
+			}
 		}
+		return removedEntity;
 	}
-	return removedEntity;
-};
+}

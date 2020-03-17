@@ -1,8 +1,12 @@
 import applyFilters from './applyFilters';
+import { ISourceDataRowBase, IFilter } from '../../types';
 
-export default entityData => (_, { filter = {} }) =>
+export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[])
 {
-	let items = applyFilters(entityData, filter);
+	return function (_, { filter = {} as IFilter })
+	{
+		let items = applyFilters(entityData, filter);
 
-	return { count: items.length };
-};
+		return { count: items.length };
+	}
+}

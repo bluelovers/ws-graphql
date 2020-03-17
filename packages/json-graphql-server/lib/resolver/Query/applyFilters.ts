@@ -1,6 +1,6 @@
-import { IFilter } from '../../types';
+import { IFilter, ISourceDataRowBase } from '../../types';
 
-export default (entityData = [], filter: IFilter = {}) =>
+export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [], filter: IFilter = {})
 {
 	let items = [...entityData];
 
@@ -83,4 +83,4 @@ export default (entityData = [], filter: IFilter = {}) =>
 	}
 
 	return items;
-};
+}

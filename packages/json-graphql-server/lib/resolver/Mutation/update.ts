@@ -1,21 +1,25 @@
-export default (entityData = []) => (_, params) =>
+import { ISourceDataRowBase } from '../../types';
+import { findEntityIndex } from '../utils';
+
+export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [])
 {
-	let updatedEntity = undefined;
-	if (params.id != null)
+	return function (_, params: T)
 	{
-		const stringId = params.id.toString();
-		const indexOfEntity = entityData.findIndex(
-			e => e.id != null && e.id.toString() === stringId,
-		);
-		if (indexOfEntity !== -1)
+		let updatedEntity: T = undefined;
+		if (params.id != null)
 		{
-			entityData[indexOfEntity] = Object.assign(
-				{},
-				entityData[indexOfEntity],
-				params,
-			);
-			updatedEntity = entityData[indexOfEntity];
+			const indexOfEntity = findEntityIndex(params.id, entityData);
+
+			if (indexOfEntity !== -1)
+			{
+				entityData[indexOfEntity] = Object.assign(
+					{},
+					entityData[indexOfEntity],
+					params,
+				);
+				updatedEntity = entityData[indexOfEntity];
+			}
 		}
+		return updatedEntity;
 	}
-	return updatedEntity;
-};
+}

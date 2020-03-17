@@ -7,22 +7,25 @@ import single from './Query/single';
 import create from './Mutation/create';
 import update from './Mutation/update';
 import remove from './Mutation/remove';
-import entityResolver from './Entity';
+import entityResolver from './Entity/index';
 import { getTypeFromKey } from '../utils/nameConverter';
 import DateType from '../introspection/DateType';
 import hasType from '../introspection/hasType';
-import { ISourceDataRoot } from '../types';
+import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
+import { IResolvers } from 'graphql-tools';
 
-export function getQueryResolvers(entityName: string, data)
+export function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, data: T[])
 {
+	let _key = pluralize(entityName);
+
 	return ({
-		[`all${pluralize(entityName)}`]: all(data),
-		[`_all${pluralize(entityName)}Meta`]: meta(data),
+		[`all${_key}`]: all(data),
+		[`_all${_key}Meta`]: meta(data),
 		[entityName]: single(data),
 	})
 }
 
-export function getMutationResolvers(entityName: string, data)
+export function getMutationResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, data: T[])
 {
 	return ({
 		[`create${entityName}`]: create(data),
@@ -31,10 +34,10 @@ export function getMutationResolvers(entityName: string, data)
 	});
 }
 
-export default function resolver(data: ISourceDataRoot)
+export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>): IResolvers
 {
 	return Object.assign(
-		{},
+		{} as IResolvers,
 		{
 			Query: Object.keys(data).reduce(
 				(resolvers, key) =>
@@ -43,7 +46,7 @@ export default function resolver(data: ISourceDataRoot)
 						resolvers,
 						getQueryResolvers(getTypeFromKey(key), data[key]),
 					),
-				{},
+				{} as IResolvers,
 			),
 			Mutation: Object.keys(data).reduce(
 				(resolvers, key) =>
@@ -52,7 +55,7 @@ export default function resolver(data: ISourceDataRoot)
 						resolvers,
 						getMutationResolvers(getTypeFromKey(key), data[key]),
 					),
-				{},
+				{} as IResolvers,
 			),
 		},
 		Object.keys(data).reduce(
@@ -60,9 +63,9 @@ export default function resolver(data: ISourceDataRoot)
 				Object.assign({}, resolvers, {
 					[getTypeFromKey(key)]: entityResolver(key, data),
 				}),
-			{},
+			{} as IResolvers,
 		),
-		hasType('Date', data) ? { Date: DateType } : {}, // required because makeExecutableSchema strips resolvers from typeDefs
-		hasType('JSON', data) ? { JSON: GraphQLJSON } : {}, // required because makeExecutableSchema strips resolvers from typeDefs
+		hasType('Date', data) ? { Date: DateType } : {} as IResolvers, // required because makeExecutableSchema strips resolvers from typeDefs
+		hasType('JSON', data) ? { JSON: GraphQLJSON } : {} as IResolvers, // required because makeExecutableSchema strips resolvers from typeDefs
 	);
 };

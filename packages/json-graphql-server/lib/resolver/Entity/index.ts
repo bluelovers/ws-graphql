@@ -1,6 +1,7 @@
 import getFieldsFromEntities from '../../introspection/getFieldsFromEntities';
 import { getRelatedKey, getRelatedType, getRelationshipFromKey, getReverseRelatedField } from '../../utils/nameConverter';
 import { isRelationshipField } from '../../utils/relationships';
+import { ISourceDataRoot } from '../../types';
 
 /**
  * Add resolvers for relationship fields
@@ -46,7 +47,7 @@ import { isRelationshipField } from '../../utils/relationships';
  *         },
  *     }
  */
-export default (entityName, data) =>
+export default function Entity(entityName: string, data: ISourceDataRoot)
 {
 	const entityFields = Object.keys(getFieldsFromEntities(data[entityName]));
 	const manyToOneResolvers = entityFields.filter(isRelationshipField).reduce(

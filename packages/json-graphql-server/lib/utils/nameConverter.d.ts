@@ -20,31 +20,32 @@
  */
 /**
  *
- * @param {String} fieldName 'users'
+ * @param {String} key 'users'
  * @return {String} 'Users'
  */
-export declare const getRelationshipFromKey: (key: any) => string;
+export declare function getRelationshipFromKey(key: string): string;
 /**
  *
- * @param {String} fieldName 'users'
+ * @param {String} key 'users'
  * @return {String} 'User'
  */
-export declare const getTypeFromKey: (key: any) => string;
+export declare function getTypeFromKey(key: string): string;
+export declare function camelizePluralize(key: string): string;
 /**
  *
  * @param {String} fieldName 'user_id'
  * @return {String} 'users'
  */
-export declare const getRelatedKey: (fieldName: any) => string;
+export declare function getRelatedKey(fieldName: string): string;
 /**
  *
  * @param {String} key 'users'
  * @return {String} 'user_id'
  */
-export declare const getReverseRelatedField: (key: any) => string;
+export declare function getReverseRelatedField(key: string): string;
 /**
  *
  * @param {String} fieldName 'user_id'
  * @return {String} 'User'
  */
-export declare const getRelatedType: (fieldName: any) => string;
+export declare function getRelatedType(fieldName: string): string;

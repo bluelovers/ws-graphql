@@ -1,8 +1,8 @@
 import { makeExecutableSchema } from 'graphql-tools';
 import { printSchema, GraphQLSchema } from 'graphql';
 import getSchemaFromData from './introspection/getSchemaFromData';
-import resolver from './resolver';
-import { ISourceDataRoot } from './types';
+import resolver from './resolver/index';
+import { ISourceDataRoot, ISourceDataRowBase } from './types';
 
 /**
  * Generates a GraphQL Schema object for your data

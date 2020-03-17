@@ -1,3 +1,2 @@
-import { IFilter } from '../../types';
-declare const _default: (entityData?: any[], filter?: IFilter<Record<string, any>>) => any[];
-export default _default;
+import { IFilter, ISourceDataRowBase } from '../../types';
+export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData?: T[], filter?: IFilter): T[];

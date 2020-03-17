@@ -1,4 +1,2 @@
-declare const _default: (entityData?: any[]) => (_: any, { id }: {
-    id?: any;
-}) => any;
-export default _default;
+import { ISourceDataRowBaseCore } from '../../types';
+export default function <T extends ISourceDataRowBaseCore = ISourceDataRowBaseCore>(entityData?: T[]): (_: any, { id }: T) => T;

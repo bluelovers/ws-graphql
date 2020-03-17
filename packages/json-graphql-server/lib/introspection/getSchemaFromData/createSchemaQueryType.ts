@@ -1,11 +1,10 @@
 import getFilterTypesFromData from '../getFilterTypesFromData';
 import { GraphQLObjectType, GraphQLInt, GraphQLNonNull, GraphQLID, GraphQLList, GraphQLString } from 'graphql';
-import { camelize, pluralize } from 'inflection';
-import camelizePluralize from '../../utils/camelizePluralize';
-import { ISourceDataRowBase } from '../../types';
+import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../../types';
 import { IRuntime } from '../getSchemaFromData';
+import { getTypeFromKey, camelizePluralize } from '../../utils/nameConverter';
 
-export default function createSchemaQueryType<T = ISourceDataRowBase>({
+export default function createSchemaQueryType<T extends ISourceDataRowBaseCore = ISourceDataRowBase>({
 	data,
 	types,
 	typesByName,

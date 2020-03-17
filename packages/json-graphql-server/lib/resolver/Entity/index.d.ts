@@ -1,4 +1,4 @@
-declare const _default: (entityName: any, data: any) => any;
+import { ISourceDataRoot } from '../../types';
 /**
  * Add resolvers for relationship fields
  *
@@ -43,4 +43,4 @@ declare const _default: (entityName: any, data: any) => any;
  *         },
  *     }
  */
-export default _default;
+export default function Entity(entityName: string, data: ISourceDataRoot): any;

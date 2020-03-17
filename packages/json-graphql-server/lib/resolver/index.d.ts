@@ -1,22 +1,13 @@
-import { ISourceDataRoot } from '../types';
-export declare function getQueryResolvers(entityName: string, data: any): {
-    [x: string]: ((_: any, { sortField, sortOrder, page, perPage, filter }: {
-        sortField?: any;
-        sortOrder?: any;
-        page?: any;
-        perPage?: any;
-        filter?: any;
-    }) => any[]) | ((_: any, { filter }: {
-        filter?: {};
+import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
+import { IResolvers } from 'graphql-tools';
+export declare function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, data: T[]): {
+    [x: string]: ((_: any, { sortField, sortOrder, page, perPage, filter }: import("../types").IQueryBase) => T[]) | ((_: any, { filter }: {
+        filter?: import("../types").IFilter<Record<string, any>>;
     }) => {
         count: number;
-    }) | ((_: any, { id }: {
-        id?: any;
-    }) => any);
+    }) | ((_: any, { id }: T) => T);
 };
-export declare function getMutationResolvers(entityName: string, data: any): {
-    [x: string]: (_: any, { id }: {
-        id?: any;
-    }) => any;
+export declare function getMutationResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, data: T[]): {
+    [x: string]: (_: any, entity: T) => T;
 };
-export default function resolver(data: ISourceDataRoot): any;
+export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>): IResolvers;
