@@ -6,7 +6,9 @@ export const enum EnumOrderDirection
 	DESC = -1,
 }
 
-export default function sortOrderDirection(sortOrder: ISortOrder | string | boolean | EnumOrderDirection | 1 | -1): EnumOrderDirection.ASC | EnumOrderDirection.DESC
+export type ISortOrderDirection = EnumOrderDirection.ASC | EnumOrderDirection.DESC | 1 | -1;
+
+export default function sortOrderDirection(sortOrder: ISortOrder | string | boolean | ISortOrderDirection): ISortOrderDirection
 {
 	if (sortOrder === true || (typeof sortOrder === 'number' && sortOrder > 0) || String(sortOrder).toLowerCase() as ISortOrder == 'asc')
 	{
