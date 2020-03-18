@@ -8,8 +8,8 @@ import {
 	GraphQLString,
 } from 'graphql';
 import GraphQLJSON from 'graphql-type-json';
-import DateType from './DateType';
 import getTypeFromValues from './getTypeFromValues';
+import DateType from './type/DateType';
 
 test('returns GraphQLID for fields named id or xxx_id', () =>
 {

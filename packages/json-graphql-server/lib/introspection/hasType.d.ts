@@ -1,2 +1,3 @@
 import { ISourceDataRoot } from '../types';
-export default function hasType(name: string, data: ISourceDataRoot): boolean;
+import { GraphQLScalarType } from 'graphql';
+export default function hasType(scalarType: GraphQLScalarType, data: ISourceDataRoot): boolean;

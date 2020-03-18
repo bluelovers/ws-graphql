@@ -13,7 +13,7 @@ import getValuesFromEntities from './getValuesFromEntities';
 import getTypeFromValues from './getTypeFromValues';
 import { getTypeFromKey } from '../utils/nameConverter';
 import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
-import DateType from './DateType';
+import DateType from './type/DateType';
 
 export function getRangeFiltersFromEntities<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entities: T[])
 {

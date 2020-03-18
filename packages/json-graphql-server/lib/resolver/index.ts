@@ -9,10 +9,10 @@ import update from './Mutation/update';
 import remove from './Mutation/remove';
 import entityResolver from './Entity/index';
 import { getTypeFromKey } from '../utils/nameConverter';
-import DateType from '../introspection/DateType';
 import hasType from '../introspection/hasType';
 import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore, IOptions } from '../types';
 import { IResolvers } from 'graphql-tools';
+import { DateType } from '../introspection/type/DateType';
 
 export function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, data: T[])
 {
@@ -74,12 +74,16 @@ export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataR
 		/**
 		 * required because makeExecutableSchema strips resolvers from typeDefs
 		 */
-		hasType('Date', data) ? { Date: DateType } : {} as IResolvers,
+		hasType(DateType, data) ? {
+			[DateType.name]: DateType,
+		} : {} as IResolvers,
 
 		/**
 		 * required because makeExecutableSchema strips resolvers from typeDefs
 		 */
-		hasType('JSON', data) ? { JSON: GraphQLJSON } : {} as IResolvers,
+		hasType(GraphQLJSON, data) ? {
+			JSON: GraphQLJSON
+		} : {} as IResolvers,
 	);
 
 	return resolvers

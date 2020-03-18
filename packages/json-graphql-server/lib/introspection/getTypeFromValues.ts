@@ -9,7 +9,7 @@ import {
 	GraphQLType,
 } from 'graphql';
 import GraphQLJSON from 'graphql-type-json';
-import DateType from './DateType';
+import DateType from './type/DateType';
 import {
 	requiredTypeOrNormal,
 	valuesAreObject,

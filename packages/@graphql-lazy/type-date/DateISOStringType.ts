@@ -1,8 +1,8 @@
 import { GraphQLScalarType, GraphQLError } from 'graphql';
 import { Kind } from 'graphql/language';
 
-export const DateType = new GraphQLScalarType({
-	name: 'Date',
+export const DateISOStringType = new GraphQLScalarType({
+	name: 'DateISOString',
 	description: 'Date type',
 	parseValue(value: number | string)
 	{
@@ -33,4 +33,4 @@ export const DateType = new GraphQLScalarType({
 	},
 });
 
-export default DateType
+export default DateISOStringType
