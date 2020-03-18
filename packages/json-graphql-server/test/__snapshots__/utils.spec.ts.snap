@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`nameConverter camelizePluralize('user') 1`] = `"Users"`;
+
+exports[`nameConverter getRelatedKey('user_id') 1`] = `"users"`;
+
+exports[`nameConverter getRelatedKeyFromType(User) 1`] = `"Users"`;
+
+exports[`nameConverter getRelatedTypeUnsafe('user_id') 1`] = `"User"`;
+
+exports[`nameConverter getRelatedTypeWithValid 1`] = `"User"`;
+
+exports[`nameConverter getRelatedTypeWithValid 2`] = `""`;
+
+exports[`nameConverter getRelationshipFromKey('users') 1`] = `"Users"`;
+
+exports[`nameConverter getReverseRelatedField('users') 1`] = `"user_id"`;
+
+exports[`nameConverter getTypeFromKey('users') 1`] = `"User"`;
+
+exports[`utils isRelationshipField 1`] = `true`;
+
+exports[`utils isRelationshipField 2`] = `false`;
+
+exports[`utils sortOrderDirection 1`] = `1`;
+
+exports[`utils sortOrderDirection 2`] = `1`;
+
+exports[`utils sortOrderDirection 3`] = `1`;
+
+exports[`utils sortOrderDirection 4`] = `-1`;
+
+exports[`utils sortOrderDirection 5`] = `-1`;
+
+exports[`utils sortOrderDirection 6`] = `-1`;
+
+exports[`utils sortOrderDirection 7`] = `-1`;
+
+exports[`utils sortOrderDirection 8`] = `-1`;

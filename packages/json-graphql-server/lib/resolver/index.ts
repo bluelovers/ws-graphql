@@ -1,4 +1,3 @@
-import { pluralize } from 'inflection';
 import GraphQLJSON from 'graphql-type-json';
 
 import all from './Query/all';
@@ -10,9 +9,10 @@ import remove from './Mutation/remove';
 import entityResolver from './Entity/index';
 import { getTypeFromKey } from '../utils/nameConverter';
 import hasType from '../introspection/hasType';
-import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore, IOptions } from '../types';
+import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore, IOptions, IResolversLazy } from '../types';
 import { IResolvers } from 'graphql-tools';
 import { DateType } from '../introspection/type/DateType';
+import pluralize from 'inflection2/pluralize';
 
 export function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, data: T[])
 {
@@ -51,9 +51,9 @@ export function createResolversFromData<T extends ISourceDataRowBaseCore = ISour
 		)
 }
 
-export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>, options: IOptions = {}): IResolvers
+export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>, options: IOptions = {}): IResolversLazy
 {
-	const resolvers = Object.assign(
+	const resolvers: IResolversLazy = Object.assign(
 		{} as IResolvers,
 
 		{

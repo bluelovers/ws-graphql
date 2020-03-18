@@ -1,6 +1,7 @@
 /**
  * Created by user on 2020/3/16.
  */
+import { IResolvers } from 'graphql-tools';
 
 export type IFilter<T = Record<string, any>> = IFilterBase & T
 
@@ -43,4 +44,10 @@ export type ISourceDataRoot<T extends ISourceDataRowBase = ISourceDataRowBase> =
 export interface IOptions
 {
 
+}
+
+export interface IResolversLazy extends IResolvers
+{
+	Query: IResolvers,
+	Mutation: IResolvers,
 }

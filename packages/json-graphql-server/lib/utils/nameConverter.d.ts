@@ -31,6 +31,11 @@ export declare function getRelationshipFromKey(key: string): string;
  * @return {String} 'User'
  */
 export declare function getTypeFromKey(key: string): string;
+/**
+ *
+ * @param {string} key 'user'
+ * @returns {string} 'Users'
+ */
 export declare function camelizePluralize(key: string): string;
 /**
  *
@@ -49,5 +54,17 @@ export declare function getReverseRelatedField(key: string): string;
  * @param {String} fieldName 'user_id'
  * @return {String} 'User'
  */
-export declare function getRelatedType(fieldName: string): string;
+export declare function getRelatedTypeUnsafe(fieldName: string): string;
+/**
+ * '_id' => undefined
+ *
+ * @param {String} fieldName 'user_id'
+ * @return {String} 'User'
+ */
+export declare function getRelatedTypeWithValid(fieldName: string): string;
+/**
+ *
+ * @param {GraphQLObjectType} type User
+ * @returns {string} 'Users'
+ */
 export declare function getRelatedKeyFromType(type: GraphQLObjectType): string;

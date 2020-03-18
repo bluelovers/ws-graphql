@@ -1,7 +1,7 @@
 import getFieldsFromEntities from '../../introspection/getFieldsFromEntities';
 import {
 	getRelatedKey,
-	getRelatedType,
+	getRelatedTypeUnsafe,
 	getRelationshipFromKey,
 	getReverseRelatedField,
 } from '../../utils/nameConverter';
@@ -61,7 +61,7 @@ export default function getEntityResolver(entityName: string, data: ISourceDataR
 		.filter(isRelationshipField)
 		.reduce((resolvers, fieldName) =>
 				Object.assign(resolvers, {
-					[getRelatedType(fieldName)]: entity =>
+					[getRelatedTypeUnsafe(fieldName)]: entity =>
 						data[getRelatedKey(fieldName)]
 							.find(
 							relatedRecord => relatedRecord.id == entity[fieldName],

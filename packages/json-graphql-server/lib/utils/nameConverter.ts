@@ -1,5 +1,8 @@
-import { camelize, pluralize, singularize } from 'inflection';
 import { GraphQLObjectType } from 'graphql';
+import { isRelationshipField } from './relationships';
+import camelize from 'inflection2/camelize';
+import singularize from 'inflection2/singularize';
+import pluralize from 'inflection2/pluralize';
 
 /**
  * A bit of vocabulary
@@ -42,6 +45,11 @@ export function getTypeFromKey(key: string)
 	return camelize(singularize(key));
 }
 
+/**
+ *
+ * @param {string} key 'user'
+ * @returns {string} 'Users'
+ */
 export function camelizePluralize(key: string)
 {
 	return camelize(pluralize(key));
@@ -72,11 +80,32 @@ export function getReverseRelatedField(key: string)
  * @param {String} fieldName 'user_id'
  * @return {String} 'User'
  */
-export function getRelatedType(fieldName: string)
+export function getRelatedTypeUnsafe(fieldName: string)
 {
 	return getTypeFromKey(fieldName.substr(0, fieldName.length - 3));
 }
 
+/**
+ * '_id' => undefined
+ *
+ * @param {String} fieldName 'user_id'
+ * @return {String} 'User'
+ */
+export function getRelatedTypeWithValid(fieldName: string)
+{
+	if (isRelationshipField(fieldName))
+	{
+		return getTypeFromKey(fieldName.substr(0, fieldName.length - 3));
+	}
+
+	return ''
+}
+
+/**
+ *
+ * @param {GraphQLObjectType} type User
+ * @returns {string} 'Users'
+ */
 export function getRelatedKeyFromType(type: GraphQLObjectType)
 {
 	return pluralize(type.toString())

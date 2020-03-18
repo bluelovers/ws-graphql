@@ -93,5 +93,8 @@ test('does not create vomparison fiels for non-number fields', () =>
 {
 	const filterTypes = getFilterTypesFromData(data);
 	const PostFilterFields = filterTypes.Post.getFields();
-	expect(PostFilterFields.title_lte).toBeUndefined();
+
+	expect(PostFilterFields).not.toHaveProperty('title_lte');
+
+	expect(PostFilterFields).toHaveProperty('views_lte');
 });

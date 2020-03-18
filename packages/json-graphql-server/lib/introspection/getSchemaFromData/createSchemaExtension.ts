@@ -1,10 +1,8 @@
 import { isRelationshipField } from '../../utils/relationships';
-import { getRelatedType, getRelatedKeyFromType } from '../../utils/nameConverter';
-import { pluralize } from 'inflection';
+import { getRelatedTypeUnsafe, getRelatedKeyFromType } from '../../utils/nameConverter';
 import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../../types';
 import { IRuntime } from '../getSchemaFromData';
 import { GraphQLObjectType } from 'graphql';
-import createSchemaFragment from './createSchemaFragment';
 
 export default function createSchemaExtension<T extends ISourceDataRowBaseCore = ISourceDataRowBase>({
 	data,
@@ -31,7 +29,7 @@ export default function createSchemaExtension<T extends ISourceDataRowBaseCore =
 			{
 				if (isRelationshipField(fieldName))
 				{
-					const relType = getRelatedType(fieldName);
+					const relType = getRelatedTypeUnsafe(fieldName);
 
 					ext += `
 extend type ${type} { ${relType}: ${relType} }

@@ -1,4 +1,4 @@
 export function isRelationshipField(fieldName: string)
 {
-	return fieldName.endsWith('_id');
+	return fieldName !== '_id' && fieldName.endsWith('_id');
 }
