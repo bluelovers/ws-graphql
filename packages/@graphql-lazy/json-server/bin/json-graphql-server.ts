@@ -3,10 +3,11 @@ import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import JsonGraphqlServer from '../node';
+import getDefaultPort from 'get-default-port';
 
 let dataFilePath = process.argv.length > 2 ? process.argv[2] : './data.json';
 let data = require(path.join(process.cwd(), dataFilePath));
-let PORT = process.env.NODE_PORT || 3000;
+let PORT: string | number;
 let app = express();
 
 process.argv.forEach((arg, index) =>
@@ -17,6 +18,10 @@ process.argv.forEach((arg, index) =>
 		PORT = process.argv[index + 1];
 	}
 });
+
+PORT = getDefaultPort({
+	preferPorts: PORT,
+})
 
 app.use(cors());
 app.use('/', JsonGraphqlServer(data));

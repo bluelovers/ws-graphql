@@ -8,15 +8,19 @@ const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const node_1 = __importDefault(require("../node"));
+const get_default_port_1 = __importDefault(require("get-default-port"));
 let dataFilePath = process.argv.length > 2 ? process.argv[2] : './data.json';
 let data = require(path_1.default.join(process.cwd(), dataFilePath));
-let PORT = process.env.NODE_PORT || 3000;
+let PORT;
 let app = express_1.default();
 process.argv.forEach((arg, index) => {
     // allow a custom port via CLI
     if (arg === '--p' && process.argv.length > index + 1) {
         PORT = process.argv[index + 1];
     }
+});
+PORT = get_default_port_1.default({
+    preferPorts: PORT,
 });
 app.use(cors_1.default());
 app.use('/', node_1.default(data));

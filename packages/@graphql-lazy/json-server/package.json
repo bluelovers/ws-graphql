@@ -51,6 +51,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
+    "get-default-port": "^1.0.3",
     "graphql": "^14.6.0",
     "lazy-json-graphql": "^3.0.2",
     "xhr-mock": "^2.5.1"
