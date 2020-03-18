@@ -2,6 +2,18 @@
   "name": "@graphql-lazy/type-date",
   "version": "1.0.0",
   "description": "<description>",
+  "keywords": [
+    "graphql",
+    "json",
+    "schema",
+    "type",
+    "typedef",
+    "typedefs",
+    "query",
+    "mutation",
+    "resolver",
+    "graphql-lazy"
+  ],
   "homepage": "https://github.com/bluelovers/ws-graphql/tree/master/packages/@graphql-lazy/type-date#readme",
   "bugs": {
     "url": "https://github.com/bluelovers/ws-graphql/issues"

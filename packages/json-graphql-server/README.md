@@ -1,7 +1,20 @@
-# json-graphql-server
- ![travis (.org)](https://img.shields.io/travis/marmelab/json-graphql-server.svg) ![github top language](https://img.shields.io/github/languages/top/marmelab/json-graphql-server.svg) ![David. dependencies](https://david-dm.org/marmelab/json-graphql-server.svg) ![npm](https://img.shields.io/npm/v/json-graphql-server.svg) ![github contributors](https://img.shields.io/github/contributors/marmelab/json-graphql-server.svg) ![license](https://img.shields.io/github/license/marmelab/json-graphql-server.svg) ![prs welcome](https://img.shields.io/badge/prs-welcome-brightgreen.svg)
+# lazy-json-graphql
 
 Get a full fake GraphQL API with zero coding in less than 30 seconds.
+
+## About
+
+this package clone and split from [json-graphql-server](https://github.com/marmelab/json-graphql-server)
+
+1. convert to typescript
+2. split to multiple package for install by need
+3. no pre-pack for browser
+
+### Install
+
+> yarn add graphql lazy-json-graphql
+
+# Original description
 
 ## Motivation
 
@@ -173,7 +186,7 @@ Here is how you can use the queries and mutations generated for your data, using
         "title": "Lorem Ipsum",
         "views": 254,
         "user_id": 123
-    } 
+    }
   }
 }
             </pre>
@@ -202,7 +215,7 @@ Here is how you can use the queries and mutations generated for your data, using
         "User": {
             "name": "John Doe"
         }
-    } 
+    }
   }
 }
             </pre>
@@ -232,7 +245,7 @@ Here is how you can use the queries and mutations generated for your data, using
             { "body": "Consectetur adipiscing elit" },
             { "body": "Nam molestie pellentesque dui" },
         ]
-    } 
+    }
   }
 }
             </pre>

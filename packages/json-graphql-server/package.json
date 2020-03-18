@@ -1,7 +1,19 @@
 {
   "name": "lazy-json-graphql",
-  "version": "2.1.5",
-  "description": "![travis (.org)](https://img.shields.io/travis/marmelab/json-graphql-server.svg) ![github top language](https://img.shields.io/github/languages/top/marmelab/json-graphql-server.svg) ![David. dependencies](https://david-dm.org/marmelab/json-graphql-server.svg) ![npm](https://img.shields.io/npm/v/json-graphql-server.svg) ![github contributors](https://img.shields.io/github/contributors/marmelab/json-graphql-server.svg) ![license](https://img.shields.io/github/license/marmelab/json-graphql-server.svg) ![prs welcome](https://img.shields.io/badge/prs-welcome-brightgreen.svg)",
+  "version": "3.0.0",
+  "description": "Get a full fake GraphQL API with zero coding in less than 30 seconds.",
+  "keywords": [
+    "graphql",
+    "json",
+    "schema",
+    "type",
+    "typedef",
+    "typedefs",
+    "query",
+    "mutation",
+    "resolver",
+    "graphql-lazy"
+  ],
   "homepage": "https://github.com/bluelovers/ws-graphql/tree/master/packages/json-graphql-server#readme",
   "bugs": {
     "url": "https://github.com/bluelovers/ws-graphql/issues"
@@ -32,6 +44,7 @@
     "tsc:esm": "tsc -p tsconfig.esm.json"
   },
   "dependencies": {
+    "@graphql-lazy/type-date": "^1.0.0",
     "graphql-tools": "^4.0.7",
     "graphql-type-json": "^0.3.1",
     "inflection": "^1.12.0"

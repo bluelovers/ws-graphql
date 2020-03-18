@@ -1,7 +1,19 @@
 {
   "name": "@graphql-lazy/json-server",
   "version": "1.0.3",
-  "description": "<description>",
+  "description": "Get a full fake GraphQL API with zero coding in less than 30 seconds.",
+  "keywords": [
+    "graphql",
+    "json",
+    "schema",
+    "type",
+    "typedef",
+    "typedefs",
+    "query",
+    "mutation",
+    "resolver",
+    "graphql-lazy"
+  ],
   "homepage": "https://github.com/bluelovers/ws-graphql/tree/master/packages/@graphql-lazy/json-server#readme",
   "bugs": {
     "url": "https://github.com/bluelovers/ws-graphql/issues"
