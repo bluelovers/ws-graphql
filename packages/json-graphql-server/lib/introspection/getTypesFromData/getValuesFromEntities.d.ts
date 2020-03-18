@@ -24,5 +24,5 @@
  * //    user_id: [123, 456],
  * // }
  */
-import { ISourceDataRowBaseCore2 } from '../types';
+import { ISourceDataRowBaseCore2 } from '../../types';
 export default function getValuesFromEntities<T extends ISourceDataRowBaseCore2 = ISourceDataRowBaseCore2>(entities: T[]): Record<string, any[]>;

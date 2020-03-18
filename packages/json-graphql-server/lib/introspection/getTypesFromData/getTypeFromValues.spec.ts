@@ -9,7 +9,7 @@ import {
 } from 'graphql';
 import GraphQLJSON from 'graphql-type-json';
 import getTypeFromValues from './getTypeFromValues';
-import DateType from './type/DateType';
+import DateType from '../type/DateType';
 
 test('returns GraphQLID for fields named id or xxx_id', () =>
 {

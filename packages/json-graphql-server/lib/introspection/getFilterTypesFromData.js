@@ -3,31 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRangeFiltersFromEntities = void 0;
 const graphql_1 = require("graphql");
-const getFieldsFromEntities_1 = __importDefault(require("./getFieldsFromEntities"));
-const getValuesFromEntities_1 = __importDefault(require("./getValuesFromEntities"));
-const getTypeFromValues_1 = __importDefault(require("./getTypeFromValues"));
+const getFieldsFromEntities_1 = __importDefault(require("./getTypesFromData/getFieldsFromEntities"));
 const nameConverter_1 = require("../utils/nameConverter");
-const DateType_1 = __importDefault(require("./type/DateType"));
-function getRangeFiltersFromEntities(entities) {
-    const fieldValues = getValuesFromEntities_1.default(entities);
-    return Object.keys(fieldValues).reduce((fields, fieldName) => {
-        const fieldType = getTypeFromValues_1.default(fieldName, fieldValues[fieldName], false);
-        if (fieldType == graphql_1.GraphQLInt ||
-            fieldType == graphql_1.GraphQLFloat ||
-            fieldType == DateType_1.default ||
-            // @ts-ignore
-            fieldType.name == 'Date') {
-            fields[`${fieldName}_lt`] = { type: fieldType };
-            fields[`${fieldName}_lte`] = { type: fieldType };
-            fields[`${fieldName}_gt`] = { type: fieldType };
-            fields[`${fieldName}_gte`] = { type: fieldType };
-        }
-        return fields;
-    }, {});
-}
-exports.getRangeFiltersFromEntities = getRangeFiltersFromEntities;
+const getRangeFiltersFromEntities_1 = __importDefault(require("./getFilterTypesFromData/getRangeFiltersFromEntities"));
 /**
  * Get a list of GraphQLObjectType for filtering data
  *
@@ -84,17 +63,29 @@ exports.getRangeFiltersFromEntities = getRangeFiltersFromEntities;
  * //     }),
  * // }
  */
-function getFilterTypesFromData(data) {
-    return Object.keys(data).reduce((types, key) => {
-        const typeKey = nameConverter_1.getTypeFromKey(key);
-        types[typeKey] = new graphql_1.GraphQLInputObjectType({
+function getFilterTypesFromData(data, options = {}) {
+    return Object.keys(data).reduce((types, keyName) => {
+        var _a, _b, _c, _d;
+        const typeKey = nameConverter_1.getTypeFromKey(keyName);
+        let graphQLInputObjectTypeConfig = {
             name: `${typeKey}Filter`,
-            fields: Object.assign({
-                q: { type: graphql_1.GraphQLString },
-            }, {
-                ids: { type: new graphql_1.GraphQLList(graphql_1.GraphQLID) },
-            }, getFieldsFromEntities_1.default(data[key], false), getRangeFiltersFromEntities(data[key])),
-        });
+            fields: {
+                q: {
+                    type: graphql_1.GraphQLString,
+                },
+                ids: {
+                    type: new graphql_1.GraphQLList(graphql_1.GraphQLID),
+                },
+                ...getFieldsFromEntities_1.default([keyName], data[keyName], false),
+                ...getRangeFiltersFromEntities_1.default([keyName], data[keyName]),
+            },
+        };
+        graphQLInputObjectTypeConfig = (_d = (_c = (_b = (_a = options === null || options === void 0 ? void 0 : options.on) === null || _a === void 0 ? void 0 : _a.getFilterTypesFromData) === null || _b === void 0 ? void 0 : _b.call(_a, {
+            keyName,
+            typeKey,
+            graphQLInputObjectTypeConfig,
+        }, data)) === null || _c === void 0 ? void 0 : _c.graphQLInputObjectTypeConfig) !== null && _d !== void 0 ? _d : graphQLInputObjectTypeConfig;
+        types[typeKey] = new graphql_1.GraphQLInputObjectType(graphQLInputObjectTypeConfig);
         return types;
     }, {});
 }

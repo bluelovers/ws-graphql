@@ -24,7 +24,7 @@ import {
 	GraphQLType,
 	GraphQLList
 } from 'graphql/type/definition';
-import getFieldsFromEntities from './introspection/getFieldsFromEntities';
+import getFieldsFromEntities from './introspection/getTypesFromData/getFieldsFromEntities';
 
 export type IFilter<T = Record<string, any>> = IFilterBase & T
 

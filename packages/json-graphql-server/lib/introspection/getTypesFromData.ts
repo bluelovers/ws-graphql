@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLObjectTypeConfig } from 'graphql';
 
-import getFieldsFromEntities from './getFieldsFromEntities';
+import getFieldsFromEntities from './getTypesFromData/getFieldsFromEntities';
 import { getTypeFromKey } from '../utils/nameConverter';
 import {
 	ISourceDataRoot,

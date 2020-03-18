@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = require("graphql");
-function createMutationType({ data, types, typesByName, }) {
+function createMutationType({ data, types, typesByName, }, options = {}) {
     const mutationType = new graphql_1.GraphQLObjectType({
         name: 'Mutation',
         fields: types.reduce((fields, type) => {

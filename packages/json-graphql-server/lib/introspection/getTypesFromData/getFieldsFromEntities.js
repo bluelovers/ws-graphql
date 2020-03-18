@@ -30,10 +30,11 @@ const getValuesFromEntities_1 = __importDefault(require("./getValuesFromEntities
  * //    user_id: { type: new GraphQLNonNull(GraphQLString) },
  * // };
  */
-function getFieldsFromEntities(entities, checkRequired = true) {
+function getFieldsFromEntities(keyNames, entities, checkRequired = true) {
     const fieldValues = getValuesFromEntities_1.default(entities);
     const nbValues = entities.length;
-    return Object.keys(fieldValues).reduce((fields, fieldName) => {
+    return Object.keys(fieldValues)
+        .reduce((fields, fieldName) => {
         fields[fieldName] = {
             type: getTypeFromValues_1.default(fieldName, fieldValues[fieldName], checkRequired
                 ? fieldValues[fieldName].length === nbValues

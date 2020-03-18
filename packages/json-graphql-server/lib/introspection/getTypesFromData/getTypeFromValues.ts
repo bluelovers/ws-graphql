@@ -9,7 +9,7 @@ import {
 	GraphQLType,
 } from 'graphql';
 import GraphQLJSON from 'graphql-type-json';
-import DateType from './type/DateType';
+import DateType from '../type/DateType';
 import {
 	requiredTypeOrNormal,
 	valuesAreObject,
@@ -19,7 +19,7 @@ import {
 	valuesAreBoolean,
 	valuesAreInteger,
 	valuesAreNumeric,
-} from './util';
+} from '../util';
 
 export default function getTypeFromValues(name: string, values = [], isRequired = false)
 {

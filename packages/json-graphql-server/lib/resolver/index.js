@@ -53,13 +53,13 @@ function resolver(data, options = {}) {
     /**
      * required because makeExecutableSchema strips resolvers from typeDefs
      */
-    hasType_1.default(DateType_1.DateType, data) ? {
+    hasType_1.default(DateType_1.DateType, data, options) ? {
         [DateType_1.DateType.name]: DateType_1.DateType,
     } : {}, 
     /**
      * required because makeExecutableSchema strips resolvers from typeDefs
      */
-    hasType_1.default(graphql_type_json_1.default, data) ? {
+    hasType_1.default(graphql_type_json_1.default, data, options) ? {
         JSON: graphql_type_json_1.default
     } : {});
     return (_d = (_c = (_b = (_a = options === null || options === void 0 ? void 0 : options.after) === null || _a === void 0 ? void 0 : _a.resolver) === null || _b === void 0 ? void 0 : _b.call(_a, {

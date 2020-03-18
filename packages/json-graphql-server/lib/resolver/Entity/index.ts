@@ -1,4 +1,4 @@
-import getFieldsFromEntities from '../../introspection/getFieldsFromEntities';
+import getFieldsFromEntities from '../../introspection/getTypesFromData/getFieldsFromEntities';
 import {
 	getRelatedKey,
 	getRelatedTypeUnsafe,

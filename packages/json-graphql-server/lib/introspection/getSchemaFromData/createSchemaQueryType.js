@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const getFilterTypesFromData_1 = __importDefault(require("../getFilterTypesFromData"));
 const graphql_1 = require("graphql");
 const nameConverter_1 = require("../../utils/nameConverter");
-function createSchemaQueryType({ data, types, typesByName, }) {
-    const filterTypesByName = getFilterTypesFromData_1.default(data);
+function createSchemaQueryType({ data, types, typesByName, }, options = {}) {
+    const filterTypesByName = getFilterTypesFromData_1.default(data, options);
     const listMetadataType = new graphql_1.GraphQLObjectType({
         name: 'ListMetadata',
         fields: {

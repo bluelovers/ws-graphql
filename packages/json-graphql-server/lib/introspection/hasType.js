@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const getFilterTypesFromData_1 = __importDefault(require("./getFilterTypesFromData"));
-function hasType(scalarType, data) {
+function hasType(scalarType, data, options = {}) {
     return Object
-        .values(getFilterTypesFromData_1.default(data))
+        .values(getFilterTypesFromData_1.default(data, options))
         .some((type) => {
         return Object.values(type.getFields())
             .some((field) => {

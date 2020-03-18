@@ -1,4 +1,5 @@
-import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
+import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../../types';
+import { GraphQLFieldConfigMap } from 'graphql/type/definition';
 /**
  * Get a list of GraphQL fields from a list of entities
  *
@@ -24,4 +25,6 @@ import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
  * //    user_id: { type: new GraphQLNonNull(GraphQLString) },
  * // };
  */
-export default function getFieldsFromEntities<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entities: T[], checkRequired?: boolean): {};
+export default function getFieldsFromEntities<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(keyNames: string[], entities: T[], checkRequired?: boolean): GraphQLFieldConfigMap<any, any, {
+    [key: string]: any;
+}>;

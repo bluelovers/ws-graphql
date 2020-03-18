@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = require("graphql");
 const graphql_type_json_1 = __importDefault(require("graphql-type-json"));
-const DateType_1 = __importDefault(require("./type/DateType"));
-const util_1 = require("./util");
+const DateType_1 = __importDefault(require("../type/DateType"));
+const util_1 = require("../util");
 function getTypeFromValues(name, values = [], isRequired = false) {
     if (name === 'id' || name.substr(name.length - 3) === '_id') {
         return util_1.requiredTypeOrNormal(graphql_1.GraphQLID, isRequired);

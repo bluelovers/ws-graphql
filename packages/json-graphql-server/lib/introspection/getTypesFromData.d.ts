@@ -1,5 +1,5 @@
 import { GraphQLObjectType } from 'graphql';
-import { ISourceDataRoot, ISourceDataRowBase } from '../types';
+import { ISourceDataRoot, ISourceDataRowBase, IOptions } from '../types';
 /**
  * Get a list of GraphQLObjectType from data
  *
@@ -50,7 +50,7 @@ import { ISourceDataRoot, ISourceDataRowBase } from '../types';
  * //     }),
  * // ]
  */
-export default function getTypesFromData<T extends ISourceDataRowBase = ISourceDataRowBase>(data: ISourceDataRoot<T>): GraphQLObjectType<any, any, {
+export default function getTypesFromData<T extends ISourceDataRowBase = ISourceDataRowBase>(data: ISourceDataRoot<T>, options?: IOptions): GraphQLObjectType<any, any, {
     [key: string]: any;
 }>[];
 export declare function getTypeNamesFromData(data: ISourceDataRoot): string[];

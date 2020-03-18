@@ -1,6 +1,6 @@
 import getTypeFromValues from './getTypeFromValues';
 import getValuesFromEntities from './getValuesFromEntities';
-import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
+import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../../types';
 import { Thunk, GraphQLFieldConfigMap } from 'graphql/type/definition';
 
 /**

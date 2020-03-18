@@ -69,7 +69,7 @@ const createSchemaExtension_1 = __importDefault(require("./getSchemaFromData/cre
  */
 function getSchemaFromData(data, options = {}) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
-    let types = getTypesFromData_1.default(data);
+    let types = getTypesFromData_1.default(data, options);
     types = (_d = (_c = (_b = (_a = options === null || options === void 0 ? void 0 : options.after) === null || _a === void 0 ? void 0 : _a.getTypesFromData) === null || _b === void 0 ? void 0 : _b.call(_a, {
         types
     }, data)) === null || _c === void 0 ? void 0 : _c.types) !== null && _d !== void 0 ? _d : types;
@@ -91,8 +91,8 @@ function getSchemaFromData(data, options = {}) {
         }
     }
     ;
-    const queryType = createSchemaQueryType_1.default(runtime);
-    const mutationType = createMutationType_1.default(runtime);
+    const queryType = createSchemaQueryType_1.default(runtime, options);
+    const mutationType = createMutationType_1.default(runtime, options);
     let graphQLSchemaConfig = (_m = (_l = (_k = (_j = options === null || options === void 0 ? void 0 : options.before) === null || _j === void 0 ? void 0 : _j.createGraphQLSchema) === null || _k === void 0 ? void 0 : _k.call(_j, {
         query: queryType,
         mutation: mutationType,

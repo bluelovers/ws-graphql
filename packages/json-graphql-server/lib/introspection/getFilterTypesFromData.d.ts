@@ -1,8 +1,5 @@
-import { GraphQLInputObjectType, GraphQLList, GraphQLType, GraphQLScalarType } from 'graphql';
-import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
-export declare function getRangeFiltersFromEntities<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entities: T[]): Record<string, {
-    type: GraphQLScalarType | GraphQLList<GraphQLType>;
-}>;
+import { GraphQLInputObjectType } from 'graphql';
+import { ISourceDataRoot, IOptions } from '../types';
 /**
  * Get a list of GraphQLObjectType for filtering data
  *
@@ -59,4 +56,4 @@ export declare function getRangeFiltersFromEntities<T extends ISourceDataRowBase
  * //     }),
  * // }
  */
-export default function getFilterTypesFromData(data: any): Record<string, GraphQLInputObjectType>;
+export default function getFilterTypesFromData<Data extends ISourceDataRoot = ISourceDataRoot>(data: Data, options?: IOptions): Record<string, GraphQLInputObjectType>;

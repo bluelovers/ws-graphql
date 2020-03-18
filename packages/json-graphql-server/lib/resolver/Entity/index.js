@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const getFieldsFromEntities_1 = __importDefault(require("../../introspection/getFieldsFromEntities"));
+const getFieldsFromEntities_1 = __importDefault(require("../../introspection/getTypesFromData/getFieldsFromEntities"));
 const nameConverter_1 = require("../../utils/nameConverter");
 const relationships_1 = require("../../utils/relationships");
 /**
@@ -51,7 +51,7 @@ const relationships_1 = require("../../utils/relationships");
  *     }
  */
 function getEntityResolver(entityName, data) {
-    const entityFields = Object.keys(getFieldsFromEntities_1.default(data[entityName]));
+    const entityFields = Object.keys(getFieldsFromEntities_1.default([entityName], data[entityName]));
     const manyToOneResolvers = entityFields
         .filter(relationships_1.isRelationshipField)
         .reduce((resolvers, fieldName) => Object.assign(resolvers, {
@@ -59,7 +59,7 @@ function getEntityResolver(entityName, data) {
             .find(relatedRecord => relatedRecord.id == entity[fieldName]),
     }), {});
     const relatedField = nameConverter_1.getReverseRelatedField(entityName); // 'posts' => 'post_id'
-    const hasReverseRelationship = entityName => getFieldsFromEntities_1.default(data[entityName]).hasOwnProperty(relatedField);
+    const hasReverseRelationship = entityName => getFieldsFromEntities_1.default([entityName], data[entityName]).hasOwnProperty(relatedField);
     const entities = Object.keys(data);
     const oneToManyResolvers = entities
         .filter(hasReverseRelationship)
