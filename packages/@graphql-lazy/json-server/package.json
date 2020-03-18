@@ -1,6 +1,6 @@
 {
   "name": "@graphql-lazy/json-server",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Get a full fake GraphQL API with zero coding in less than 30 seconds.",
   "keywords": [
     "graphql",
