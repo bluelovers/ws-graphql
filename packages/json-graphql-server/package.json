@@ -1,6 +1,6 @@
 {
   "name": "lazy-json-graphql",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Get a full fake GraphQL API with zero coding in less than 30 seconds.",
   "keywords": [
     "graphql",
@@ -44,7 +44,7 @@
     "tsc:esm": "tsc -p tsconfig.esm.json"
   },
   "dependencies": {
-    "@graphql-lazy/type-date": "^1.0.1",
+    "@graphql-lazy/type-date": "^1.0.2",
     "graphql-tools": "^4.0.7",
     "graphql-type-json": "^0.3.1",
     "inflection2": "^2.0.1",
