@@ -1,8 +1,14 @@
-import { GraphQLObjectType } from 'graphql';
+import { GraphQLObjectType, GraphQLObjectTypeConfig } from 'graphql';
 
 import getFieldsFromEntities from './getFieldsFromEntities';
 import { getTypeFromKey } from '../utils/nameConverter';
-import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
+import {
+	ISourceDataRoot,
+	ISourceDataRowBase,
+	ISourceDataRowBaseCore,
+	IOptions,
+	IGraphQLObjectTypeConfig,
+} from '../types';
 
 /**
  * Get a list of GraphQLObjectType from data
@@ -54,14 +60,24 @@ import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore } from '../
  * //     }),
  * // ]
  */
-export default function getTypesFromData<T extends ISourceDataRowBase = ISourceDataRowBase>(data: ISourceDataRoot<T>)
+export default function getTypesFromData<T extends ISourceDataRowBase = ISourceDataRowBase>(data: ISourceDataRoot<T>, options: IOptions = {})
 {
 	return Object.keys(data)
-		.map(typeName => ({
-			name: getTypeFromKey(typeName),
-			fields: getFieldsFromEntities(data[typeName]),
-		}))
-		.map(typeObject => new GraphQLObjectType(typeObject));
+		.map(keyName => {
+
+			let typeObject = ({
+				name: getTypeFromKey(keyName),
+				fields: getFieldsFromEntities([keyName], data[keyName]),
+			}) as GraphQLObjectTypeConfig<any, any>;
+
+			typeObject = options?.on?.getTypesFromData?.({
+				keyName,
+				typeObject: typeObject as IGraphQLObjectTypeConfig,
+			// @ts-ignore
+			}, data)?.typeObject ?? typeObject;
+
+			return new GraphQLObjectType(typeObject)
+		})
 }
 
 export function getTypeNamesFromData(data: ISourceDataRoot)

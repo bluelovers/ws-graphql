@@ -1,6 +1,7 @@
 import getTypeFromValues from './getTypeFromValues';
 import getValuesFromEntities from './getValuesFromEntities';
 import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
+import { Thunk, GraphQLFieldConfigMap } from 'graphql/type/definition';
 
 /**
  * Get a list of GraphQL fields from a list of entities
@@ -27,11 +28,12 @@ import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
  * //    user_id: { type: new GraphQLNonNull(GraphQLString) },
  * // };
  */
-export default function getFieldsFromEntities<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entities: T[], checkRequired = true)
+export default function getFieldsFromEntities<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(keyNames: string[], entities: T[], checkRequired = true)
 {
 	const fieldValues = getValuesFromEntities(entities);
 	const nbValues = entities.length;
-	return Object.keys(fieldValues).reduce((fields, fieldName) =>
+	return Object.keys(fieldValues)
+		.reduce((fields, fieldName) =>
 	{
 		fields[fieldName] = {
 			type: getTypeFromValues(
@@ -43,5 +45,5 @@ export default function getFieldsFromEntities<T extends ISourceDataRowBaseCore =
 			),
 		};
 		return fields;
-	}, {});
+	}, {} as GraphQLFieldConfigMap<any, any>);
 };

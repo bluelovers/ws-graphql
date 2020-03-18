@@ -76,7 +76,7 @@ export interface IRuntime<T extends ISourceDataRowBase = ISourceDataRowBase>
  */
 function getSchemaFromData(data: ISourceDataRoot, options: IOptions = {})
 {
-	let types = getTypesFromData(data);
+	let types = getTypesFromData(data, options);
 
 	types = options?.after?.getTypesFromData?.({
 		types
@@ -104,8 +104,8 @@ function getSchemaFromData(data: ISourceDataRoot, options: IOptions = {})
 		}
 	};
 
-	const queryType = createSchemaQueryType(runtime);
-	const mutationType = createMutationType(runtime);
+	const queryType = createSchemaQueryType(runtime, options);
+	const mutationType = createMutationType(runtime, options);
 
 	let graphQLSchemaConfig = options?.before?.createGraphQLSchema?.({
 		query: queryType,

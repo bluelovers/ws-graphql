@@ -1,12 +1,12 @@
 import { GraphQLObjectType, GraphQLNonNull, GraphQLBoolean, GraphQLID } from 'graphql';
-import { ISourceDataRowBase } from '../../types';
+import { ISourceDataRowBase, ISourceDataRoot, IOptions } from '../../types';
 import { IRuntime } from '../getSchemaFromData';
 
 export default function createMutationType<T extends ISourceDataRowBase = ISourceDataRowBase>({
 	data,
 	types,
 	typesByName,
-}: IRuntime<T>)
+}: IRuntime<T>, options: IOptions = {})
 {
 	const mutationType = new GraphQLObjectType({
 		name: 'Mutation',

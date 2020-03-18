@@ -1,6 +1,6 @@
 import getFilterTypesFromData from '../getFilterTypesFromData';
 import { GraphQLObjectType, GraphQLInt, GraphQLNonNull, GraphQLID, GraphQLList, GraphQLString } from 'graphql';
-import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../../types';
+import { ISourceDataRowBase, ISourceDataRowBaseCore, ISourceDataRoot, IOptions } from '../../types';
 import { IRuntime } from '../getSchemaFromData';
 import { getTypeFromKey, camelizePluralize } from '../../utils/nameConverter';
 
@@ -8,9 +8,9 @@ export default function createSchemaQueryType<T extends ISourceDataRowBaseCore =
 	data,
 	types,
 	typesByName,
-}: IRuntime<T>)
+}: IRuntime<T>, options: IOptions = {})
 {
-	const filterTypesByName = getFilterTypesFromData(data);
+	const filterTypesByName = getFilterTypesFromData(data, options);
 
 	const listMetadataType = new GraphQLObjectType({
 		name: 'ListMetadata',

@@ -55,7 +55,7 @@ import { IResolvers } from 'graphql-tools';
  */
 export default function getEntityResolver(entityName: string, data: ISourceDataRoot): IResolvers
 {
-	const entityFields = Object.keys(getFieldsFromEntities(data[entityName]));
+	const entityFields = Object.keys(getFieldsFromEntities([entityName], data[entityName]));
 
 	const manyToOneResolvers = entityFields
 		.filter(isRelationshipField)
@@ -72,7 +72,7 @@ export default function getEntityResolver(entityName: string, data: ISourceDataR
 
 	const relatedField = getReverseRelatedField(entityName); // 'posts' => 'post_id'
 	const hasReverseRelationship = entityName =>
-		getFieldsFromEntities(data[entityName]).hasOwnProperty(relatedField);
+		getFieldsFromEntities([entityName], data[entityName]).hasOwnProperty(relatedField);
 	const entities = Object.keys(data);
 
 	const oneToManyResolvers = entities

@@ -12,10 +12,21 @@ import getFieldsFromEntities from './getFieldsFromEntities';
 import getValuesFromEntities from './getValuesFromEntities';
 import getTypeFromValues from './getTypeFromValues';
 import { getTypeFromKey } from '../utils/nameConverter';
-import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../types';
+import {
+	ISourceDataRowBase,
+	ISourceDataRowBaseCore,
+	ISourceDataRoot,
+	IGraphQLInputFilterObjectTypeConfig, IOptions,
+} from '../types';
 import DateType from './type/DateType';
+import { GraphQLFieldConfigMap, GraphQLInputObjectTypeConfig } from 'graphql/type/definition';
 
-export function getRangeFiltersFromEntities<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entities: T[])
+/**
+ * 對數字類型的屬性增加 _lt _lte _gt _gte
+ */
+export function getRangeFiltersFromEntities<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(keyNames: string[],
+	entities: T[],
+)
 {
 	const fieldValues = getValuesFromEntities(entities);
 	return Object.keys(fieldValues).reduce((fields, fieldName) =>
@@ -39,7 +50,7 @@ export function getRangeFiltersFromEntities<T extends ISourceDataRowBaseCore = I
 			fields[`${fieldName}_gte`] = { type: fieldType };
 		}
 		return fields;
-	}, {} as Record<string, { type: ReturnType<typeof getTypeFromValues> }>);
+	}, {} as GraphQLFieldConfigMap<any, any>);
 }
 
 /**
@@ -98,26 +109,38 @@ export function getRangeFiltersFromEntities<T extends ISourceDataRowBaseCore = I
  * //     }),
  * // }
  */
-export default function getFilterTypesFromData(data)
+export default function getFilterTypesFromData<Data extends ISourceDataRoot = ISourceDataRoot>(data: Data, options: IOptions = {})
 {
 	return Object.keys(data).reduce(
-		(types, key) =>
+		(types, keyName) =>
 		{
-			const typeKey = getTypeFromKey(key);
+			const typeKey = getTypeFromKey(keyName);
 
-			types[typeKey] = new GraphQLInputObjectType({
+			let graphQLInputObjectTypeConfig: IGraphQLInputFilterObjectTypeConfig = {
 				name: `${typeKey}Filter`,
-				fields: Object.assign(
+				fields:
 					{
-						q: { type: GraphQLString },
+						q: {
+							type: GraphQLString,
+						},
+						ids: {
+							type: new GraphQLList(GraphQLID),
+						},
+
+						...getFieldsFromEntities([keyName], data[keyName], false),
+
+						...getRangeFiltersFromEntities([keyName], data[keyName]),
+
 					},
-					{
-						ids: { type: new GraphQLList(GraphQLID) },
-					},
-					getFieldsFromEntities(data[key], false),
-					getRangeFiltersFromEntities(data[key]),
-				),
-			})
+			};
+
+			graphQLInputObjectTypeConfig = options?.on?.getFilterTypesFromData?.({
+				keyName,
+				typeKey,
+				graphQLInputObjectTypeConfig,
+			}, data)?.graphQLInputObjectTypeConfig ?? graphQLInputObjectTypeConfig;
+
+			types[typeKey] = new GraphQLInputObjectType(graphQLInputObjectTypeConfig);
 
 			return types
 		},

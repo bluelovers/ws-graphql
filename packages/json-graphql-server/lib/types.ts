@@ -2,7 +2,14 @@
  * Created by user on 2020/3/16.
  */
 import { IResolvers, makeExecutableSchema } from 'graphql-tools';
-import { GraphQLSchema, printSchema, GraphQLObjectType } from 'graphql';
+import {
+	GraphQLSchema,
+	printSchema,
+	GraphQLObjectType,
+	GraphQLObjectTypeConfig,
+	GraphQLString,
+	GraphQLID,
+} from 'graphql';
 import { IExecutableSchemaDefinition } from 'graphql-tools/dist/Interfaces';
 import { ITSOverwrite, ITSRequireAtLeastOne, ITSRequiredWith } from 'ts-type';
 import getTypesFromData from './introspection/getTypesFromData';
@@ -10,6 +17,14 @@ import createSchemaQueryType from './introspection/getSchemaFromData/createSchem
 import { IRuntime } from './introspection/getSchemaFromData';
 import { GraphQLSchemaConfig } from 'graphql/type/schema';
 import createSchemaExtension from './introspection/getSchemaFromData/createSchemaExtension';
+import {
+	GraphQLFieldConfigMap,
+	GraphQLInputObjectTypeConfig,
+	GraphQLScalarType,
+	GraphQLType,
+	GraphQLList
+} from 'graphql/type/definition';
+import getFieldsFromEntities from './introspection/getFieldsFromEntities';
 
 export type IFilter<T = Record<string, any>> = IFilterBase & T
 
@@ -58,16 +73,19 @@ export interface IResolversLazy extends IResolvers
 export interface IOptions
 {
 
+	/**
+	 * each hook only run once
+	 */
 	before?: {
 
-		createSchemaQueryType?(runtime: IRuntime, data: ISourceDataRoot): IRuntime | null,
+		createSchemaQueryType?(runtime: IRuntime, data: ISourceDataRoot): IRuntime,
 
 		createGraphQLSchema?(runtime: {
 			query: GraphQLObjectType,
 			mutation: GraphQLObjectType,
 		}, data: ISourceDataRoot): {
-			graphQLSchemaConfig: ITSRequiredWith<GraphQLSchemaConfig, 'query' | 'mutation' >
-		} | null,
+			graphQLSchemaConfig: ITSRequiredWith<GraphQLSchemaConfig, 'query' | 'mutation'>
+		},
 
 		makeExecutableSchema?(runtime: {
 			typeDefs: string,
@@ -75,49 +93,95 @@ export interface IOptions
 		}, data: ISourceDataRoot): ITSRequiredWith<IExecutableSchemaDefinition & {
 			typeDefs?: string,
 			resolvers?: IResolversLazy,
-		}, 'typeDefs' | 'resolvers'> | null,
+		}, 'typeDefs' | 'resolvers'>,
 
 	},
 
+	/**
+	 * each hook only run once
+	 */
 	after?: {
-
-		createSchemaExtension?(runtime: IRuntime & {
-			schemaExtension: string
-		}, data: ISourceDataRoot): {
-			schemaExtension: string
-		} | null,
-
-		getSchemaFromData?(runtime: {
-			schema: GraphQLSchema,
-		}, data: ISourceDataRoot): {
-			schema: GraphQLSchema,
-		} | null,
 
 		getTypesFromData?(runtime: {
 			types: GraphQLObjectType[],
 		}, data: ISourceDataRoot): {
 			types: GraphQLObjectType[],
-		} | null,
+		},
+
+		createSchemaExtension?(runtime: IRuntime & {
+			schemaExtension: string
+		}, data: ISourceDataRoot): {
+			schemaExtension: string
+		},
+
+		getSchemaFromData?(runtime: {
+			schema: GraphQLSchema,
+		}, data: ISourceDataRoot): {
+			schema: GraphQLSchema,
+		},
 
 		printSchema?(runtime: {
 			typeDefs: string,
 		}, data: ISourceDataRoot): {
 			typeDefs: string,
-		} | null,
+		},
 
 		resolver?(runtime: {
 			resolvers: IResolversLazy,
 		}, data: ISourceDataRoot): {
 			resolvers: IResolversLazy,
-		} | null,
+		},
 
 		makeExecutableSchema?(runtime: {
 			executableSchemaDefinition: IExecutableSchemaDefinition,
 			schema: GraphQLSchema,
 		}, data: ISourceDataRoot): {
 			schema: GraphQLSchema,
-		} | null,
+		},
+
+	},
+
+	/**
+	 * each hook run multi time
+	 */
+	on?: {
+
+		getTypesFromData?<Data extends ISourceDataRoot = ISourceDataRoot>(runtime: {
+			keyName: keyof Data | string,
+			typeObject: IGraphQLObjectTypeConfig,
+		}, data: Data): {
+			typeObject: IGraphQLObjectTypeConfig | GraphQLObjectTypeConfig<any, any>,
+		},
+
+		getFilterTypesFromData?<Data extends ISourceDataRoot = ISourceDataRoot>(runtime: {
+			keyName: keyof Data | string,
+			typeKey: string,
+			graphQLInputObjectTypeConfig: IGraphQLInputFilterObjectTypeConfig,
+		}, data: Data): {
+			graphQLInputObjectTypeConfig: IGraphQLInputFilterObjectTypeConfig,
+		}
 
 	},
 
 }
+
+/**
+ * 用於 getTypesFromData
+ */
+export type IGraphQLObjectTypeConfig = ITSOverwrite<GraphQLObjectTypeConfig<any, any>, {
+	name: string,
+	fields: GraphQLFieldConfigMap<any, any>
+}>
+
+/**
+ * 用於 getFilterTypesFromData
+ */
+export type IGraphQLInputFilterObjectTypeConfig = ITSOverwrite<GraphQLInputObjectTypeConfig, {
+	name: string,
+	fields: GraphQLInputObjectTypeConfig["fields"] & {
+		q: {
+			type: GraphQLScalarType
+		},
+		ids: { type: GraphQLList<GraphQLType> },
+	},
+}>

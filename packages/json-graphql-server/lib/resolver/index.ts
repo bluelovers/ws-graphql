@@ -74,14 +74,14 @@ export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataR
 		/**
 		 * required because makeExecutableSchema strips resolvers from typeDefs
 		 */
-		hasType(DateType, data) ? {
+		hasType(DateType, data, options) ? {
 			[DateType.name]: DateType,
 		} : {} as IResolvers,
 
 		/**
 		 * required because makeExecutableSchema strips resolvers from typeDefs
 		 */
-		hasType(GraphQLJSON, data) ? {
+		hasType(GraphQLJSON, data, options) ? {
 			JSON: GraphQLJSON
 		} : {} as IResolvers,
 	);
