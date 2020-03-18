@@ -1,4 +1,4 @@
-import { GraphQLSchema, GraphQLObjectType } from 'graphql';
+import { GraphQLObjectType } from 'graphql';
 import { ISourceDataRoot, ISourceDataRowBase, IOptions } from '../types';
 export interface IRuntime<T extends ISourceDataRowBase = ISourceDataRowBase> {
     data: ISourceDataRoot<T>;
@@ -64,5 +64,5 @@ export interface IRuntime<T extends ISourceDataRowBase = ISourceDataRowBase> {
  * //     removeUser(id: ID!): Boolean
  * // }
  */
-declare function getSchemaFromData(data: ISourceDataRoot, options?: IOptions): GraphQLSchema;
+declare function getSchemaFromData(data: ISourceDataRoot, options?: IOptions): any;
 export default getSchemaFromData;

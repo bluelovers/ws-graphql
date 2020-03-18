@@ -44,4 +44,4 @@ import { IResolvers } from 'graphql-tools';
  *         },
  *     }
  */
-export default function getEntityResolver(entityName: string, data: ISourceDataRoot): IResolvers<any, any>;
+export default function getEntityResolver(entityName: string, data: ISourceDataRoot): IResolvers;

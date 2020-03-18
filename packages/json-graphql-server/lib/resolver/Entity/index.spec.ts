@@ -20,19 +20,27 @@ const data = {
 test('provides many to one relationship reolvers', () =>
 {
 	const { User } = entity('posts', data);
+
+	// @ts-ignore
 	expect(User(data.posts[0])).toEqual({ id: 123, name: 'John Doe' });
+	// @ts-ignore
 	expect(User(data.posts[1])).toEqual({ id: 456, name: 'Jane Doe' });
+
 	const { Post } = entity('comments', data);
+
+	// @ts-ignore
 	expect(Post(data.comments[0])).toEqual({
 		id: 1,
 		title: 'Lorem Ipsum',
 		user_id: 123,
 	});
+	// @ts-ignore
 	expect(Post(data.comments[1])).toEqual({
 		id: 1,
 		title: 'Lorem Ipsum',
 		user_id: 123,
 	});
+	// @ts-ignore
 	expect(Post(data.comments[2])).toEqual({
 		id: 2,
 		title: 'Ut enim ad minim',
@@ -43,19 +51,24 @@ test('provides many to one relationship reolvers', () =>
 test('provides one to many relationship reolvers', () =>
 {
 	const { Comments } = entity('posts', data);
+	// @ts-ignore
 	expect(Comments(data.posts[0])).toEqual([
 		{ id: 987, post_id: 1, body: 'Consectetur adipiscing elit' },
 		{ id: 995, post_id: 1, body: 'Nam molestie pellentesque dui' },
 	]);
+	// @ts-ignore
 	expect(Comments(data.posts[1])).toEqual([
 		{ id: 998, post_id: 2, body: 'Sunt in culpa qui officia' },
 	]);
+	// @ts-ignore
 	expect(Comments(data.posts[2])).toEqual([]);
 	const { Posts } = entity('users', data);
+	// @ts-ignore
 	expect(Posts(data.users[0])).toEqual([
 		{ id: 1, title: 'Lorem Ipsum', user_id: 123 },
 		{ id: 3, title: 'Sic Dolor amet', user_id: 123 },
 	]);
+	// @ts-ignore
 	expect(Posts(data.users[1])).toEqual([
 		{ id: 2, title: 'Ut enim ad minim', user_id: 456 },
 	]);
