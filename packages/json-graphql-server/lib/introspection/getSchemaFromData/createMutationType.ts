@@ -2,7 +2,7 @@ import { GraphQLObjectType, GraphQLNonNull, GraphQLBoolean, GraphQLID } from 'gr
 import { ISourceDataRowBase } from '../../types';
 import { IRuntime } from '../getSchemaFromData';
 
-export default function createMutationType<T = ISourceDataRowBase>({
+export default function createMutationType<T extends ISourceDataRowBase = ISourceDataRowBase>({
 	data,
 	types,
 	typesByName,

@@ -4,6 +4,7 @@ import getSchemaFromData from './introspection/getSchemaFromData';
 import resolver from './resolver/index';
 import { ISourceDataRoot, ISourceDataRowBase, IOptions } from './types';
 import printSchemaFromData from './utils/printSchemaFromData';
+import { IExecutableSchemaDefinition } from 'graphql-tools/dist/Interfaces';
 
 /**
  * Generates a GraphQL Schema object for your data
@@ -53,12 +54,27 @@ export function schemaBuilder(data: ISourceDataRoot, options: IOptions = {})
 	const typeDefs = printSchemaFromData(data, options);
 	const resolvers = resolver(data, options);
 
-	return makeExecutableSchema({
+	let executableSchemaDefinition = options?.before?.makeExecutableSchema?.({
 		typeDefs,
 		resolvers,
+	}, data) as IExecutableSchemaDefinition;
+
+	executableSchemaDefinition = {
 		// eslint-disable-line no-console
 		logger: { log: e => console.log(e) },
-	})
+
+		...executableSchemaDefinition,
+
+		resolvers: executableSchemaDefinition?.resolvers ?? resolvers,
+		typeDefs: executableSchemaDefinition?.typeDefs ?? typeDefs,
+	};
+
+	const schema = makeExecutableSchema(executableSchemaDefinition);
+
+	return options?.after?.makeExecutableSchema?.({
+		executableSchemaDefinition,
+		schema
+	}, data)?.schema ?? schema;
 }
 
 export default schemaBuilder

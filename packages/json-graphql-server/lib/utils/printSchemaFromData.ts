@@ -2,7 +2,11 @@ import { printSchema } from 'graphql';
 import getSchemaFromData from '../introspection/getSchemaFromData';
 import { ISourceDataRoot, IOptions } from '../types';
 
-export default function (data: ISourceDataRoot, options: IOptions = {})
+export default function (data: ISourceDataRoot, options: IOptions = {}): string
 {
-	return printSchema(getSchemaFromData(data, options))
+	const typeDefs = printSchema(getSchemaFromData(data, options))
+
+	return options?.after?.printSchema?.({
+		typeDefs,
+	}, data)?.typeDefs ?? typeDefs
 }

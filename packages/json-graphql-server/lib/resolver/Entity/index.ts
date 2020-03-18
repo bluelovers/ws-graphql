@@ -53,7 +53,7 @@ import { IResolvers } from 'graphql-tools';
  *         },
  *     }
  */
-export default function getEntityResolver(entityName: string, data: ISourceDataRoot)
+export default function getEntityResolver(entityName: string, data: ISourceDataRoot): IResolvers
 {
 	const entityFields = Object.keys(getFieldsFromEntities(data[entityName]));
 

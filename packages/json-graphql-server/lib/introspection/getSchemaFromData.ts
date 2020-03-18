@@ -98,9 +98,13 @@ function getSchemaFromData(data: ISourceDataRoot, options: IOptions = {})
 
 	const schemaExtension = createSchemaExtension(runtime);
 
-	return schemaExtension
+	const returnSchema = schemaExtension
 		? extendSchema(schema, parse(schemaExtension))
 		: schema;
+
+	return options?.after?.getSchemaFromData?.({
+		schema: returnSchema,
+	}, data)?.schema ?? returnSchema;
 }
 
 export default getSchemaFromData;

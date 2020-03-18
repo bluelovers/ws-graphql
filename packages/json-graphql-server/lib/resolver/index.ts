@@ -86,5 +86,7 @@ export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataR
 		} : {} as IResolvers,
 	);
 
-	return resolvers
+	return options?.after?.resolver?.({
+		resolvers,
+	}, data)?.resolvers ?? resolvers
 }
