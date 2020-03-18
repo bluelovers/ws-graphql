@@ -2,9 +2,14 @@
  * Created by user on 2020/3/16.
  */
 import { IResolvers, makeExecutableSchema } from 'graphql-tools';
-import { GraphQLSchema, printSchema } from 'graphql';
+import { GraphQLSchema, printSchema, GraphQLObjectType } from 'graphql';
 import { IExecutableSchemaDefinition } from 'graphql-tools/dist/Interfaces';
 import { ITSOverwrite, ITSRequireAtLeastOne, ITSRequiredWith } from 'ts-type';
+import getTypesFromData from './introspection/getTypesFromData';
+import createSchemaQueryType from './introspection/getSchemaFromData/createSchemaQueryType';
+import { IRuntime } from './introspection/getSchemaFromData';
+import { GraphQLSchemaConfig } from 'graphql/type/schema';
+import createSchemaExtension from './introspection/getSchemaFromData/createSchemaExtension';
 
 export type IFilter<T = Record<string, any>> = IFilterBase & T
 
@@ -55,6 +60,15 @@ export interface IOptions
 
 	before?: {
 
+		createSchemaQueryType?(runtime: IRuntime, data: ISourceDataRoot): IRuntime | null,
+
+		createGraphQLSchema?(runtime: {
+			query: GraphQLObjectType,
+			mutation: GraphQLObjectType,
+		}, data: ISourceDataRoot): {
+			graphQLSchemaConfig: ITSRequiredWith<GraphQLSchemaConfig, 'query' | 'mutation' >
+		} | null,
+
 		makeExecutableSchema?(runtime: {
 			typeDefs: string,
 			resolvers: IResolversLazy,
@@ -67,13 +81,25 @@ export interface IOptions
 
 	after?: {
 
-		getSchemaFromData?({
+		createSchemaExtension?(runtime: IRuntime & {
+			schemaExtension: string
+		}, data: ISourceDataRoot): {
+			schemaExtension: string
+		} | null,
+
+		getSchemaFromData?(runtime: {
 			schema: GraphQLSchema,
 		}, data: ISourceDataRoot): {
 			schema: GraphQLSchema,
 		} | null,
 
-		printSchema?({
+		getTypesFromData?(runtime: {
+			types: GraphQLObjectType[],
+		}, data: ISourceDataRoot): {
+			types: GraphQLObjectType[],
+		} | null,
+
+		printSchema?(runtime: {
 			typeDefs: string,
 		}, data: ISourceDataRoot): {
 			typeDefs: string,
@@ -85,7 +111,7 @@ export interface IOptions
 			resolvers: IResolversLazy,
 		} | null,
 
-		makeExecutableSchema?({
+		makeExecutableSchema?(runtime: {
 			executableSchemaDefinition: IExecutableSchemaDefinition,
 			schema: GraphQLSchema,
 		}, data: ISourceDataRoot): {

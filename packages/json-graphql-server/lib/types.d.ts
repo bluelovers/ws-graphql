@@ -2,9 +2,11 @@
  * Created by user on 2020/3/16.
  */
 import { IResolvers } from 'graphql-tools';
-import { GraphQLSchema } from 'graphql';
+import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 import { IExecutableSchemaDefinition } from 'graphql-tools/dist/Interfaces';
 import { ITSRequiredWith } from 'ts-type';
+import { IRuntime } from './introspection/getSchemaFromData';
+import { GraphQLSchemaConfig } from 'graphql/type/schema';
 export declare type IFilter<T = Record<string, any>> = IFilterBase & T;
 export declare type ISortOrder = 'asc' | 'desc';
 export interface IQueryBase {
@@ -33,6 +35,13 @@ export interface IResolversLazy extends IResolvers {
 }
 export interface IOptions {
     before?: {
+        createSchemaQueryType?(runtime: IRuntime, data: ISourceDataRoot): IRuntime | null;
+        createGraphQLSchema?(runtime: {
+            query: GraphQLObjectType;
+            mutation: GraphQLObjectType;
+        }, data: ISourceDataRoot): {
+            graphQLSchemaConfig: ITSRequiredWith<GraphQLSchemaConfig, 'query' | 'mutation'>;
+        } | null;
         makeExecutableSchema?(runtime: {
             typeDefs: string;
             resolvers: IResolversLazy;
@@ -42,13 +51,23 @@ export interface IOptions {
         }, 'typeDefs' | 'resolvers'> | null;
     };
     after?: {
-        getSchemaFromData?({ schema: GraphQLSchema, }: {
-            schema: any;
+        createSchemaExtension?(runtime: IRuntime & {
+            schemaExtension: string;
+        }, data: ISourceDataRoot): {
+            schemaExtension: string;
+        } | null;
+        getSchemaFromData?(runtime: {
+            schema: GraphQLSchema;
         }, data: ISourceDataRoot): {
             schema: GraphQLSchema;
         } | null;
-        printSchema?({ typeDefs: string, }: {
-            typeDefs: any;
+        getTypesFromData?(runtime: {
+            types: GraphQLObjectType[];
+        }, data: ISourceDataRoot): {
+            types: GraphQLObjectType[];
+        } | null;
+        printSchema?(runtime: {
+            typeDefs: string;
         }, data: ISourceDataRoot): {
             typeDefs: string;
         } | null;
@@ -57,9 +76,9 @@ export interface IOptions {
         }, data: ISourceDataRoot): {
             resolvers: IResolversLazy;
         } | null;
-        makeExecutableSchema?({ executableSchemaDefinition: IExecutableSchemaDefinition, schema: GraphQLSchema, }: {
-            executableSchemaDefinition: any;
-            schema: any;
+        makeExecutableSchema?(runtime: {
+            executableSchemaDefinition: IExecutableSchemaDefinition;
+            schema: GraphQLSchema;
         }, data: ISourceDataRoot): {
             schema: GraphQLSchema;
         } | null;

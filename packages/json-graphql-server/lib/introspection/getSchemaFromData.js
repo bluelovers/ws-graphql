@@ -68,8 +68,11 @@ const createSchemaExtension_1 = __importDefault(require("./getSchemaFromData/cre
  * // }
  */
 function getSchemaFromData(data, options = {}) {
-    var _a, _b, _c, _d;
-    const types = getTypesFromData_1.default(data);
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
+    let types = getTypesFromData_1.default(data);
+    types = (_d = (_c = (_b = (_a = options === null || options === void 0 ? void 0 : options.after) === null || _a === void 0 ? void 0 : _a.getTypesFromData) === null || _b === void 0 ? void 0 : _b.call(_a, {
+        types
+    }, data)) === null || _c === void 0 ? void 0 : _c.types) !== null && _d !== void 0 ? _d : types;
     const typesByName = types.reduce((types, type) => {
         types[type.name] = type;
         return types;
@@ -79,19 +82,38 @@ function getSchemaFromData(data, options = {}) {
         types,
         typesByName,
     };
+    ;
+    {
+        let runtime2 = (_f = (_e = options === null || options === void 0 ? void 0 : options.before) === null || _e === void 0 ? void 0 : _e.createSchemaQueryType) === null || _f === void 0 ? void 0 : _f.call(_e, runtime, data);
+        if (runtime2 != null) {
+            runtime.types = (_g = runtime2.types) !== null && _g !== void 0 ? _g : runtime.types;
+            runtime.typesByName = (_h = runtime2.typesByName) !== null && _h !== void 0 ? _h : runtime.typesByName;
+        }
+    }
+    ;
     const queryType = createSchemaQueryType_1.default(runtime);
     const mutationType = createMutationType_1.default(runtime);
-    const schema = new graphql_1.GraphQLSchema({
+    let graphQLSchemaConfig = (_m = (_l = (_k = (_j = options === null || options === void 0 ? void 0 : options.before) === null || _j === void 0 ? void 0 : _j.createGraphQLSchema) === null || _k === void 0 ? void 0 : _k.call(_j, {
         query: queryType,
         mutation: mutationType,
-    });
-    const schemaExtension = createSchemaExtension_1.default(runtime);
+    }, data)) === null || _l === void 0 ? void 0 : _l.graphQLSchemaConfig) !== null && _m !== void 0 ? _m : null;
+    graphQLSchemaConfig = {
+        ...graphQLSchemaConfig,
+        query: (_o = graphQLSchemaConfig === null || graphQLSchemaConfig === void 0 ? void 0 : graphQLSchemaConfig.query) !== null && _o !== void 0 ? _o : queryType,
+        mutation: (_p = graphQLSchemaConfig === null || graphQLSchemaConfig === void 0 ? void 0 : graphQLSchemaConfig.mutation) !== null && _p !== void 0 ? _p : mutationType,
+    };
+    const schema = new graphql_1.GraphQLSchema(graphQLSchemaConfig);
+    let schemaExtension = createSchemaExtension_1.default(runtime);
+    schemaExtension = (_t = (_s = (_r = (_q = options === null || options === void 0 ? void 0 : options.after) === null || _q === void 0 ? void 0 : _q.createSchemaExtension) === null || _r === void 0 ? void 0 : _r.call(_q, {
+        ...runtime,
+        schemaExtension,
+    }, data)) === null || _s === void 0 ? void 0 : _s.schemaExtension) !== null && _t !== void 0 ? _t : schemaExtension;
     const returnSchema = schemaExtension
         ? graphql_1.extendSchema(schema, graphql_1.parse(schemaExtension))
         : schema;
-    return (_d = (_c = (_b = (_a = options === null || options === void 0 ? void 0 : options.after) === null || _a === void 0 ? void 0 : _a.getSchemaFromData) === null || _b === void 0 ? void 0 : _b.call(_a, {
+    return (_x = (_w = (_v = (_u = options === null || options === void 0 ? void 0 : options.after) === null || _u === void 0 ? void 0 : _u.getSchemaFromData) === null || _v === void 0 ? void 0 : _v.call(_u, {
         schema: returnSchema,
-    }, data)) === null || _c === void 0 ? void 0 : _c.schema) !== null && _d !== void 0 ? _d : returnSchema;
+    }, data)) === null || _w === void 0 ? void 0 : _w.schema) !== null && _x !== void 0 ? _x : returnSchema;
 }
 exports.default = getSchemaFromData;
 //# sourceMappingURL=getSchemaFromData.js.map

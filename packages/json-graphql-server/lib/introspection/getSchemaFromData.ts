@@ -5,6 +5,8 @@ import { ISourceDataRoot, ISourceDataRowBase, IOptions } from '../types';
 import createSchemaQueryType from './getSchemaFromData/createSchemaQueryType';
 import createMutationType from './getSchemaFromData/createMutationType';
 import createSchemaExtension from './getSchemaFromData/createSchemaExtension';
+import { ITSRequiredWith } from 'ts-type';
+import { GraphQLSchemaConfig } from 'graphql/type/schema';
 
 export interface IRuntime<T extends ISourceDataRowBase = ISourceDataRowBase>
 {
@@ -74,7 +76,12 @@ export interface IRuntime<T extends ISourceDataRowBase = ISourceDataRowBase>
  */
 function getSchemaFromData(data: ISourceDataRoot, options: IOptions = {})
 {
-	const types = getTypesFromData(data);
+	let types = getTypesFromData(data);
+
+	types = options?.after?.getTypesFromData?.({
+		types
+	}, data)?.types ?? types;
+
 	const typesByName = types.reduce((types, type) =>
 	{
 		types[type.name] = type;
@@ -87,16 +94,39 @@ function getSchemaFromData(data: ISourceDataRoot, options: IOptions = {})
 		typesByName,
 	};
 
-	const queryType = createSchemaQueryType(runtime);
+	;{
+		let runtime2 = options?.before?.createSchemaQueryType?.(runtime, data);
 
+		if (runtime2 != null)
+		{
+			runtime.types = runtime2.types ?? runtime.types;
+			runtime.typesByName = runtime2.typesByName ?? runtime.typesByName;
+		}
+	};
+
+	const queryType = createSchemaQueryType(runtime);
 	const mutationType = createMutationType(runtime);
 
-	const schema = new GraphQLSchema({
+	let graphQLSchemaConfig = options?.before?.createGraphQLSchema?.({
 		query: queryType,
 		mutation: mutationType,
-	});
+	}, data)?.graphQLSchemaConfig ?? null;
 
-	const schemaExtension = createSchemaExtension(runtime);
+	graphQLSchemaConfig = {
+		...graphQLSchemaConfig,
+
+		query: graphQLSchemaConfig?.query ?? queryType,
+		mutation: graphQLSchemaConfig?.mutation ?? mutationType,
+	};
+
+	const schema = new GraphQLSchema(graphQLSchemaConfig);
+
+	let schemaExtension = createSchemaExtension(runtime);
+
+	schemaExtension = options?.after?.createSchemaExtension?.({
+		...runtime,
+		schemaExtension,
+	}, data)?.schemaExtension ?? schemaExtension;
 
 	const returnSchema = schemaExtension
 		? extendSchema(schema, parse(schemaExtension))
