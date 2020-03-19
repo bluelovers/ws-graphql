@@ -17,7 +17,7 @@ const hasType_1 = __importDefault(require("../introspection/hasType"));
 const DateType_1 = require("../introspection/type/DateType");
 const pluralize_1 = __importDefault(require("inflection2/pluralize"));
 function getQueryResolvers(entityName, entityData) {
-    let _key = pluralize_1.default(entityName);
+    const _key = pluralize_1.default(entityName);
     return {
         [`all${_key}`]: all_1.default(entityData),
         [`_all${_key}Meta`]: meta_1.default(entityData),

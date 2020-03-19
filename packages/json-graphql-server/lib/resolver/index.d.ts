@@ -1,11 +1,11 @@
-import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore, IOptions, IResolversLazy } from '../types';
+import { ISourceDataRoot, ISourceDataRowBase, ISourceDataRowBaseCore, IOptions, IResolversLazy, IFieldResolverWithReturnValue, IFilter, IQueryBase } from '../types';
 import { IResolvers } from 'graphql-tools';
 export declare function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, entityData: T[]): {
-    [x: string]: ((_: any, { sortField, sortFields, sortOrder, page, perPage, filter }: import("../types").IQueryBase) => T[]) | ((_: any, { filter }: {
-        filter?: import("../types").IFilter<Record<string, any>>;
-    }) => {
+    [x: string]: IFieldResolverWithReturnValue<IQueryBase, T[]> | IFieldResolverWithReturnValue<{
+        filter?: IFilter<Record<string, any>>;
+    }, {
         count: number;
-    }) | ((_: any, { id }: Partial<ISourceDataRowBaseCore>) => T);
+    }> | IFieldResolverWithReturnValue<Partial<ISourceDataRowBaseCore>, T>;
 };
 export declare function getMutationResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, entityData: T[]): {
     [x: string]: (_: any, { id }: Partial<ISourceDataRowBaseCore>) => T;
