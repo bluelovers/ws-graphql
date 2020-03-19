@@ -1,2 +1,2 @@
-import { ISourceDataRowBase, IQueryBase } from '../../types';
-export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData?: T[]): (_: any, { sortField, sortFields, sortOrder, page, perPage, filter }: IQueryBase) => T[];
+import { ISourceDataRowBase, IQueryBase, IFieldResolverWithReturnValue } from '../../types';
+export default function all<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData?: T[]): IFieldResolverWithReturnValue<IQueryBase, T[]>;

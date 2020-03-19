@@ -1,2 +1,2 @@
-import { ISourceDataRowBaseCore } from '../../types';
-export default function <T extends ISourceDataRowBaseCore = ISourceDataRowBaseCore>(entityData?: T[]): (_: any, { id }: Partial<ISourceDataRowBaseCore>) => T;
+import { ISourceDataRowBaseCore, IFieldResolverWithReturnValue } from '../../types';
+export default function single<T extends ISourceDataRowBaseCore = ISourceDataRowBaseCore>(entityData?: T[]): IFieldResolverWithReturnValue<Partial<ISourceDataRowBaseCore>, T>;

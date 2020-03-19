@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const applyFilters_1 = __importDefault(require("./applyFilters"));
 const sortEntryFields_1 = __importDefault(require("../../utils/sortEntryFields"));
 const sliceArrayByPage_1 = __importDefault(require("../../utils/sliceArrayByPage"));
-function default_1(entityData = []) {
+function all(entityData = []) {
     return function (_, { sortField, sortFields, sortOrder = 'asc', page, perPage = 25, filter = {} }) {
         let items = [...entityData];
         if (sortField != null || (sortFields === null || sortFields === void 0 ? void 0 : sortFields.length)) {
@@ -24,5 +24,5 @@ function default_1(entityData = []) {
         return items;
     };
 }
-exports.default = default_1;
+exports.default = all;
 //# sourceMappingURL=all.js.map

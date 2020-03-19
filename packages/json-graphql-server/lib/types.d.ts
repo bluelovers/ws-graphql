@@ -1,7 +1,7 @@
 /**
  * Created by user on 2020/3/16.
  */
-import { IResolvers } from 'graphql-tools';
+import { IResolvers, IFieldResolver } from 'graphql-tools';
 import { GraphQLSchema, GraphQLObjectType, GraphQLObjectTypeConfig } from 'graphql';
 import { IExecutableSchemaDefinition } from 'graphql-tools/dist/Interfaces';
 import { ITSOverwrite, ITSRequiredWith } from 'ts-type';
@@ -131,3 +131,4 @@ export declare type IGraphQLInputFilterObjectTypeConfig = ITSOverwrite<GraphQLIn
         };
     };
 }>;
+export declare type IFieldResolverWithReturnValue<TArgs = Record<string, any>, R = any> = (...argv: Parameters<IFieldResolver<any, any, TArgs>>) => R;

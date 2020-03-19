@@ -16,21 +16,21 @@ const nameConverter_1 = require("../utils/nameConverter");
 const hasType_1 = __importDefault(require("../introspection/hasType"));
 const DateType_1 = require("../introspection/type/DateType");
 const pluralize_1 = __importDefault(require("inflection2/pluralize"));
-function getQueryResolvers(entityName, data) {
+function getQueryResolvers(entityName, entityData) {
     let _key = pluralize_1.default(entityName);
-    return ({
-        [`all${_key}`]: all_1.default(data),
-        [`_all${_key}Meta`]: meta_1.default(data),
-        [entityName]: single_1.default(data),
-    });
+    return {
+        [`all${_key}`]: all_1.default(entityData),
+        [`_all${_key}Meta`]: meta_1.default(entityData),
+        [entityName]: single_1.default(entityData),
+    };
 }
 exports.getQueryResolvers = getQueryResolvers;
-function getMutationResolvers(entityName, data) {
-    return ({
-        [`create${entityName}`]: create_1.default(data),
-        [`update${entityName}`]: update_1.default(data),
-        [`remove${entityName}`]: remove_1.default(data),
-    });
+function getMutationResolvers(entityName, entityData) {
+    return {
+        [`create${entityName}`]: create_1.default(entityData),
+        [`update${entityName}`]: update_1.default(entityData),
+        [`remove${entityName}`]: remove_1.default(entityData),
+    };
 }
 exports.getMutationResolvers = getMutationResolvers;
 function createResolversFromData(data, cb) {

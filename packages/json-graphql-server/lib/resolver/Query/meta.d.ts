@@ -1,6 +1,6 @@
-import { ISourceDataRowBase, IFilter } from '../../types';
-export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[]): (_: any, { filter }: {
-    filter?: IFilter<Record<string, any>>;
-}) => {
+import { ISourceDataRowBase, IFilter, IFieldResolverWithReturnValue } from '../../types';
+export default function meta<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[]): IFieldResolverWithReturnValue<{
+    filter?: IFilter;
+}, {
     count: number;
-};
+}>;

@@ -14,26 +14,26 @@ import { IResolvers } from 'graphql-tools';
 import { DateType } from '../introspection/type/DateType';
 import pluralize from 'inflection2/pluralize';
 
-export function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, data: T[])
+export function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, entityData: T[])
 {
 	let _key = pluralize(entityName);
 
-	return ({
-		[`all${_key}`]: all(data),
-		[`_all${_key}Meta`]: meta(data),
-		[entityName]: single(data),
-	})
+	return {
+		[`all${_key}`]: all(entityData),
+		[`_all${_key}Meta`]: meta(entityData),
+		[entityName]: single(entityData),
+	}
 }
 
 export function getMutationResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string,
-	data: T[],
+	entityData: T[],
 )
 {
-	return ({
-		[`create${entityName}`]: create(data),
-		[`update${entityName}`]: update(data),
-		[`remove${entityName}`]: remove(data),
-	});
+	return {
+		[`create${entityName}`]: create(entityData),
+		[`update${entityName}`]: update(entityData),
+		[`remove${entityName}`]: remove(entityData),
+	};
 }
 
 export function createResolversFromData<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>,
