@@ -1,61 +1,77 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function default_1(entityData = [], filter = {}) {
-    let items = [...entityData];
-    if (filter.ids) {
-        items = items.filter(d => filter.ids.some(id => id == d.id));
-    }
-    else {
-        Object.keys(filter).filter(key => key !== 'q').forEach(key => {
-            if (key.indexOf('_lte') !== -1) {
-                // less than or equal
-                const realKey = key.replace(/(_lte)$/, '');
-                items = items.filter(d => d[realKey] <= filter[key]);
-                return;
+function applyFilters(entityData = [], filter = {}) {
+    let filterKeys = Object.keys(filter);
+    if (filterKeys.length) {
+        let { ids, q, } = filter;
+        filter = {
+            ...filter,
+        };
+        delete filter.ids;
+        delete filter.q;
+        let items = [...entityData];
+        filterKeys = Object.keys(filter);
+        if (!(ids === null || ids === void 0 ? void 0 : ids.length)) {
+            ids = null;
+        }
+        items = items
+            .filter(d => {
+            let bool = true;
+            if (bool && ids !== null) {
+                bool = ids.some(id => id == d.id);
             }
-            if (key.indexOf('_gte') !== -1) {
-                // less than or equal
-                const realKey = key.replace(/(_gte)$/, '');
-                items = items.filter(d => d[realKey] >= filter[key]);
-                return;
-            }
-            if (key.indexOf('_lt') !== -1) {
-                // less than or equal
-                const realKey = key.replace(/(_lt)$/, '');
-                items = items.filter(d => d[realKey] < filter[key]);
-                return;
-            }
-            if (key.indexOf('_gt') !== -1) {
-                // less than or equal
-                const realKey = key.replace(/(_gt)$/, '');
-                items = items.filter(d => d[realKey] > filter[key]);
-                return;
-            }
-            if (Array.isArray(filter[key])) {
-                items = items.filter(item => {
-                    if (Array.isArray(item[key])) {
-                        // array filter and array item value: where all items in values
-                        return filter[key].every(v => item[key].some(itemValue => itemValue == v));
+            if (bool && filterKeys.length) {
+                bool = filterKeys
+                    .every(key => {
+                    if (key.endsWith('_lte')) {
+                        const realKey = key.replace(/(_lte)$/, '');
+                        bool = d[realKey] <= filter[key];
                     }
-                    // where item in values
-                    return filter[key].filter(v => v == item[key]).length > 0;
+                    else if (key.endsWith('_gte')) {
+                        const realKey = key.replace(/(_gte)$/, '');
+                        bool = d[realKey] >= filter[key];
+                    }
+                    else if (key.endsWith('_lt')) {
+                        const realKey = key.replace(/(_lt)$/, '');
+                        bool = d[realKey] < filter[key];
+                    }
+                    else if (key.endsWith('_gt')) {
+                        const realKey = key.replace(/(_gt)$/, '');
+                        bool = d[realKey] > filter[key];
+                    }
+                    else if (Array.isArray(filter[key])) {
+                        if (Array.isArray(d[key])) {
+                            // array filter and array item value: where all items in values
+                            bool = filter[key]
+                                .every(v => d[key]
+                                .some(itemValue => itemValue == v));
+                        }
+                        else {
+                            // where item in values
+                            bool = filter[key]
+                                .filter(v => v == d[key])
+                                .length > 0;
+                        }
+                    }
+                    else {
+                        bool = filter[key] instanceof Date
+                            ? +d[key] == +filter[key]
+                            : d[key] == filter[key];
+                    }
+                    return bool;
                 });
             }
-            else {
-                items = items.filter(d => filter[key] instanceof Date
-                    ? +d[key] == +filter[key]
-                    : d[key] == filter[key]);
+            if (bool && q != null) {
+                q = q.toLowerCase();
+                bool = Object
+                    .keys(d)
+                    .some(key => { var _a; return (_a = d[key]) === null || _a === void 0 ? void 0 : _a.toString().toLowerCase().includes(q); });
             }
+            return bool;
         });
-        if (filter.q) {
-            items = items.filter(d => Object.keys(d).some(key => d[key] &&
-                d[key]
-                    .toString()
-                    .toLowerCase()
-                    .includes(filter.q.toLowerCase())));
-        }
+        return items;
     }
-    return items;
+    return entityData;
 }
-exports.default = default_1;
+exports.default = applyFilters;
 //# sourceMappingURL=applyFilters.js.map

@@ -4,24 +4,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const applyFilters_1 = __importDefault(require("./applyFilters"));
-const sortOrderDirection_1 = __importDefault(require("../../utils/sortOrderDirection"));
+const sortEntryFields_1 = __importDefault(require("../../utils/sortEntryFields"));
 function default_1(entityData = []) {
-    return function (_, { sortField, sortOrder = 'asc', page, perPage = 25, filter = {} }) {
+    return function (_, { sortField, sortFields, sortOrder = 'asc', page, perPage = 25, filter = {} }) {
         let items = [...entityData];
-        if (sortField) {
-            const direction = sortOrderDirection_1.default(sortOrder);
-            items = items.sort((a, b) => {
-                if (a[sortField] > b[sortField]) {
-                    return direction;
-                }
-                if (a[sortField] < b[sortField]) {
-                    return -1 * direction;
-                }
-                return 0;
+        if (sortField != null || (sortFields === null || sortFields === void 0 ? void 0 : sortFields.length)) {
+            items = sortEntryFields_1.default({
+                items,
+                sortField,
+                sortFields,
+                sortOrder,
             });
         }
         items = applyFilters_1.default(items, filter);
-        if (page !== undefined && perPage) {
+        if (page !== undefined && page !== null && perPage) {
             items = items.slice(page * perPage, page * perPage + perPage);
         }
         return items;
