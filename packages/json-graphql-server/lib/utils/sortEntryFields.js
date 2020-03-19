@@ -4,9 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sortOrderDirection_1 = __importDefault(require("./sortOrderDirection"));
+const array_hyper_unique_1 = require("array-hyper-unique");
 function sortEntryFields({ items, sortField, sortFields, sortOrder, }) {
     if (sortField != null || (sortFields === null || sortFields === void 0 ? void 0 : sortFields.length)) {
         if (sortFields === null || sortFields === void 0 ? void 0 : sortFields.length) {
+            sortFields = [...sortFields];
             if (sortFields.length === 1 && sortField == null) {
                 sortField = sortFields[0];
                 sortFields = null;
@@ -14,6 +16,9 @@ function sortEntryFields({ items, sortField, sortFields, sortOrder, }) {
             else if (sortField != null) {
                 sortFields.unshift(sortField);
                 sortField = null;
+            }
+            if (sortFields === null || sortFields === void 0 ? void 0 : sortFields.length) {
+                array_hyper_unique_1.lazy_unique_overwrite(sortFields);
             }
         }
         else {

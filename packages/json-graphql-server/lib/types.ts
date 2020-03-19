@@ -11,7 +11,7 @@ import {
 	GraphQLID,
 } from 'graphql';
 import { IExecutableSchemaDefinition } from 'graphql-tools/dist/Interfaces';
-import { ITSOverwrite, ITSRequireAtLeastOne, ITSRequiredWith } from 'ts-type';
+import { ITSOverwrite, ITSRequireAtLeastOne, ITSRequiredWith, ITSPropertyKey, ITSPartialRecord } from 'ts-type';
 import getTypesFromData from './introspection/getTypesFromData';
 import createSchemaQueryType from './introspection/getSchemaFromData/createSchemaQueryType';
 import { IRuntime } from './introspection/getSchemaFromData';
@@ -26,19 +26,23 @@ import {
 } from 'graphql/type/definition';
 import getFieldsFromEntities from './introspection/getTypesFromData/getFieldsFromEntities';
 
-export type IFilter<T = Record<string, any>> = IFilterBase & T
+export type IFilter<T = Record<string, any>> = IFilterBase & Record<string, any> & T
 
 export type ISortOrder = 'asc' | 'desc';
 
-export interface IQueryBase
+export interface IQueryBase<T extends Record<string, any> = Record<string, any>>
 {
-	sortField?: string,
-	sortFields?: string[],
+	sortField?: string | keyof T,
+	sortFields?: (string | keyof T)[],
 	sortOrder?: ISortOrder | string,
 	page?: number,
 	perPage?: number,
-	filter?: IFilter
+	filter?: IFilterByEntry<T>,
 }
+
+export type IFilterByEntry<T extends Record<string, any>> = IFilter<ITSPartialRecord<keyof T, any>>
+
+export type IFilterByKeys<T extends string> = IFilter<ITSPartialRecord<T, any>>
 
 export interface IFilterBase
 {
@@ -187,4 +191,6 @@ export type IGraphQLInputFilterObjectTypeConfig = ITSOverwrite<GraphQLInputObjec
 	},
 }>
 
-export type IFieldResolverWithReturnValue<TArgs = Record<string, any>, R = any> = (...argv: Parameters<IFieldResolver<any, any, TArgs>>) => R;
+export type IFieldResolverParameters<TArgs = Record<string, any>> = Parameters<IFieldResolver<any, any, TArgs>>;
+
+export type IFieldResolverWithReturnValue<TArgs = Record<string, any>, R = any> = (source: IFieldResolverParameters<TArgs>[0], args: IFieldResolverParameters<TArgs>[1], context?: IFieldResolverParameters<TArgs>[2], info?: IFieldResolverParameters<TArgs>[3]) => R;

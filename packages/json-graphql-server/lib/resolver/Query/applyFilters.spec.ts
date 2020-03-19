@@ -1,4 +1,5 @@
 import applyFilters from './applyFilters';
+import all from './all';
 
 const data = [
 	{
@@ -155,7 +156,9 @@ test('should filter by id if filter contains an ids key', () =>
 test('should filter by value if filter contains an array for the key', () =>
 {
 	expect(
-		applyFilters(data, { title: ['Ut enim ad minim', 'Sic Dolor amet'] }),
+		applyFilters(data, {
+			title: ['Ut enim ad minim', 'Sic Dolor amet']
+		}),
 	).toEqual([
 		{
 			id: 2,
@@ -167,7 +170,9 @@ test('should filter by value if filter contains an array for the key', () =>
 		{ id: 3, title: 'Sic Dolor amet', user_id: 123, views: 76, tags: [] },
 	]);
 
-	expect(applyFilters(data, { tags: ['foo'] })).toEqual([
+	expect(applyFilters(data, {
+		tags: ['foo'],
+	})).toEqual([
 		{
 			id: 1,
 			title: 'Lorem Ipsum',

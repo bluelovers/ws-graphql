@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTypeNamesFromData = void 0;
 const graphql_1 = require("graphql");
 const getFieldsFromEntities_1 = __importDefault(require("./getTypesFromData/getFieldsFromEntities"));
 const nameConverter_1 = require("../utils/nameConverter");
@@ -73,8 +72,4 @@ function getTypesFromData(data, options = {}) {
     });
 }
 exports.default = getTypesFromData;
-function getTypeNamesFromData(data) {
-    return Object.keys(data).map(nameConverter_1.getTypeFromKey);
-}
-exports.getTypeNamesFromData = getTypeNamesFromData;
 //# sourceMappingURL=getTypesFromData.js.map

@@ -26,6 +26,29 @@ Array [
 exports[`sort sorts data using sortFields for the field 2`] = `
 Array [
   Object {
+    "id": 3,
+    "title": "Sic Dolor amet",
+    "user_id": 123,
+    "views": 76,
+  },
+  Object {
+    "id": 1,
+    "title": "Lorem Ipsum",
+    "user_id": 123,
+    "views": 254,
+  },
+  Object {
+    "id": 2,
+    "title": "Ut enim ad minim",
+    "user_id": 456,
+    "views": 65,
+  },
+]
+`;
+
+exports[`sort sorts data using sortFields for the field 3`] = `
+Array [
+  Object {
     "id": 1,
     "title": "Lorem Ipsum",
     "user_id": 123,

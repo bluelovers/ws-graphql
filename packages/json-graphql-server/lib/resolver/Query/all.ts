@@ -4,7 +4,7 @@ import sortOrderDirection from '../../utils/sortOrderDirection';
 import sortEntryFields from '../../utils/sortEntryFields';
 import sliceArrayByPage from '../../utils/sliceArrayByPage';
 
-export default function all<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = []): IFieldResolverWithReturnValue<IQueryBase, T[]>
+export default function all<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = []): IFieldResolverWithReturnValue<IQueryBase<T>, T[]>
 {
 	return function (
 		_,
@@ -15,7 +15,7 @@ export default function all<T extends ISourceDataRowBase = ISourceDataRowBase>(e
 			page,
 			perPage = 25,
 			filter = {}
-		}: IQueryBase,
+		},
 	)
 	{
 		let items = [...entityData];
@@ -24,8 +24,10 @@ export default function all<T extends ISourceDataRowBase = ISourceDataRowBase>(e
 		{
 			items = sortEntryFields({
 				items,
+
 				sortField,
 				sortFields,
+
 				sortOrder,
 			});
 		}

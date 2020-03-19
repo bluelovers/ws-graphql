@@ -2,13 +2,7 @@ import { GraphQLObjectType, GraphQLObjectTypeConfig } from 'graphql';
 
 import getFieldsFromEntities from './getTypesFromData/getFieldsFromEntities';
 import { getTypeFromKey } from '../utils/nameConverter';
-import {
-	ISourceDataRoot,
-	ISourceDataRowBase,
-	ISourceDataRowBaseCore,
-	IOptions,
-	IGraphQLObjectTypeConfig,
-} from '../types';
+import { ISourceDataRoot, ISourceDataRowBase, IOptions, IGraphQLObjectTypeConfig } from '../types';
 
 /**
  * Get a list of GraphQLObjectType from data
@@ -80,7 +74,3 @@ export default function getTypesFromData<T extends ISourceDataRowBase = ISourceD
 		})
 }
 
-export function getTypeNamesFromData(data: ISourceDataRoot)
-{
-	return Object.keys(data).map(getTypeFromKey);
-}

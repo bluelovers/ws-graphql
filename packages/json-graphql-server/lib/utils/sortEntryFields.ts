@@ -1,6 +1,7 @@
 import sortOrderDirection, { ISortOrderDirectionInput } from './sortOrderDirection';
 import { ISortOrder } from '../types';
 import { ITSRequireAtLeastOne } from 'ts-type';
+import { lazy_unique_overwrite } from 'array-hyper-unique';
 
 export default function sortEntryFields<T extends Record<string, any>, K extends keyof T | string>({
 	items,
@@ -13,7 +14,13 @@ export default function sortEntryFields<T extends Record<string, any>, K extends
 	items: T[],
 	sortOrder?: ISortOrderDirectionInput,
 } & ITSRequireAtLeastOne<{
+	/**
+	 * 依照單一屬性排序
+	 */
 	sortField?: K,
+	/**
+	 * 依照多個屬性來排序
+	 */
 	sortFields?: K[],
 }>)
 {
@@ -21,6 +28,8 @@ export default function sortEntryFields<T extends Record<string, any>, K extends
 	{
 		if (sortFields?.length)
 		{
+			sortFields = [...sortFields];
+
 			if (sortFields.length === 1 && sortField == null)
 			{
 				sortField = sortFields[0];
@@ -30,6 +39,11 @@ export default function sortEntryFields<T extends Record<string, any>, K extends
 			{
 				sortFields.unshift(sortField)
 				sortField = null;
+			}
+
+			if (sortFields?.length)
+			{
+				lazy_unique_overwrite(sortFields)
 			}
 		}
 		else

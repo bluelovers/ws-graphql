@@ -53,4 +53,3 @@ import { ISourceDataRoot, ISourceDataRowBase, IOptions } from '../types';
 export default function getTypesFromData<T extends ISourceDataRowBase = ISourceDataRowBase>(data: ISourceDataRoot<T>, options?: IOptions): GraphQLObjectType<any, any, {
     [key: string]: any;
 }>[];
-export declare function getTypeNamesFromData(data: ISourceDataRoot): string[];

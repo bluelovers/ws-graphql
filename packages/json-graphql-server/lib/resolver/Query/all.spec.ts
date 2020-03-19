@@ -123,6 +123,34 @@ describe('sort', () =>
 		expect(actual).toMatchSnapshot();
 
 		actual = all(data)(null, {
+			sortField: 'user_id',
+			sortFields: ['views'],
+		});
+
+		expect(actual).toEqual([
+			{
+				"id": 3,
+				"title": "Sic Dolor amet",
+				"user_id": 123,
+				"views": 76
+			},
+			{
+				"id": 1,
+				"title": "Lorem Ipsum",
+				"user_id": 123,
+				"views": 254
+			},
+			{
+				"id": 2,
+				"title": "Ut enim ad minim",
+				"user_id": 456,
+				"views": 65
+			},
+		]);
+
+		expect(actual).toMatchSnapshot();
+
+		actual = all(data)(null, {
 			sortFields: ['title'],
 		});
 
