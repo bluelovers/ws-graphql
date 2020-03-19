@@ -33,6 +33,7 @@ export type ISortOrder = 'asc' | 'desc';
 export interface IQueryBase
 {
 	sortField?: string,
+	sortFields?: string[],
 	sortOrder?: ISortOrder | string,
 	page?: number,
 	perPage?: number,

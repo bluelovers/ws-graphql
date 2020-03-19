@@ -1,6 +1,7 @@
 import applyFilters from './applyFilters';
 import { ISourceDataRowBase, IQueryBase, ISortOrder } from '../../types';
 import sortOrderDirection from '../../utils/sortOrderDirection';
+import sortEntryFields from '../../utils/sortEntryFields';
 
 export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [])
 {
@@ -8,6 +9,7 @@ export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(enti
 		_,
 		{
 			sortField,
+			sortFields,
 			sortOrder = 'asc',
 			page,
 			perPage = 25,
@@ -17,27 +19,19 @@ export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(enti
 	{
 		let items = [...entityData];
 
-		if (sortField)
+		if (sortField != null || sortFields?.length)
 		{
-			const direction = sortOrderDirection(sortOrder);
-
-			items = items.sort((a, b) =>
-			{
-				if (a[sortField] > b[sortField])
-				{
-					return direction;
-				}
-				if (a[sortField] < b[sortField])
-				{
-					return -1 * direction;
-				}
-				return 0;
+			items = sortEntryFields({
+				items,
+				sortField,
+				sortFields,
+				sortOrder,
 			});
 		}
 
 		items = applyFilters(items, filter);
 
-		if (page !== undefined && perPage)
+		if (page !== undefined && page !== null && perPage)
 		{
 			items = items.slice(page * perPage, page * perPage + perPage);
 		}

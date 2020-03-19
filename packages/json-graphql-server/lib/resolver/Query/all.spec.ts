@@ -90,4 +90,49 @@ describe('sort', () =>
 			{ id: 2, title: 'Ut enim ad minim', user_id: 456, views: 65 },
 		]);
 	});
+
+	test('sorts data using sortFields for the field', () =>
+	{
+		let actual: typeof data;
+
+		actual = all(data)(null, {
+			sortFields: ['user_id', 'views']
+		});
+
+		expect(actual).toEqual([
+			{
+				"id": 3,
+				"title": "Sic Dolor amet",
+				"user_id": 123,
+				"views": 76
+			},
+			{
+				"id": 1,
+				"title": "Lorem Ipsum",
+				"user_id": 123,
+				"views": 254
+			},
+			{
+				"id": 2,
+				"title": "Ut enim ad minim",
+				"user_id": 456,
+				"views": 65
+			},
+		]);
+
+		expect(actual).toMatchSnapshot();
+
+		actual = all(data)(null, {
+			sortFields: ['title'],
+		});
+
+		expect(actual).toEqual([
+			{ id: 1, title: 'Lorem Ipsum', user_id: 123, views: 254 },
+			{ id: 3, title: 'Sic Dolor amet', user_id: 123, views: 76 },
+			{ id: 2, title: 'Ut enim ad minim', user_id: 456, views: 65 },
+		]);
+
+		expect(actual).toMatchSnapshot();
+	});
+
 });

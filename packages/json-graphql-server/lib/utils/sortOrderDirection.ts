@@ -8,7 +8,9 @@ export const enum EnumOrderDirection
 
 export type ISortOrderDirection = EnumOrderDirection.ASC | EnumOrderDirection.DESC | 1 | -1;
 
-export default function sortOrderDirection(sortOrder: ISortOrder | string | boolean | ISortOrderDirection): ISortOrderDirection
+export type ISortOrderDirectionInput = ISortOrder | string | boolean | ISortOrderDirection;
+
+export default function sortOrderDirection(sortOrder: ISortOrderDirectionInput): ISortOrderDirection
 {
 	if (sortOrder === true || (typeof sortOrder === 'number' && sortOrder > 0) || String(sortOrder).toLowerCase() as ISortOrder == 'asc')
 	{
