@@ -1,86 +1,125 @@
 import { IFilter, ISourceDataRowBase } from '../../types';
 
-export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [], filter: IFilter = {})
+export default function applyFilters<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [], filter: IFilter = {})
 {
-	let items = [...entityData];
+	let filterKeys = Object.keys(filter);
 
-	if (filter.ids)
+	if (filterKeys.length)
 	{
-		items = items.filter(d => filter.ids.some(id => id == d.id));
-	}
-	else
-	{
-		Object.keys(filter).filter(key => key !== 'q').forEach(key =>
-		{
-			if (key.indexOf('_lte') !== -1)
-			{
-				// less than or equal
-				const realKey = key.replace(/(_lte)$/, '');
-				items = items.filter(d => d[realKey] <= filter[key]);
-				return;
-			}
-			if (key.indexOf('_gte') !== -1)
-			{
-				// less than or equal
-				const realKey = key.replace(/(_gte)$/, '');
-				items = items.filter(d => d[realKey] >= filter[key]);
-				return;
-			}
-			if (key.indexOf('_lt') !== -1)
-			{
-				// less than or equal
-				const realKey = key.replace(/(_lt)$/, '');
-				items = items.filter(d => d[realKey] < filter[key]);
-				return;
-			}
-			if (key.indexOf('_gt') !== -1)
-			{
-				// less than or equal
-				const realKey = key.replace(/(_gt)$/, '');
-				items = items.filter(d => d[realKey] > filter[key]);
-				return;
-			}
+		let {
+			ids,
+			q,
+		} = filter;
 
-			if (Array.isArray(filter[key]))
-			{
-				items = items.filter(item =>
-				{
-					if (Array.isArray(item[key]))
-					{
-						// array filter and array item value: where all items in values
-						return filter[key].every(v =>
-							item[key].some(itemValue => itemValue == v),
-						);
-					}
-					// where item in values
-					return filter[key].filter(v => v == item[key]).length > 0;
-				});
-			}
-			else
-			{
-				items = items.filter(
-					d =>
-						filter[key] instanceof Date
-							? +d[key] == +filter[key]
-							: d[key] == filter[key],
-				);
-			}
-		});
+		filter = {
+			...filter,
+		};
 
-		if (filter.q)
+		delete filter.ids;
+		delete filter.q;
+
+		let items = [...entityData];
+
+		filterKeys = Object.keys(filter);
+
+		if (!ids?.length)
 		{
-			items = items.filter(d =>
-				Object.keys(d).some(
-					key =>
-						d[key] &&
-						d[key]
-							.toString()
-							.toLowerCase()
-							.includes(filter.q.toLowerCase()),
-				),
-			);
+			ids = null;
 		}
+
+		items = items
+			.filter(d =>
+			{
+
+				let bool: boolean = true;
+
+				if (bool && ids !== null)
+				{
+					bool = ids.some(id => id == d.id)
+				}
+
+				if (bool && filterKeys.length)
+				{
+					bool = filterKeys
+						.every(key =>
+						{
+							if (key.endsWith('_lte'))
+							{
+								const realKey = key.replace(/(_lte)$/, '');
+
+								bool = d[realKey] <= filter[key]
+							}
+							else if (key.endsWith('_gte'))
+							{
+								const realKey = key.replace(/(_gte)$/, '');
+
+								bool = d[realKey] >= filter[key]
+							}
+							else if (key.endsWith('_lt'))
+							{
+								const realKey = key.replace(/(_lt)$/, '');
+
+								bool = d[realKey] < filter[key]
+							}
+							else if (key.endsWith('_gt'))
+							{
+								const realKey = key.replace(/(_gt)$/, '');
+
+								bool = d[realKey] > filter[key]
+							}
+							else if (Array.isArray(filter[key]))
+							{
+								if (Array.isArray(d[key]))
+								{
+									// array filter and array item value: where all items in values
+									bool = filter[key]
+										.every(v =>
+											d[key]
+												.some(itemValue => itemValue == v),
+										);
+								}
+								else
+								{
+									// where item in values
+									bool = filter[key]
+										.filter(v => v == d[key])
+										.length > 0
+								}
+							}
+							else
+							{
+								bool = filter[key] instanceof Date
+									? +d[key] == +filter[key]
+									: d[key] == filter[key]
+								;
+							}
+
+							return bool;
+						})
+					;
+				}
+
+				if (bool && q != null)
+				{
+					q = q.toLowerCase();
+
+					bool = Object
+						.keys(d)
+						.some(key =>
+							d[key]
+								?.toString()
+								.toLowerCase()
+								.includes(q)
+						)
+					;
+				}
+
+				return bool;
+			})
+		;
+
+		return items;
 	}
 
-	return items;
+	return entityData
 }
