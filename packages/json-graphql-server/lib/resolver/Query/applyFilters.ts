@@ -1,6 +1,6 @@
 import { IFilter, ISourceDataRowBase } from '../../types';
 
-export default function applyFilters<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [], filter: IFilter = {})
+export default function applyFilters<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [], filter: IFilter = {}): T[]
 {
 	let filterKeys = Object.keys(filter);
 

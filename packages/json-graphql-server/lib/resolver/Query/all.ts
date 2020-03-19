@@ -2,6 +2,7 @@ import applyFilters from './applyFilters';
 import { ISourceDataRowBase, IQueryBase, ISortOrder } from '../../types';
 import sortOrderDirection from '../../utils/sortOrderDirection';
 import sortEntryFields from '../../utils/sortEntryFields';
+import sliceArrayByPage from '../../utils/sliceArrayByPage';
 
 export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [])
 {
@@ -33,7 +34,7 @@ export default function <T extends ISourceDataRowBase = ISourceDataRowBase>(enti
 
 		if (page !== undefined && page !== null && perPage)
 		{
-			items = items.slice(page * perPage, page * perPage + perPage);
+			items = sliceArrayByPage(items, page, perPage);
 		}
 
 		return items;
