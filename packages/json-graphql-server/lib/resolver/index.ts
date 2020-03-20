@@ -23,30 +23,35 @@ import { IResolvers } from 'graphql-tools';
 import { DateType } from '../introspection/type/DateType';
 import pluralize from 'inflection2/pluralize';
 
-export function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string, entityData: T[])
+export function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string,
+	entityData: T[],
+	options: IOptions = {},
+)
 {
 	const _key = pluralize(entityName);
 
 	return {
-		[`all${_key}`]: all(entityData),
-		[`_all${_key}Meta`]: meta(entityData),
-		[entityName]: single(entityData),
+		[`all${_key}`]: all(entityData, options),
+		[`_all${_key}Meta`]: meta(entityData, options),
+		[entityName]: single(entityData, options),
 	}
 }
 
 export function getMutationResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string,
 	entityData: T[],
+	options: IOptions = {},
 )
 {
 	return {
-		[`create${entityName}`]: create(entityData),
-		[`update${entityName}`]: update(entityData),
-		[`remove${entityName}`]: remove(entityData),
+		[`create${entityName}`]: create(entityData, options),
+		[`update${entityName}`]: update(entityData, options),
+		[`remove${entityName}`]: remove(entityData, options),
 	};
 }
 
 export function createResolversFromData<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>,
-	cb: (key: string, data: ISourceDataRoot<T>) => any,
+	cb: (key: string, data: ISourceDataRoot<T>, options?: IOptions) => any,
+	options: IOptions = {},
 )
 {
 	return Object.keys(data)
@@ -54,22 +59,24 @@ export function createResolversFromData<T extends ISourceDataRowBaseCore = ISour
 				Object.assign(
 					//{},
 					resolvers,
-					cb(key, data),
+					cb(key, data, options),
 				),
 			{} as IResolvers,
 		)
 }
 
-export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>, options: IOptions = {}): IResolversLazy
+export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(data: ISourceDataRoot<T>,
+	options: IOptions = {},
+): IResolversLazy
 {
 	const resolvers: IResolversLazy = Object.assign(
 		{} as IResolvers,
 
 		{
 
-			Query: createResolversFromData(data, (key, data) => getQueryResolvers(getTypeFromKey(key), data[key])),
+			Query: createResolversFromData(data, (key, data) => getQueryResolvers(getTypeFromKey(key), data[key]), options),
 
-			Mutation: createResolversFromData(data, (key, data) => getMutationResolvers(getTypeFromKey(key), data[key])),
+			Mutation: createResolversFromData(data, (key, data) => getMutationResolvers(getTypeFromKey(key), data[key]), options),
 
 		},
 
@@ -78,7 +85,7 @@ export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataR
 			return {
 				[getTypeFromKey(key)]: entityResolver(key, data),
 			}
-		}),
+		}, options),
 
 		/**
 		 * required because makeExecutableSchema strips resolvers from typeDefs
@@ -91,7 +98,7 @@ export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataR
 		 * required because makeExecutableSchema strips resolvers from typeDefs
 		 */
 		hasType(GraphQLJSON, data, options) ? {
-			JSON: GraphQLJSON
+			JSON: GraphQLJSON,
 		} : {} as IResolvers,
 	);
 

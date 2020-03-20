@@ -1,7 +1,7 @@
-import { ISourceDataRowBase, ISourceDataRowBaseCore } from '../../types';
+import { ISourceDataRowBase, ISourceDataRowBaseCore, IOptions } from '../../types';
 import findEntityIndex from '../../utils/findEntityIndex';
 
-export default function <T extends Partial<ISourceDataRowBaseCore> = Partial<ISourceDataRowBaseCore>>(entityData: T[] = [])
+export default function <T extends Partial<ISourceDataRowBaseCore> = Partial<ISourceDataRowBaseCore>>(entityData: T[] = [], options: IOptions = {})
 {
 	return function (_, { id }: Partial<ISourceDataRowBaseCore>)
 	{

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function single(entityData = []) {
+function single(entityData = [], options = {}) {
     return function (_, { id }) {
         if (id == null) {
             return;

@@ -1,7 +1,7 @@
-import { ISourceDataRowBaseCore, IFieldResolverWithReturnValue } from '../../types';
+import { ISourceDataRowBaseCore, IFieldResolverWithReturnValue, IOptions } from '../../types';
 import { IFieldResolver } from 'graphql-tools/dist/Interfaces';
 
-export default function single<T extends ISourceDataRowBaseCore = ISourceDataRowBaseCore>(entityData: T[] = []): IFieldResolverWithReturnValue<Partial<ISourceDataRowBaseCore>, T>
+export default function single<T extends ISourceDataRowBaseCore = ISourceDataRowBaseCore>(entityData: T[] = [], options: IOptions = {}): IFieldResolverWithReturnValue<Partial<ISourceDataRowBaseCore>, T>
 {
 	return function (_, { id }: Partial<ISourceDataRowBaseCore>)
 	{

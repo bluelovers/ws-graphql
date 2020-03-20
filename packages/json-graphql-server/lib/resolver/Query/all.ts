@@ -1,10 +1,17 @@
 import applyFilters from './applyFilters';
-import { ISourceDataRowBase, IQueryBase, ISortOrder, IFieldResolverWithReturnValue, IFilter } from '../../types';
+import {
+	ISourceDataRowBase,
+	IQueryBase,
+	ISortOrder,
+	IFieldResolverWithReturnValue,
+	IFilter,
+	IOptions,
+} from '../../types';
 import sortOrderDirection from '../../utils/sortOrderDirection';
 import sortEntryFields from '../../utils/sortEntryFields';
 import sliceArrayByPage from '../../utils/sliceArrayByPage';
 
-export default function all<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = []): IFieldResolverWithReturnValue<IQueryBase<T>, T[]>
+export default function all<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[] = [], options: IOptions = {}): IFieldResolverWithReturnValue<IQueryBase<T>, T[]>
 {
 	return function (
 		_,

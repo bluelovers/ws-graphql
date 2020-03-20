@@ -111,6 +111,17 @@ export interface IOptions {
             graphQLInputObjectTypeConfig: IGraphQLInputFilterObjectTypeConfig;
         };
     };
+    util?: {
+        /**
+         * 自訂新的 newID 值，請確保值 newID 是唯一的
+         */
+        createNewID?<R extends Partial<T> | ISourceDataRowBaseCore2, T extends ISourceDataRowBase = ISourceDataRowBase>(_: IFieldResolverParameters<R>[0], entity: R, entityData: T[], runtime?: {
+            context?: IFieldResolverParameters<R>[2];
+            info?: IFieldResolverParameters<R>[3];
+        }): {
+            newID: NonNullable<any>;
+        };
+    };
 }
 /**
  * 用於 getTypesFromData
@@ -135,3 +146,9 @@ export declare type IGraphQLInputFilterObjectTypeConfig = ITSOverwrite<GraphQLIn
 }>;
 export declare type IFieldResolverParameters<TArgs = Record<string, any>> = Parameters<IFieldResolver<any, any, TArgs>>;
 export declare type IFieldResolverWithReturnValue<TArgs = Record<string, any>, R = any> = (source: IFieldResolverParameters<TArgs>[0], args: IFieldResolverParameters<TArgs>[1], context?: IFieldResolverParameters<TArgs>[2], info?: IFieldResolverParameters<TArgs>[3]) => R;
+export declare type ICreateNewIDFn<R extends Partial<T> | ISourceDataRowBaseCore2, T extends ISourceDataRowBase = ISourceDataRowBase> = (_: IFieldResolverParameters<R>[0], entity: R, entityData: T[], runtime?: {
+    context?: IFieldResolverParameters<R>[2];
+    info?: IFieldResolverParameters<R>[3];
+}) => {
+    newID: NonNullable<any>;
+};

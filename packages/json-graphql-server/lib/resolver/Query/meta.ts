@@ -1,8 +1,14 @@
 import applyFilters from './applyFilters';
-import { ISourceDataRowBase, IFilter, ISourceDataRowBaseCore, IFieldResolverWithReturnValue } from '../../types';
+import {
+	ISourceDataRowBase,
+	IFilter,
+	ISourceDataRowBaseCore,
+	IFieldResolverWithReturnValue,
+	IOptions,
+} from '../../types';
 import { IFieldResolver } from 'graphql-tools/dist/Interfaces';
 
-export default function meta<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[]): IFieldResolverWithReturnValue<{
+export default function meta<T extends ISourceDataRowBase = ISourceDataRowBase>(entityData: T[], options: IOptions = {}): IFieldResolverWithReturnValue<{
 	filter?: IFilter,
 }, {
 	count: number

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const findEntityIndex_1 = __importDefault(require("../../utils/findEntityIndex"));
-function default_1(entityData = []) {
+function default_1(entityData = [], options = {}) {
     return function (_, { id }) {
         let removedEntity = undefined;
         if (id != null) {

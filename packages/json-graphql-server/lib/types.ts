@@ -22,7 +22,7 @@ import {
 	GraphQLInputObjectTypeConfig,
 	GraphQLScalarType,
 	GraphQLType,
-	GraphQLList
+	GraphQLList,
 } from 'graphql/type/definition';
 import getFieldsFromEntities from './introspection/getTypesFromData/getFieldsFromEntities';
 
@@ -168,6 +168,25 @@ export interface IOptions
 
 	},
 
+	util?: {
+
+		/**
+		 * 自訂新的 newID 值，請確保值 newID 是唯一的
+		 */
+		createNewID?<R extends Partial<T> | ISourceDataRowBaseCore2, T extends ISourceDataRowBase = ISourceDataRowBase>(
+			_: IFieldResolverParameters<R>[0],
+			entity: R,
+			entityData: T[],
+			runtime?: {
+				context?: IFieldResolverParameters<R>[2],
+				info?: IFieldResolverParameters<R>[3],
+			},
+		): {
+			newID: NonNullable<any>,
+		},
+
+	},
+
 }
 
 /**
@@ -193,4 +212,20 @@ export type IGraphQLInputFilterObjectTypeConfig = ITSOverwrite<GraphQLInputObjec
 
 export type IFieldResolverParameters<TArgs = Record<string, any>> = Parameters<IFieldResolver<any, any, TArgs>>;
 
-export type IFieldResolverWithReturnValue<TArgs = Record<string, any>, R = any> = (source: IFieldResolverParameters<TArgs>[0], args: IFieldResolverParameters<TArgs>[1], context?: IFieldResolverParameters<TArgs>[2], info?: IFieldResolverParameters<TArgs>[3]) => R;
+export type IFieldResolverWithReturnValue<TArgs = Record<string, any>, R = any> = (source: IFieldResolverParameters<TArgs>[0],
+	args: IFieldResolverParameters<TArgs>[1],
+	context?: IFieldResolverParameters<TArgs>[2],
+	info?: IFieldResolverParameters<TArgs>[3],
+) => R;
+
+export type ICreateNewIDFn<R extends Partial<T> | ISourceDataRowBaseCore2, T extends ISourceDataRowBase = ISourceDataRowBase> = (
+	_: IFieldResolverParameters<R>[0],
+	entity: R,
+	entityData: T[],
+	runtime?: {
+		context?: IFieldResolverParameters<R>[2],
+		info?: IFieldResolverParameters<R>[3],
+	},
+) => {
+	newID: NonNullable<any>,
+};

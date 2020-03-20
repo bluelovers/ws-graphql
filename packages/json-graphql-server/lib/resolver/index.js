@@ -16,40 +16,40 @@ const nameConverter_1 = require("../utils/nameConverter");
 const hasType_1 = __importDefault(require("../introspection/hasType"));
 const DateType_1 = require("../introspection/type/DateType");
 const pluralize_1 = __importDefault(require("inflection2/pluralize"));
-function getQueryResolvers(entityName, entityData) {
+function getQueryResolvers(entityName, entityData, options = {}) {
     const _key = pluralize_1.default(entityName);
     return {
-        [`all${_key}`]: all_1.default(entityData),
-        [`_all${_key}Meta`]: meta_1.default(entityData),
-        [entityName]: single_1.default(entityData),
+        [`all${_key}`]: all_1.default(entityData, options),
+        [`_all${_key}Meta`]: meta_1.default(entityData, options),
+        [entityName]: single_1.default(entityData, options),
     };
 }
 exports.getQueryResolvers = getQueryResolvers;
-function getMutationResolvers(entityName, entityData) {
+function getMutationResolvers(entityName, entityData, options = {}) {
     return {
-        [`create${entityName}`]: create_1.default(entityData),
-        [`update${entityName}`]: update_1.default(entityData),
-        [`remove${entityName}`]: remove_1.default(entityData),
+        [`create${entityName}`]: create_1.default(entityData, options),
+        [`update${entityName}`]: update_1.default(entityData, options),
+        [`remove${entityName}`]: remove_1.default(entityData, options),
     };
 }
 exports.getMutationResolvers = getMutationResolvers;
-function createResolversFromData(data, cb) {
+function createResolversFromData(data, cb, options = {}) {
     return Object.keys(data)
         .reduce((resolvers, key) => Object.assign(
     //{},
-    resolvers, cb(key, data)), {});
+    resolvers, cb(key, data, options)), {});
 }
 exports.createResolversFromData = createResolversFromData;
 function resolver(data, options = {}) {
     var _a, _b, _c, _d;
     const resolvers = Object.assign({}, {
-        Query: createResolversFromData(data, (key, data) => getQueryResolvers(nameConverter_1.getTypeFromKey(key), data[key])),
-        Mutation: createResolversFromData(data, (key, data) => getMutationResolvers(nameConverter_1.getTypeFromKey(key), data[key])),
+        Query: createResolversFromData(data, (key, data) => getQueryResolvers(nameConverter_1.getTypeFromKey(key), data[key]), options),
+        Mutation: createResolversFromData(data, (key, data) => getMutationResolvers(nameConverter_1.getTypeFromKey(key), data[key]), options),
     }, createResolversFromData(data, (key, data) => {
         return {
             [nameConverter_1.getTypeFromKey(key)]: index_1.default(key, data),
         };
-    }), 
+    }, options), 
     /**
      * required because makeExecutableSchema strips resolvers from typeDefs
      */
@@ -60,7 +60,7 @@ function resolver(data, options = {}) {
      * required because makeExecutableSchema strips resolvers from typeDefs
      */
     hasType_1.default(graphql_type_json_1.default, data, options) ? {
-        JSON: graphql_type_json_1.default
+        JSON: graphql_type_json_1.default,
     } : {});
     return (_d = (_c = (_b = (_a = options === null || options === void 0 ? void 0 : options.after) === null || _a === void 0 ? void 0 : _a.resolver) === null || _b === void 0 ? void 0 : _b.call(_a, {
         resolvers,
