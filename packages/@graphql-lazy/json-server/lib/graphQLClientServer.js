@@ -63,8 +63,8 @@ const handleRequest_1 = __importDefault(require("./handleRequest"));
  * GraphQLClientServer(data);
  * GraphQLClientServer(data, 'http://localhost:8080/api/graphql');
  */
-function graphQLClientServer({ data, url, }) {
-    const handleRequest = handleRequest_1.default(data);
+function graphQLClientServer({ data, url, }, options = {}) {
+    const handleRequest = handleRequest_1.default(data, options);
     return {
         start() {
             // Intercept all XmlHttpRequest

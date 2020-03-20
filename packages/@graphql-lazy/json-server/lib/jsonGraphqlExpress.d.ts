@@ -1,5 +1,5 @@
 import graphqlHTTP from 'express-graphql';
-import { ISourceDataRoot } from 'lazy-json-graphql/lib/types';
+import { ISourceDataRoot, IOptions } from 'lazy-json-graphql/lib/types';
 /**
  * An express middleware for a GraphQL endpoint serving data from the supplied json.
  *
@@ -40,4 +40,4 @@ import { ISourceDataRoot } from 'lazy-json-graphql/lib/types';
  * app.use('/graphql', jsonGraphqlExpress(data));
  * app.listen(PORT);
  */
-export default function jsonGraphqlExpress(data: ISourceDataRoot): graphqlHTTP.Middleware;
+export default function jsonGraphqlExpress(data: ISourceDataRoot, options?: IOptions): graphqlHTTP.Middleware;

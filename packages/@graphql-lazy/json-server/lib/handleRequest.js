@@ -44,8 +44,8 @@ const lazy_json_graphql_1 = __importDefault(require("lazy-json-graphql"));
  * GraphQLClientServer(data);
  * GraphQLClientServer(data, 'http://localhost:8080/api/graphql');
  */
-function handleRequestFactory(data) {
-    const schema = lazy_json_graphql_1.default(data);
+function handleRequestFactory(data, options = {}) {
+    const schema = lazy_json_graphql_1.default(data, options);
     return (url, opts = {}) => {
         let body = opts.body;
         if (url.requestBody) {

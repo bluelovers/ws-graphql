@@ -1,6 +1,6 @@
 import graphqlHTTP from 'express-graphql';
 import schemaBuilder from 'lazy-json-graphql';
-import { ISourceDataRoot } from 'lazy-json-graphql/lib/types';
+import { ISourceDataRoot, IOptions } from 'lazy-json-graphql/lib/types';
 
 /**
  * An express middleware for a GraphQL endpoint serving data from the supplied json.
@@ -42,10 +42,10 @@ import { ISourceDataRoot } from 'lazy-json-graphql/lib/types';
  * app.use('/graphql', jsonGraphqlExpress(data));
  * app.listen(PORT);
  */
-export default function jsonGraphqlExpress(data: ISourceDataRoot)
+export default function jsonGraphqlExpress(data: ISourceDataRoot, options: IOptions = {})
 {
 	return graphqlHTTP({
-		schema: schemaBuilder(data),
+		schema: schemaBuilder(data, options),
 		graphiql: true,
 	});
 }

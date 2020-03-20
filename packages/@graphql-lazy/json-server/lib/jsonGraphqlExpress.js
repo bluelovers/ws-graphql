@@ -45,9 +45,9 @@ const lazy_json_graphql_1 = __importDefault(require("lazy-json-graphql"));
  * app.use('/graphql', jsonGraphqlExpress(data));
  * app.listen(PORT);
  */
-function jsonGraphqlExpress(data) {
+function jsonGraphqlExpress(data, options = {}) {
     return express_graphql_1.default({
-        schema: lazy_json_graphql_1.default(data),
+        schema: lazy_json_graphql_1.default(data, options),
         graphiql: true,
     });
 }
