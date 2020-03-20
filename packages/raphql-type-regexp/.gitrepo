@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/kachkaev/graphql-type-regexp.git
+	branch = master
+	commit = e4786a5fcf43cd7bd8f21bcc093f9e22821700da
+	parent = bb689b0886be61258c6cf55868b925c647e2cc8f
+	method = merge
+	cmdver = 0.4.1
