@@ -27,7 +27,12 @@ export function valueOfVariableNode<T extends any>(ast: VariableNode, variables?
 	return variables?.[name]
 }
 
-export function valueOfValueNode<T extends any>(ast: ValueNode | ASTNode, variables?: IVariables): Maybe<T>
+export function valueOfAstNode<T extends any>(ast: ValueNode | ASTNode, variables?: IVariables): Maybe<T>
+{
+	return valueOfValueNode(ast as ValueNode, variables)
+}
+
+export function valueOfValueNode<T extends any>(ast: ValueNode, variables?: IVariables): Maybe<T>
 {
 	switch (ast.kind)
 	{

@@ -87,25 +87,28 @@ export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataR
 				[getTypeFromKey(key)]: entityResolver(key, data),
 			}
 		}, options),
-
-		/**
-		 * required because makeExecutableSchema strips resolvers from typeDefs
-		 */
-		hasType(DateType, data, options) ? {
-			[DateType.name]: DateType,
-		} : {} as IResolvers,
-
-		/**
-		 * required because makeExecutableSchema strips resolvers from typeDefs
-		 */
-		hasType(GraphQLJSON, data, options) ? {
-			JSON: GraphQLJSON,
-		} : {} as IResolvers,
-
-		hasType(GraphQLRegExpType, data, options) ? {
-			[GraphQLRegExpType.name]: GraphQLRegExpType,
-		} : {} as IResolvers,
 	);
+
+	/**
+	 * required because makeExecutableSchema strips resolvers from typeDefs
+	 */
+	if (!resolvers[DateType.name] && hasType(DateType, data, options))
+	{
+		resolvers[DateType.name] = DateType
+	}
+
+	/**
+	 * required because makeExecutableSchema strips resolvers from typeDefs
+	 */
+	if (!resolvers[GraphQLJSON.name] && hasType(GraphQLJSON, data, options))
+	{
+		resolvers[GraphQLJSON.name] = GraphQLJSON
+	}
+
+	if (!resolvers[GraphQLRegExpType.name] && hasType(GraphQLRegExpType, data, options))
+	{
+		resolvers[GraphQLRegExpType.name] = GraphQLRegExpType
+	}
 
 	return options?.after?.resolver?.({
 		resolvers,

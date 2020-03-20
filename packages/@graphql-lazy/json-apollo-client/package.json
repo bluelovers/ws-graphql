@@ -47,10 +47,6 @@
     "apollo-test-utils": "^0.3.2",
     "lazy-json-graphql": "^3.0.8"
   },
-  "devDependencies": {
-    "@bluelovers/tsconfig": "^1.0.19",
-    "@types/node": "^13.9.2"
-  },
   "publishConfig": {
     "access": "public"
   },

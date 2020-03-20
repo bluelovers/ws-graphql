@@ -3,7 +3,7 @@
  * Created by user on 2020/3/20.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.valueOfValueNode = exports.valueOfVariableNode = exports.valueOfObjectValueNode = void 0;
+exports.valueOfValueNode = exports.valueOfAstNode = exports.valueOfVariableNode = exports.valueOfObjectValueNode = void 0;
 const language_1 = require("graphql/language");
 const graphql_1 = require("graphql");
 const util_1 = require("util");
@@ -20,6 +20,10 @@ function valueOfVariableNode(ast, variables) {
     return variables === null || variables === void 0 ? void 0 : variables[name];
 }
 exports.valueOfVariableNode = valueOfVariableNode;
+function valueOfAstNode(ast, variables) {
+    return valueOfValueNode(ast, variables);
+}
+exports.valueOfAstNode = valueOfAstNode;
 function valueOfValueNode(ast, variables) {
     switch (ast.kind) {
         case language_1.Kind.STRING:

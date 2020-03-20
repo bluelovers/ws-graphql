@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.requiredTypeOrNormal = exports.valuesAreRegExp = exports.isRegExp = exports.valuesAreObject = exports.isObject = exports.valuesAreDate = exports.isDate = exports.valuesAreArray = exports.isArray = exports.valuesAreString = exports.isString = exports.valuesAreBoolean = exports.isBoolean = exports.valuesAreInteger = exports.isInteger = exports.valuesAreNumeric = exports.isNumeric = void 0;
-const graphql_1 = require("graphql");
+exports.valuesAreRegExp = exports.isRegExp = exports.valuesAreObject = exports.isObject = exports.valuesAreDate = exports.isDate = exports.valuesAreArray = exports.isArray = exports.valuesAreString = exports.isString = exports.valuesAreBoolean = exports.isBoolean = exports.valuesAreInteger = exports.isInteger = exports.valuesAreNumeric = exports.isNumeric = void 0;
 function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
@@ -66,8 +65,4 @@ function valuesAreRegExp(values) {
     return values.every(isRegExp);
 }
 exports.valuesAreRegExp = valuesAreRegExp;
-function requiredTypeOrNormal(type, isRequired) {
-    return isRequired ? new graphql_1.GraphQLNonNull(type) : type;
-}
-exports.requiredTypeOrNormal = requiredTypeOrNormal;
-//# sourceMappingURL=util.js.map
+//# sourceMappingURL=typeOf.js.map

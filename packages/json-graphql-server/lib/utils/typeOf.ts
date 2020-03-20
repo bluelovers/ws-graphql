@@ -1,5 +1,3 @@
-import { GraphQLScalarType, GraphQLList, GraphQLNonNull, GraphQLType } from 'graphql';
-
 export function isNumeric(value): value is number
 {
 	return !isNaN(parseFloat(value)) && isFinite(value);
@@ -80,16 +78,3 @@ export function valuesAreRegExp(values: any[]): values is RegExp[]
 	return values.every(isRegExp)
 }
 
-export function requiredTypeOrNormal<T extends GraphQLScalarType | GraphQLList<GraphQLType>>(type: T,
-	isRequired: true,
-): GraphQLNonNull<T>
-export function requiredTypeOrNormal<T extends GraphQLScalarType | GraphQLList<GraphQLType>>(type: T,
-	isRequired?: false,
-): T
-export function requiredTypeOrNormal<T extends GraphQLScalarType | GraphQLList<GraphQLType>>(type: T,
-	isRequired: boolean,
-): GraphQLNonNull<T> | T
-export function requiredTypeOrNormal(type: GraphQLScalarType | GraphQLList<GraphQLType>, isRequired: boolean)
-{
-	return isRequired ? new GraphQLNonNull(type) : type
-}
