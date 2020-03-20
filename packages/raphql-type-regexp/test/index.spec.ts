@@ -1,6 +1,7 @@
 import { Kind, NameNode, ObjectValueNode } from 'graphql/language';
-import GraphQLRegExpType, { serialize, parseValue, parseLiteral } from '../index';
+import GraphQLRegExpType from '../index';
 import { ValueNode, StringValueNode } from 'graphql/language/ast';
+import { parseLiteral, parseValue, serialize } from '../util';
 
 describe('GraphQLRegExpType', () =>
 {
