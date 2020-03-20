@@ -1,9 +1,16 @@
-graphql-type-regexp
-===
+graphql-type-regexp2
+====================
 
 RegExp scalar type for [GraphQL.js](https://github.com/graphql/graphql-js).
 Inspired by [`graphql-type-json`](https://github.com/taion/graphql-type-json).
 
+About
+---
+
+fork from [graphql-type-regexp](https://github.com/kachkaev/graphql-type-regexp)
+
+1. typescript
+2. breaking change to use `/g.*b/` not `g.*b`, this will allow use flags
 
 Usage
 ---
@@ -23,19 +30,15 @@ type Query {
 
 In resolvers:
 
-```js
-// when using babel
+```ts
 import GraphQLRegExp from 'graphql-type-regexp';
-
-// otherwise
-const GraphQLRegExp = require('graphql-type-regexp');
 ```
 
 In queries / mutations:
 
 ```graphql
 query {
-  profiles(filter: "g.*b") {
+  profiles(filter: "/g.*b/") {
     id
   }
 }

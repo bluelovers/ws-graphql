@@ -1,18 +1,8 @@
 {
-  "name": "graphql-type-regexp2",
+  "name": "@graphql-lazy/parse-value-node",
   "version": "1.0.0",
-  "description": "RegExp scalar type for GraphQL.js",
-  "keywords": [
-    "graphql",
-    "type",
-    "regex",
-    "regexp",
-    "scalar",
-    "regular",
-    "regular expression",
-    "graphql-lazy"
-  ],
-  "homepage": "https://github.com/bluelovers/ws-graphql/tree/master/packages/raphql-type-regexp#readme",
+  "description": "",
+  "homepage": "https://github.com/bluelovers/ws-graphql/tree/master/packages/@graphql-lazy/parse-value-node#readme",
   "bugs": {
     "url": "https://github.com/bluelovers/ws-graphql/issues"
   },
@@ -20,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/bluelovers/ws-graphql.git"
   },
-  "license": "MIT",
-  "author": "Alexander Kachkaev <alexander@kachkaev.ru> (http://en.kachkaev.ru/)",
+  "license": "ISC",
+  "author": "bluelovers",
   "main": "index.js",
   "scripts": {
     "coverage": "npx nyc yarn run test",
@@ -32,16 +22,16 @@
     "prepublish:lockfile": "npx sync-lockfile .",
     "prepublishOnly_": "yarn run ncu && yarn run sort-package-json && yarn run test",
     "sort-package-json": "npx yarn-tool sort",
-    "test": "jest",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "test:mocha": "npx mocha --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
     "tsc:default": "tsc -p tsconfig.json",
     "tsc:esm": "tsc -p tsconfig.esm.json"
   },
+  "devDependencies": {
+    "@bluelovers/tsconfig": "^1.0.19",
+    "@types/node": "^13.9.2"
+  },
   "peerDependencies": {
     "graphql": "^14.6.0"
-  },
-  "dependencies": {
-    "@graphql-lazy/parse-value-node": "^1.0.0",
-    "regexp-cjk": "^3.3.11"
   }
 }

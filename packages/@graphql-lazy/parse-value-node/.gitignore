@@ -91,5 +91,5 @@ jest.config.js.map
 .reify-cache
 *.spec.d.ts
 *.spec.js
-/.nowignore
+.nowignore
 !jest.config.js

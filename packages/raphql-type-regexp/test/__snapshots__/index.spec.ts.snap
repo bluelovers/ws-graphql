@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GraphQLRegExpType parseLiteral 1`] = `/g\\.\\*b/i`;
+
+exports[`GraphQLRegExpType parseLiteral 2`] = `/g\\.\\*b/i`;
+
+exports[`GraphQLRegExpType parseLiteral object 1`] = `/g\\.\\*b/i`;
+
+exports[`GraphQLRegExpType parseLiteral object 2`] = `/g\\.\\*b/i`;
+
+exports[`GraphQLRegExpType parseLiteral variables 1`] = `/g\\.\\*b/i`;
+
+exports[`GraphQLRegExpType parseLiteral variables 2`] = `/g\\.\\*b/i`;
+
+exports[`GraphQLRegExpType parseValue 1`] = `/g\\.\\*b/i`;
+
+exports[`GraphQLRegExpType parseValue 2`] = `/g\\.\\*b/i`;
+
+exports[`GraphQLRegExpType serialize 1`] = `"/g.*b/i"`;
+
+exports[`GraphQLRegExpType serialize 2`] = `"/g.*b/i"`;

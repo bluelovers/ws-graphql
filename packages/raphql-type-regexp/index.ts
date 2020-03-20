@@ -1,23 +1,80 @@
-import { GraphQLScalarType } from 'graphql';
+import { GraphQLScalarType, GraphQLError } from 'graphql';
 import { Kind } from 'graphql/language';
+import { inspect } from 'util';
+import { parseRegularExpressionString } from 'regexp-cjk/lib/getSource';
+import { ValueNode } from 'graphql/language/ast';
+import { valueOfValueNode, IVariables } from '../@graphql-lazy/parse-value-node/index';
 
-function identity(value) {
-  return value;
+export type IRegExpObjectLike = {
+	source: string,
+	flags?: string,
+};
+
+export function serialize<T extends RegExp>(value: T)
+{
+	return value.toString();
 }
 
-function parseLiteral(ast) {
-  switch (ast.kind) {
-    case Kind.STRING:
-      return new RegExp(ast.value);
-    default:
-      throw new Error(`Expected string, got ${ast.kind}`);
-  }
+export function parseValue(value: RegExp | string | IRegExpObjectLike)
+{
+	try
+	{
+		if (value instanceof RegExp)
+		{
+			return value
+		}
+
+		if (typeof value === 'string')
+		{
+			let m = parseRegularExpressionString(value);
+
+			if (m)
+			{
+				return new RegExp(m.source, m.flags);
+			}
+		}
+		else if (typeof value?.source === 'string')
+		{
+			return new RegExp(value.source, value.flags);
+		}
+
+		const msg = `Expected RegExp/string but got: ${inspect(value)}`
+
+		throw new GraphQLError(msg)
+	}
+	catch (e)
+	{
+		if (!(e instanceof GraphQLError))
+		{
+			e = new GraphQLError(e);
+		}
+		throw e
+	}
 }
 
-module.exports = new GraphQLScalarType({
-  name: 'RegExp',
-  description: 'JS RegExp represented as string',
-  serialize: identity,
-  parseValue: identity,
-  parseLiteral,
-});
+export function parseLiteral(ast: ValueNode, variables?: IVariables)
+{
+	switch (ast.kind)
+	{
+		case Kind.OBJECT:
+			let map = valueOfValueNode<IRegExpObjectLike>(ast, variables);
+			return parseValue(map);
+		case Kind.STRING:
+			return parseValue(ast.value);
+		case Kind.VARIABLE:
+			const name = ast.name.value
+			return variables ? parseValue(variables[name]) : undefined
+		default:
+			throw new GraphQLError(`not support type ${inspect(ast.kind)}, got ${inspect(ast)}`);
+	}
+}
+
+export const GraphQLRegExpType = new GraphQLScalarType({
+	name: 'RegExp',
+	description: 'JS RegExp represented as string',
+	serialize,
+	parseValue,
+	parseLiteral,
+})
+
+export default GraphQLRegExpType;
