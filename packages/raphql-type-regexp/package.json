@@ -1,6 +1,6 @@
 {
   "name": "graphql-type-regexp2",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "RegExp scalar type for GraphQL.js",
   "keywords": [
     "graphql",
@@ -41,7 +41,7 @@
     "graphql": "^14.6.0"
   },
   "dependencies": {
-    "@graphql-lazy/parse-value-node": "^1.0.2",
+    "@graphql-lazy/parse-value-node": "^1.0.3",
     "regexp-cjk": "^3.3.11"
   },
   "gitHead": "9da0ea4280584f60ccff011efa64b73e1da1aafd"
