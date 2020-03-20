@@ -2,21 +2,32 @@
   "name": "graphql-type-regexp",
   "version": "0.1.2",
   "description": "RegExp scalar type for GraphQL.js",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "keywords": [],
+  "homepage": "https://github.com/bluelovers/ws-graphql/tree/master/packages/raphql-type-regexp#readme",
+  "bugs": {
+    "url": "https://github.com/bluelovers/ws-graphql/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kachkaev/graphql-type-regexp.git"
+    "url": "git+https://github.com/bluelovers/ws-graphql.git"
   },
-  "keywords": [],
-  "author": "Alexander Kachkaev <alexander@kachkaev.ru> (http://en.kachkaev.ru/)",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/kachkaev/graphql-type-regexp/issues"
+  "author": "Alexander Kachkaev <alexander@kachkaev.ru> (http://en.kachkaev.ru/)",
+  "main": "index.js",
+  "scripts": {
+    "coverage": "npx nyc yarn run test",
+    "lint": "npx eslint **/*.ts",
+    "ncu": "npx yarn-tool ncu -u",
+    "npm:publish": "npm publish",
+    "postpublish_": "git commit -m \"chore(release): publish\" .",
+    "prepublish:lockfile": "npx sync-lockfile .",
+    "prepublishOnly_": "yarn run ncu && yarn run sort-package-json && yarn run test",
+    "sort-package-json": "npx yarn-tool sort",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:mocha": "npx mocha --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
+    "tsc:default": "tsc -p tsconfig.json",
+    "tsc:esm": "tsc -p tsconfig.esm.json"
   },
-  "homepage": "https://github.com/kachkaev/graphql-type-regexp#readme",
   "peerDependencies": {
     "graphql": ">=0.4.0"
   }
