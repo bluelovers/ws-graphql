@@ -43,5 +43,6 @@
   "dependencies": {
     "@graphql-lazy/parse-value-node": "^1.0.1",
     "regexp-cjk": "^3.3.11"
-  }
+  },
+  "gitHead": "9da0ea4280584f60ccff011efa64b73e1da1aafd"
 }

@@ -33,5 +33,9 @@
   },
   "peerDependencies": {
     "graphql": "^14.6.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "9da0ea4280584f60ccff011efa64b73e1da1aafd"
 }

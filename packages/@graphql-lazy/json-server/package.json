@@ -57,10 +57,10 @@
     "xhr-mock": "^2.5.1"
   },
   "devDependencies": {
-    "@bluelovers/tsconfig": "^1.0.18",
+    "@bluelovers/tsconfig": "^1.0.19",
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.3",
-    "@types/node": "^13.9.1",
+    "@types/node": "^13.9.2",
     "@types/supertest": "^2.0.8",
     "supertest": "~4.0.2"
   },
@@ -69,5 +69,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "9da0ea4280584f60ccff011efa64b73e1da1aafd"
 }
