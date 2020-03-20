@@ -1,6 +1,6 @@
 {
   "name": "@graphql-lazy/parse-value-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "homepage": "https://github.com/bluelovers/ws-graphql/tree/master/packages/@graphql-lazy/parse-value-node#readme",
   "bugs": {
