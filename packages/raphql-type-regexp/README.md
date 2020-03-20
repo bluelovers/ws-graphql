@@ -12,6 +12,13 @@ fork from [graphql-type-regexp](https://github.com/kachkaev/graphql-type-regexp)
 1. typescript
 2. breaking change to use `/g.*b/` not `g.*b`, this will allow use flags
 
+Install
+-------
+
+```
+yarn add graphql-type-regexp2
+```
+
 Usage
 ---
 
@@ -31,7 +38,7 @@ type Query {
 In resolvers:
 
 ```ts
-import GraphQLRegExp from 'graphql-type-regexp';
+import GraphQLRegExp from 'graphql-type-regexp2';
 ```
 
 In queries / mutations:
