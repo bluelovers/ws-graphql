@@ -1,7 +1,7 @@
 import sortOrderDirection, { ISortOrderDirectionInput } from './sortOrderDirection';
-import { ISortOrder } from '../types';
 import { ITSRequireAtLeastOne } from 'ts-type';
 import { lazy_unique_overwrite } from 'array-hyper-unique';
+import sortFieldCore from './sortFieldCore';
 
 export default function sortEntryFields<T extends Record<string, any>, K extends keyof T | string>({
 	items,
@@ -30,6 +30,11 @@ export default function sortEntryFields<T extends Record<string, any>, K extends
 		{
 			sortFields = [...sortFields];
 
+			if (sortFields?.length)
+			{
+				lazy_unique_overwrite(sortFields)
+			}
+
 			if (sortFields.length === 1 && sortField == null)
 			{
 				sortField = sortFields[0];
@@ -57,15 +62,7 @@ export default function sortEntryFields<T extends Record<string, any>, K extends
 		{
 			items = items.sort((a, b) =>
 			{
-				if (a[sortField] > b[sortField])
-				{
-					return direction;
-				}
-				if (a[sortField] < b[sortField])
-				{
-					return -1 * direction;
-				}
-				return 0;
+				return sortFieldCore(a, b, sortField, direction);
 			});
 		}
 		else if (sortFields?.length)
@@ -74,13 +71,11 @@ export default function sortEntryFields<T extends Record<string, any>, K extends
 			{
 				for (const sortField of sortFields)
 				{
-					if (a[sortField] > b[sortField])
+					let c = sortFieldCore(a, b, sortField, direction);
+
+					if (c)
 					{
-						return direction;
-					}
-					if (a[sortField] < b[sortField])
-					{
-						return -1 * direction;
+						return c
 					}
 				}
 
@@ -91,3 +86,4 @@ export default function sortEntryFields<T extends Record<string, any>, K extends
 
 	return items
 }
+
