@@ -7,6 +7,10 @@ const graphql_1 = require("graphql");
 const graphql_type_json_1 = __importDefault(require("graphql-type-json"));
 const DateType_1 = __importDefault(require("../type/DateType"));
 const util_1 = require("../util");
+const graphql_type_regexp2_1 = __importDefault(require("graphql-type-regexp2"));
+/**
+ * 自動檢測內容對應的 ScalarType
+ */
 function getTypeFromValues(name, values = [], isRequired = false) {
     if (name === 'id' || name.substr(name.length - 3) === '_id') {
         return util_1.requiredTypeOrNormal(graphql_1.GraphQLID, isRequired);
@@ -48,6 +52,9 @@ function getTypeFromValues(name, values = [], isRequired = false) {
         }
         if (util_1.valuesAreNumeric(values)) {
             return util_1.requiredTypeOrNormal(graphql_1.GraphQLFloat, isRequired);
+        }
+        if (util_1.valuesAreRegExp(values)) {
+            return util_1.requiredTypeOrNormal(graphql_type_regexp2_1.default, isRequired);
         }
         if (util_1.valuesAreObject(values)) {
             return util_1.requiredTypeOrNormal(graphql_type_json_1.default, isRequired);

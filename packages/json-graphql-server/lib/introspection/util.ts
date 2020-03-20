@@ -70,6 +70,16 @@ export function valuesAreObject(values: any[])
 	return values.every(isObject)
 }
 
+export function isRegExp(value): value is Date
+{
+	return value instanceof RegExp;
+}
+
+export function valuesAreRegExp(values: any[]): values is RegExp[]
+{
+	return values.every(isRegExp)
+}
+
 export function requiredTypeOrNormal<T extends GraphQLScalarType | GraphQLList<GraphQLType>>(type: T,
 	isRequired: true,
 ): GraphQLNonNull<T>

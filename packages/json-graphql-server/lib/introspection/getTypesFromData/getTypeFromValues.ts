@@ -18,9 +18,13 @@ import {
 	valuesAreString,
 	valuesAreBoolean,
 	valuesAreInteger,
-	valuesAreNumeric,
+	valuesAreNumeric, valuesAreRegExp,
 } from '../util';
+import GraphQLRegExpType from 'graphql-type-regexp2';
 
+/**
+ * 自動檢測內容對應的 ScalarType
+ */
 export default function getTypeFromValues(name: string, values = [], isRequired = false)
 {
 	if (name === 'id' || name.substr(name.length - 3) === '_id')
@@ -92,6 +96,10 @@ export default function getTypeFromValues(name: string, values = [], isRequired 
 		if (valuesAreNumeric(values))
 		{
 			return requiredTypeOrNormal(GraphQLFloat, isRequired);
+		}
+		if (valuesAreRegExp(values))
+		{
+			return requiredTypeOrNormal(GraphQLRegExpType, isRequired);
 		}
 		if (valuesAreObject(values))
 		{

@@ -16,6 +16,7 @@ const nameConverter_1 = require("../utils/nameConverter");
 const hasType_1 = __importDefault(require("../introspection/hasType"));
 const DateType_1 = require("../introspection/type/DateType");
 const pluralize_1 = __importDefault(require("inflection2/pluralize"));
+const graphql_type_regexp2_1 = __importDefault(require("graphql-type-regexp2"));
 function getQueryResolvers(entityName, entityData, options = {}) {
     const _key = pluralize_1.default(entityName);
     return {
@@ -61,6 +62,8 @@ function resolver(data, options = {}) {
      */
     hasType_1.default(graphql_type_json_1.default, data, options) ? {
         JSON: graphql_type_json_1.default,
+    } : {}, hasType_1.default(graphql_type_regexp2_1.default, data, options) ? {
+        [graphql_type_regexp2_1.default.name]: graphql_type_regexp2_1.default,
     } : {});
     return (_d = (_c = (_b = (_a = options === null || options === void 0 ? void 0 : options.after) === null || _a === void 0 ? void 0 : _a.resolver) === null || _b === void 0 ? void 0 : _b.call(_a, {
         resolvers,

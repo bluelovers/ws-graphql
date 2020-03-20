@@ -10,6 +10,7 @@ import {
 import GraphQLJSON from 'graphql-type-json';
 import getTypeFromValues from './getTypeFromValues';
 import DateType from '../type/DateType';
+import GraphQLRegExpType from 'graphql-type-regexp2';
 
 test('returns GraphQLID for fields named id or xxx_id', () =>
 {
@@ -50,7 +51,7 @@ test('returns GraphQLInt for integers', () =>
 test('returns GraphQLFloat for floats', () =>
 	expect(getTypeFromValues('foo', [-12, 1.2, 445, 0])).toEqual(GraphQLFloat));
 
-test('returns DateType for Dates', () =>
+test(`returns ${DateType.name} for Dates`, () =>
 	expect(
 		getTypeFromValues('foo', [new Date('2017-03-15'), new Date()]),
 	).toEqual(DateType));
@@ -77,3 +78,12 @@ test('returns GraphQLNonNull when all values are filled', () =>
 	expect(getTypeFromValues('foo', [], true)).toEqual(
 		new GraphQLNonNull(GraphQLString),
 	));
+
+test(`returns ${GraphQLRegExpType.name} for Dates`, () => {
+
+	let actual = getTypeFromValues('foo', [new RegExp('foo'), /foo/i]);
+
+	expect(actual).toEqual(GraphQLRegExpType);
+	expect(actual).toMatchSnapshot();
+
+});

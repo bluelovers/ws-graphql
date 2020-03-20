@@ -13,6 +13,8 @@ export declare function isDate(value: any): value is Date;
 export declare function valuesAreDate(values: any[]): values is Date[];
 export declare function isObject(value: any): boolean;
 export declare function valuesAreObject(values: any[]): boolean;
+export declare function isRegExp(value: any): value is Date;
+export declare function valuesAreRegExp(values: any[]): values is RegExp[];
 export declare function requiredTypeOrNormal<T extends GraphQLScalarType | GraphQLList<GraphQLType>>(type: T, isRequired: true): GraphQLNonNull<T>;
 export declare function requiredTypeOrNormal<T extends GraphQLScalarType | GraphQLList<GraphQLType>>(type: T, isRequired?: false): T;
 export declare function requiredTypeOrNormal<T extends GraphQLScalarType | GraphQLList<GraphQLType>>(type: T, isRequired: boolean): GraphQLNonNull<T> | T;

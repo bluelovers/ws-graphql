@@ -44,6 +44,7 @@
     "tsc:esm": "tsc -p tsconfig.esm.json"
   },
   "dependencies": {
+    "graphql-type-regexp2": "^1.0.0",
     "@graphql-lazy/type-date": "^1.0.2",
     "array-hyper-unique": "^1.1.0",
     "graphql-tools": "^4.0.7",

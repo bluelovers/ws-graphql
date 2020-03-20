@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.requiredTypeOrNormal = exports.valuesAreObject = exports.isObject = exports.valuesAreDate = exports.isDate = exports.valuesAreArray = exports.isArray = exports.valuesAreString = exports.isString = exports.valuesAreBoolean = exports.isBoolean = exports.valuesAreInteger = exports.isInteger = exports.valuesAreNumeric = exports.isNumeric = void 0;
+exports.requiredTypeOrNormal = exports.valuesAreRegExp = exports.isRegExp = exports.valuesAreObject = exports.isObject = exports.valuesAreDate = exports.isDate = exports.valuesAreArray = exports.isArray = exports.valuesAreString = exports.isString = exports.valuesAreBoolean = exports.isBoolean = exports.valuesAreInteger = exports.isInteger = exports.valuesAreNumeric = exports.isNumeric = void 0;
 const graphql_1 = require("graphql");
 function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
@@ -58,6 +58,14 @@ function valuesAreObject(values) {
     return values.every(isObject);
 }
 exports.valuesAreObject = valuesAreObject;
+function isRegExp(value) {
+    return value instanceof RegExp;
+}
+exports.isRegExp = isRegExp;
+function valuesAreRegExp(values) {
+    return values.every(isRegExp);
+}
+exports.valuesAreRegExp = valuesAreRegExp;
 function requiredTypeOrNormal(type, isRequired) {
     return isRequired ? new graphql_1.GraphQLNonNull(type) : type;
 }

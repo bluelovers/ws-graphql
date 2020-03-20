@@ -22,6 +22,7 @@ import {
 import { IResolvers } from 'graphql-tools';
 import { DateType } from '../introspection/type/DateType';
 import pluralize from 'inflection2/pluralize';
+import GraphQLRegExpType from 'graphql-type-regexp2';
 
 export function getQueryResolvers<T extends ISourceDataRowBaseCore = ISourceDataRowBase>(entityName: string,
 	entityData: T[],
@@ -99,6 +100,10 @@ export default function resolver<T extends ISourceDataRowBaseCore = ISourceDataR
 		 */
 		hasType(GraphQLJSON, data, options) ? {
 			JSON: GraphQLJSON,
+		} : {} as IResolvers,
+
+		hasType(GraphQLRegExpType, data, options) ? {
+			[GraphQLRegExpType.name]: GraphQLRegExpType,
 		} : {} as IResolvers,
 	);
 
