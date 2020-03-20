@@ -1,6 +1,6 @@
 {
   "name": "@graphql-lazy/json-apollo-client",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "<description>",
   "keywords": [
     "graphql",
@@ -45,7 +45,7 @@
   "dependencies": {
     "apollo-client": "^2.6.8",
     "apollo-test-utils": "^0.3.2",
-    "lazy-json-graphql": "^3.0.7"
+    "lazy-json-graphql": "^3.0.8"
   },
   "devDependencies": {
     "@bluelovers/tsconfig": "^1.0.19",

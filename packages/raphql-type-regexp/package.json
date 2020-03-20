@@ -1,6 +1,6 @@
 {
   "name": "graphql-type-regexp2",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "RegExp scalar type for GraphQL.js",
   "keywords": [
     "graphql",
